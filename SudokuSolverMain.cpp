@@ -12,8 +12,6 @@
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(SudokuSolverFrame)
-#include <wx/settings.h>
-#include <wx/font.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -45,7 +43,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(SudokuSolverFrame)
-const long SudokuSolverFrame::ID_TEXTCTRL1 = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
 const long SudokuSolverFrame::idMenuQuit = wxNewId();
 const long SudokuSolverFrame::idMenuAbout = wxNewId();
@@ -62,25 +59,19 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     //(*Initialize(SudokuSolverFrame)
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
+    wxBoxSizer* BoxSizer2;
     wxMenu* Menu1;
     wxBoxSizer* BoxSizer1;
     wxMenuBar* MenuBar1;
-    wxStaticBoxSizer* StaticBoxSizer1;
     wxMenu* Menu2;
 
     Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
     BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxSize(359,330), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-    StaticBoxSizer1 = new wxStaticBoxSizer(wxHORIZONTAL, Panel1, _("Label"));
-    TextCtrl1 = new wxTextCtrl(Panel1, ID_TEXTCTRL1, _("9"), wxDefaultPosition, wxSize(21,21), wxTE_NO_VSCROLL|wxTE_DONTWRAP, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-    TextCtrl1->SetForegroundColour(wxColour(0,0,0));
-    TextCtrl1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
-    wxFont TextCtrl1Font(10,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("@Adobe Myungjo Std M"),wxFONTENCODING_DEFAULT);
-    TextCtrl1->SetFont(TextCtrl1Font);
-    StaticBoxSizer1->Add(TextCtrl1, 0, wxALL|wxSHAPED|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    Panel1->SetSizer(StaticBoxSizer1);
-    SetSizer(StaticBoxSizer1);
-    Layout();
+    Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+    BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    Panel1->SetSizer(BoxSizer2);
+    BoxSizer2->Fit(Panel1);
+    BoxSizer2->SetSizeHints(Panel1);
     BoxSizer1->Add(Panel1, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
     SetSizer(BoxSizer1);
     MenuBar1 = new wxMenuBar();
@@ -102,7 +93,6 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
 
-    Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&SudokuSolverFrame::OnTextCtrl1Text);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&SudokuSolverFrame::OnClose);
@@ -128,6 +118,7 @@ void SudokuSolverFrame::OnAbout(wxCommandEvent& event)
 
 void SudokuSolverFrame::OnClose(wxCloseEvent& event)
 {
+	Destroy();
 }
 
 void SudokuSolverFrame::OnTextCtrl1Text(wxCommandEvent& event)

@@ -13,7 +13,6 @@
 //(*Headers(SudokuSolverFrame)
 #include <wx/sizer.h>
 #include <wx/menu.h>
-#include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -36,7 +35,6 @@ class SudokuSolverFrame: public wxFrame
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
-        static const long ID_TEXTCTRL1;
         static const long ID_PANEL1;
         static const long idMenuQuit;
         static const long idMenuAbout;
@@ -46,7 +44,6 @@ class SudokuSolverFrame: public wxFrame
         //(*Declarations(SudokuSolverFrame)
         wxPanel* Panel1;
         wxStatusBar* StatusBar1;
-        wxTextCtrl* TextCtrl1;
         //*)
 
         DECLARE_EVENT_TABLE()
