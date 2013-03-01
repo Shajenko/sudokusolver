@@ -9,6 +9,8 @@
 
 #include "wx_pch.h"
 #include "SudokuSolverMain.h"
+#include "include\GameSquare.h"
+#include "GameBoard.h"
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(SudokuSolverFrame)
@@ -57,6 +59,14 @@ END_EVENT_TABLE()
 
 SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 {
+    mGB = new GameBoard();
+
+    mGB->m_Squares[0].SetShown(true);
+    mGB->m_Squares[0].SetTrueVal(5);
+
+    mGB->m_Squares[10].SetShown(true);
+    mGB->m_Squares[10].SetTrueVal(8);
+
     //(*Initialize(SudokuSolverFrame)
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
@@ -144,14 +154,7 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
     smallSide -= 10;
 
 
-    // Create a 16 point, serif font, that is not bold,
-    //   not italic, and not underlined.
-//    dc.SetPen(*wxRED_PEN );
-//    wxFont BigFont(16,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
-//    // Tell dc to use this font
-//    dc.SetFont(BigFont);
-//    // Write the title of our picture.
-//    dc.DrawText(wxT("Red Square"), 60, 10);
+
 
     // Set the Brush and Pen to red
     dc.SetBrush( *wxWHITE_BRUSH );
@@ -180,4 +183,25 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
     dc.DrawLine( 0, 0, 0, smallSide);
     dc.DrawLine( 0, smallSide, smallSide, smallSide);
     dc.DrawLine( smallSide, 0, smallSide, smallSide);
+
+    // Create a 16 point, serif font, that is not bold,
+    //   not italic, and not underlined.
+    dc.SetPen(*wxBLACK_PEN );
+    wxFont BigFont(spSq/2,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
+    // Tell dc to use this font
+    dc.SetFont(BigFont);
+
+    for(int i=0;i < 81;i++)
+    {
+        if (mGB->m_Squares[i].GetShown())
+        {
+            int pVal = mGB->m_Squares[i].GetTrueVal();
+            wxString pString;
+            pString << pVal;
+            dc.DrawText(pString, 6 * spSq / 20 + ((i / 9) * spSq), spSq / 6 + ((i % 9) * spSq));
+        }
+    }
+    // Write the title of our picture.
+    //dc.DrawText(wxT("9"), 6 * spSq / 20, spSq / 6);
+    //dc.DrawText(wxT("9"), 6 * spSq / 20 + spSq, spSq / 6 + spSq);
 }

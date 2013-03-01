@@ -47,13 +47,17 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="GameBoard.cpp" />
+		<Unit filename="GameBoard.h" />
 		<Unit filename="SudokuSolverApp.cpp" />
 		<Unit filename="SudokuSolverApp.h" />
 		<Unit filename="SudokuSolverMain.cpp" />
 		<Unit filename="SudokuSolverMain.h" />
+		<Unit filename="include/GameSquare.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="src/GameSquare.cpp" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
@@ -68,7 +72,6 @@
 				<gui name="wxWidgets" src="SudokuSolverApp.cpp" main="SudokuSolverFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/SudokuSolverframe.wxs" src="SudokuSolverMain.cpp" hdr="SudokuSolverMain.h" fwddecl="0" i18n="1" name="SudokuSolverFrame" language="CPP" />
-					<wxPanel wxs="wxsmith/GameBoardPanel.wxs" src="GameBoardPanel.cpp" hdr="GameBoardPanel.h" fwddecl="0" i18n="1" name="GameBoardPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

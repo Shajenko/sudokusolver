@@ -1826,17 +1826,31 @@
 1362010396 c:\users\tim\documents\github\sudokusolver\sudokusolverapp.h
 	<wx/app.h>
 
-1362102963 c:\users\tim\documents\github\sudokusolver\sudokusolvermain.h
+1362111893 c:\users\tim\documents\github\sudokusolver\sudokusolvermain.h
 	<wx/sizer.h>
 	<wx/menu.h>
 	<wx/panel.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
+	"GameBoard.h"
 
-1362102939 source:c:\users\tim\documents\github\sudokusolver\sudokusolvermain.cpp
+1362111842 source:c:\users\tim\documents\github\sudokusolver\sudokusolvermain.cpp
 	"wx_pch.h"
 	"SudokuSolverMain.h"
+	"include\GameSquare.h"
+	"GameBoard.h"
 	<wx/msgdlg.h>
 	<wx/intl.h>
 	<wx/string.h>
+
+1362107692 source:c:\users\tim\documents\github\sudokusolver\src\gamesquare.cpp
+	"..\include\GameSquare.h"
+
+1362107762 c:\users\tim\documents\github\sudokusolver\include\gamesquare.h
+
+1362111388 source:c:\users\tim\documents\github\sudokusolver\gameboard.cpp
+	"GameBoard.h"
+
+1362111950 c:\users\tim\documents\github\sudokusolver\gameboard.h
+	"include\GameSquare.h"
 

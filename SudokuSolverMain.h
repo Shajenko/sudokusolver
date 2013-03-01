@@ -18,6 +18,8 @@
 #include <wx/statusbr.h>
 //*)
 
+#include "GameBoard.h"
+
 class SudokuSolverFrame: public wxFrame
 {
     public:
@@ -48,6 +50,8 @@ class SudokuSolverFrame: public wxFrame
         wxPanel* MainPanel;
         wxPanel* GameBoardPanel;
         //*)
+
+        GameBoard * mGB;
 
         DECLARE_EVENT_TABLE()
 };
