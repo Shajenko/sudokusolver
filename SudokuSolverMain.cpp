@@ -43,6 +43,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(SudokuSolverFrame)
+const long SudokuSolverFrame::ID_PANEL2 = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
 const long SudokuSolverFrame::idMenuQuit = wxNewId();
 const long SudokuSolverFrame::idMenuAbout = wxNewId();
@@ -67,12 +68,14 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 
     Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
     BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+    MainPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
-    Panel1->SetSizer(BoxSizer2);
-    BoxSizer2->Fit(Panel1);
-    BoxSizer2->SetSizeHints(Panel1);
-    BoxSizer1->Add(Panel1, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+    GameBoardPanel = new wxPanel(MainPanel, ID_PANEL2, wxDefaultPosition, wxSize(600,800), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("ID_PANEL2"));
+    BoxSizer2->Add(GameBoardPanel, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    MainPanel->SetSizer(BoxSizer2);
+    BoxSizer2->Fit(MainPanel);
+    BoxSizer2->SetSizeHints(MainPanel);
+    BoxSizer1->Add(MainPanel, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
     SetSizer(BoxSizer1);
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
@@ -93,6 +96,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
 
+    GameBoardPanel->Connect(wxEVT_PAINT,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelPaint,0,this);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&SudokuSolverFrame::OnClose);
@@ -118,9 +122,62 @@ void SudokuSolverFrame::OnAbout(wxCommandEvent& event)
 
 void SudokuSolverFrame::OnClose(wxCloseEvent& event)
 {
+    GameBoardPanel->Destroy();
+    MainPanel->Destroy();
 	Destroy();
+
 }
 
-void SudokuSolverFrame::OnTextCtrl1Text(wxCommandEvent& event)
+void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
 {
+    int spSq = 0;
+    int smallSide;
+    wxPaintDC dc( GameBoardPanel );
+
+    wxSize sz = GetClientSize();
+    if (sz.x < sz.y)
+        smallSide = sz.x;
+    else
+        smallSide = sz.y;
+
+    spSq = smallSide / 9;
+    smallSide -= 10;
+
+
+    // Create a 16 point, serif font, that is not bold,
+    //   not italic, and not underlined.
+//    dc.SetPen(*wxRED_PEN );
+//    wxFont BigFont(16,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
+//    // Tell dc to use this font
+//    dc.SetFont(BigFont);
+//    // Write the title of our picture.
+//    dc.DrawText(wxT("Red Square"), 60, 10);
+
+    // Set the Brush and Pen to red
+    dc.SetBrush( *wxWHITE_BRUSH );
+    dc.SetPen(*wxBLACK_PEN );
+    // Draw rectangle 40 pixels wide and 40 high
+    // with upper left corner at 10 , 10.
+
+    for(int i=0;i<9;i++)
+        for(int j=0;j<9;j++)
+        {
+            dc.DrawRectangle( 0 + spSq*i, 0 + spSq*j, spSq - 5, spSq - 5 );
+        }
+
+    wxColor Black(0,0,0);
+    wxPen myBlackPen(Black,5,wxSOLID);
+    dc.SetPen(myBlackPen);
+
+    // Section Borders
+    dc.DrawLine( 0, smallSide/3 - 2, smallSide, smallSide/3 - 2);
+    dc.DrawLine( 0, smallSide*2/3 - 1, smallSide, smallSide*2/3 - 1);
+    dc.DrawLine( smallSide/3 - 2, 0, smallSide/3 - 2, smallSide);
+    dc.DrawLine( smallSide*2/3 - 1, 0, smallSide*2/3 - 1, smallSide);
+
+    // Edge Borders
+    dc.DrawLine( 0, 0, smallSide, 0);
+    dc.DrawLine( 0, 0, 0, smallSide);
+    dc.DrawLine( 0, smallSide, smallSide, smallSide);
+    dc.DrawLine( smallSide, 0, smallSide, smallSide);
 }

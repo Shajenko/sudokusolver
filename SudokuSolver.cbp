@@ -68,6 +68,7 @@
 				<gui name="wxWidgets" src="SudokuSolverApp.cpp" main="SudokuSolverFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/SudokuSolverframe.wxs" src="SudokuSolverMain.cpp" hdr="SudokuSolverMain.h" fwddecl="0" i18n="1" name="SudokuSolverFrame" language="CPP" />
+					<wxPanel wxs="wxsmith/GameBoardPanel.wxs" src="GameBoardPanel.cpp" hdr="GameBoardPanel.h" fwddecl="0" i18n="1" name="GameBoardPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

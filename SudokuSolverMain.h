@@ -32,9 +32,11 @@ class SudokuSolverFrame: public wxFrame
         void OnAbout(wxCommandEvent& event);
         void OnClose(wxCloseEvent& event);
         void OnTextCtrl1Text(wxCommandEvent& event);
+        void OnGameBoardPanelPaint(wxPaintEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
+        static const long ID_PANEL2;
         static const long ID_PANEL1;
         static const long idMenuQuit;
         static const long idMenuAbout;
@@ -42,8 +44,9 @@ class SudokuSolverFrame: public wxFrame
         //*)
 
         //(*Declarations(SudokuSolverFrame)
-        wxPanel* Panel1;
         wxStatusBar* StatusBar1;
+        wxPanel* MainPanel;
+        wxPanel* GameBoardPanel;
         //*)
 
         DECLARE_EVENT_TABLE()
