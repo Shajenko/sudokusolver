@@ -49,15 +49,17 @@
 		</Linker>
 		<Unit filename="GameBoard.cpp" />
 		<Unit filename="GameBoard.h" />
+		<Unit filename="GameRow.cpp" />
+		<Unit filename="GameRow.h" />
+		<Unit filename="GameSquare.cpp" />
+		<Unit filename="GameSquare.h" />
 		<Unit filename="SudokuSolverApp.cpp" />
 		<Unit filename="SudokuSolverApp.h" />
 		<Unit filename="SudokuSolverMain.cpp" />
 		<Unit filename="SudokuSolverMain.h" />
-		<Unit filename="include/GameSquare.h" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
-		<Unit filename="src/GameSquare.cpp" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />

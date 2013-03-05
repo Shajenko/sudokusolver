@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="SudokuSolverFrame">
+		<style>wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE</style>
 		<handler function="OnClose" entry="EVT_CLOSE" />
-		<handler function="OnResize" entry="EVT_SIZE" />
 		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
 			<object class="sizeritem">
 				<object class="wxPanel" name="ID_PANEL1" variable="MainPanel" member="yes">

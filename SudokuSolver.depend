@@ -1834,10 +1834,10 @@
 	<wx/statusbr.h>
 	"GameBoard.h"
 
-1362112307 source:c:\users\tim\documents\github\sudokusolver\sudokusolvermain.cpp
+1362489170 source:c:\users\tim\documents\github\sudokusolver\sudokusolvermain.cpp
 	"wx_pch.h"
 	"SudokuSolverMain.h"
-	"include\GameSquare.h"
+	"GameSquare.h"
 	"GameBoard.h"
 	<wx/msgdlg.h>
 	<wx/intl.h>
@@ -1848,9 +1848,22 @@
 
 1362107762 c:\users\tim\documents\github\sudokusolver\include\gamesquare.h
 
-1362111388 source:c:\users\tim\documents\github\sudokusolver\gameboard.cpp
+1362486559 source:c:\users\tim\documents\github\sudokusolver\gameboard.cpp
 	"GameBoard.h"
 
-1362111950 c:\users\tim\documents\github\sudokusolver\gameboard.h
-	"include\GameSquare.h"
+1362489651 c:\users\tim\documents\github\sudokusolver\gameboard.h
+	"GameSquare.h"
+	"GameRow.h"
+
+1362456407 c:\users\tim\documents\github\sudokusolver\gamesquare.h
+	"GameSquare.h"
+
+1362489660 c:\users\tim\documents\github\sudokusolver\gamerow.h
+	"GameSquare.h"
+
+1362486592 source:c:\users\tim\documents\github\sudokusolver\gamerow.cpp
+	"GameRow.h"
+
+1362486602 source:c:\users\tim\documents\github\sudokusolver\gamesquare.cpp
+	"GameSquare.h"
 

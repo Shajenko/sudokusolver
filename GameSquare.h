@@ -1,6 +1,7 @@
 #ifndef GAMESQUARE_H
 #define GAMESQUARE_H
 
+#include "GameSquare.h"
 
 class GameSquare
 {
@@ -15,12 +16,15 @@ class GameSquare
         void SetShown(bool val) { m_Shown = val; }
         unsigned int GetPossibles(unsigned int pos) { return m_Possibles[pos]; }
         void SetPossibles(unsigned int val, unsigned int pos) { m_Possibles[pos] = val; }
+        unsigned int GetSector() { return m_Sector; }
+        void SetSector(unsigned int val) { m_Sector = val; }
     protected:
     private:
         unsigned int m_TrueVal;
         unsigned int m_GuessVal;
         bool m_Shown;
         unsigned int m_Possibles[9];
+        unsigned int m_Sector;
 };
 
 #endif // GAMESQUARE_H

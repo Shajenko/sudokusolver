@@ -9,7 +9,7 @@
 
 #include "wx_pch.h"
 #include "SudokuSolverMain.h"
-#include "include\GameSquare.h"
+#include "GameSquare.h"
 #include "GameBoard.h"
 #include <wx/msgdlg.h>
 
@@ -59,13 +59,27 @@ END_EVENT_TABLE()
 
 SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 {
+    unsigned int i = 0;
+    unsigned int j = 0;
+
     mGB = new GameBoard();
 
-    mGB->m_Squares[0].SetShown(true);
-    mGB->m_Squares[0].SetTrueVal(5);
+    for(i=0;i<9;i++)
+    {
+        for(j=0;j<9;j++)
+        {
+            mGB->m_GameRows[i].m_square[j].SetShown(true);
+            mGB->m_GameRows[i].m_square[j].SetTrueVal(0);
 
-    mGB->m_Squares[10].SetShown(true);
-    mGB->m_Squares[10].SetTrueVal(8);
+        }
+    }
+
+
+    //mGB->m_Squares[0].SetShown(true);
+    //mGB->m_Squares[0].SetTrueVal(5);
+
+    //mGB->m_Squares[10].SetShown(true);
+    //mGB->m_Squares[10].SetTrueVal(8);
 
     //(*Initialize(SudokuSolverFrame)
     wxMenuItem* MenuItem2;
@@ -76,7 +90,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     wxMenuBar* MenuBar1;
     wxMenu* Menu2;
 
-    Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
+    Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE, _T("id"));
     BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
     MainPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -140,8 +154,10 @@ void SudokuSolverFrame::OnClose(wxCloseEvent& event)
 
 void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
 {
-    int spSq = 0;
-    int smallSide;
+    unsigned int spSq = 0;
+    unsigned int smallSide;
+    unsigned int i,j, pVal;
+    wxString debugString;
     wxPaintDC dc( GameBoardPanel );
 
     wxSize sz = GetClientSize();
@@ -157,13 +173,13 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
 
 
     // Set the Brush and Pen to red
-    dc.SetBrush( *wxWHITE_BRUSH );
+    dc.SetBrush( *wxLIGHT_GREY_BRUSH );
     dc.SetPen(*wxBLACK_PEN );
     // Draw rectangle 40 pixels wide and 40 high
     // with upper left corner at 10 , 10.
 
-    for(int i=0;i<9;i++)
-        for(int j=0;j<9;j++)
+    for(i=0;i<9;i++)
+        for(j=0;j<9;j++)
         {
             dc.DrawRectangle( 0 + spSq*i, 0 + spSq*j, spSq - 5, spSq - 5 );
         }
@@ -191,17 +207,22 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
     // Tell dc to use this font
     dc.SetFont(BigFont);
 
-    for(int i=0;i < 81;i++)
+    for(i=0;i < 9;i++)
     {
-        if (mGB->m_Squares[i].GetShown())
+        for(j=0;j<9;j++)
         {
-            int pVal = mGB->m_Squares[i].GetTrueVal();
-            wxString pString;
-            pString << pVal;
-            dc.DrawText(pString, 6 * spSq / 20 + ((i / 9) * spSq), spSq / 6 + ((i % 9) * spSq));
+            if (mGB->m_GameRows[i].m_square[j].GetShown())
+            {
+                debugString.Clear();
+                debugString << _("i = ") << i << _(" j = ") << j;
+                debugString << _("\nTrueVal = ") << mGB->m_GameRows[i].m_square[j].GetTrueVal();
+                //wxMessageBox(debugString);
+                pVal = 0;
+                pVal = mGB->m_GameRows[i].m_square[j].GetTrueVal();
+                wxString pString;
+                pString << pVal;
+                dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq), spSq / 6 + ((i) * spSq));
+            }
         }
     }
-    // Write the title of our picture.
-    //dc.DrawText(wxT("9"), 6 * spSq / 20, spSq / 6);
-    //dc.DrawText(wxT("9"), 6 * spSq / 20 + spSq, spSq / 6 + spSq);
 }
