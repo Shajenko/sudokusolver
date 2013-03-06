@@ -69,7 +69,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
         for(j=0;j<9;j++)
         {
             mGB->m_GameRows[i].m_square[j].SetShown(true);
-            mGB->m_GameRows[i].m_square[j].SetTrueVal(0);
+            mGB->m_GameRows[i].m_square[j].SetTrueVal(i);
 
         }
     }

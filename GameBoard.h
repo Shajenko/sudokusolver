@@ -8,6 +8,7 @@ class GameBoard
 {
     public:
         GameBoard();
+        void Binit();
         virtual ~GameBoard();
         unsigned int GetRows(int row, int val) { return m_Rows[row][val]; }
         //void SetRows(unsigned int val) { m_Rows[9][9] = val; }

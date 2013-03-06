@@ -7,6 +7,7 @@ class GameSquare
 {
     public:
         GameSquare();
+        void Sinit();
         virtual ~GameSquare();
         unsigned int GetTrueVal() { return m_TrueVal; }
         void SetTrueVal(unsigned int val) { m_TrueVal = val; }
