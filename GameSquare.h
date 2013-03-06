@@ -10,7 +10,7 @@ class GameSquare
         void Sinit();
         virtual ~GameSquare();
         unsigned int GetTrueVal() { return m_TrueVal; }
-        void SetTrueVal(unsigned int val) { m_TrueVal = val; }
+        void SetTrueVal(unsigned int val) { m_TrueVal = val;}
         unsigned int GetGuessVal() { return m_GuessVal; }
         void SetGuessVal(unsigned int val) { m_GuessVal = val; }
         bool GetShown() { return m_Shown; }

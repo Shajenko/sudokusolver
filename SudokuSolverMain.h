@@ -35,6 +35,7 @@ class SudokuSolverFrame: public wxFrame
         void OnClose(wxCloseEvent& event);
         void OnTextCtrl1Text(wxCommandEvent& event);
         void OnGameBoardPanelPaint(wxPaintEvent& event);
+        void OnGameBoardPanelLeftUp(wxMouseEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)

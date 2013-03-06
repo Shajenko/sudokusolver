@@ -9,6 +9,8 @@ class GameBoard
     public:
         GameBoard();
         void Binit();
+        bool SetSquareTrue(unsigned int val, int row, int col);
+        void GenBoard();
         virtual ~GameBoard();
         unsigned int GetRows(int row, int val) { return m_Rows[row][val]; }
         //void SetRows(unsigned int val) { m_Rows[9][9] = val; }

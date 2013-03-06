@@ -64,15 +64,18 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 
     mGB = new GameBoard();
 
+	mGB->GenBoard();
     for(i=0;i<9;i++)
     {
         for(j=0;j<9;j++)
         {
             mGB->m_GameRows[i].m_square[j].SetShown(true);
-            mGB->m_GameRows[i].m_square[j].SetTrueVal(i);
+            //mGB->m_GameRows[i].m_square[j].SetTrueVal(mGB->m_GameRows[i].m_square[j].GetSector());
 
         }
     }
+
+
 
 
     //mGB->m_Squares[0].SetShown(true);
@@ -121,6 +124,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1->SetSizeHints(this);
 
     GameBoardPanel->Connect(wxEVT_PAINT,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelPaint,0,this);
+    GameBoardPanel->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelLeftUp,0,this);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&SudokuSolverFrame::OnClose);
@@ -225,4 +229,13 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
             }
         }
     }
+}
+
+void SudokuSolverFrame::OnGameBoardPanelLeftUp(wxMouseEvent& event)
+{
+	long xpos, ypos;
+	wxString pString;
+	event.GetPosition(&xpos, &ypos);
+	pString << _("XPos = ") << xpos << _(" YPos = ") << ypos;
+	wxMessageBox(pString);
 }

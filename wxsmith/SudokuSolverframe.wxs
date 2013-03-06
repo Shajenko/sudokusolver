@@ -12,6 +12,7 @@
 								<size>600,800</size>
 								<style>wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE</style>
 								<handler function="OnGameBoardPanelPaint" entry="EVT_PAINT" />
+								<handler function="OnGameBoardPanelLeftUp" entry="EVT_LEFT_UP" />
 							</object>
 							<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 							<border>5</border>
