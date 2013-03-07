@@ -17,5 +17,5 @@ void GameSquare::Sinit()
     m_GuessVal = 0;
     m_Sector = 0;
     for (int i = 0;i < 9;i++)
-        m_Possibles[i] = 0;
+        m_Possibles.insert(i+1);
 }

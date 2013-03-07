@@ -1,6 +1,8 @@
 #include "GameBoard.h"
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
+#include <vector>
 
 GameBoard::GameBoard()
 {
@@ -19,12 +21,11 @@ void GameBoard::Binit()
     {
 		m_GameRows[row].Rinit();
 
+		m_Rows[row].clear();
+		m_Sectors[row].clear();
+		m_Cols[row].clear();
         for(int col=0;col<9;col++)
         {
-            m_Rows[row][col] = 0;
-            m_Cols[col][row] = 0;
-            m_Sectors[row][col] = 0;
-
             // todo - set sector for each square
             m_GameRows[row].m_square[col].SetSector((row/3) * 3 + (col/3));
         }
@@ -40,18 +41,18 @@ bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 
 
 	//todo - check if value is impossible
-	if (m_Rows[row][val-1] == 0 &&
-		m_Cols[col][val-1] == 0 &&
-		m_Sectors[sec][val-1] == 0 &&
+	if (m_Rows[row].find(val) != m_Rows[row].end() &&
+		m_Cols[col].find(val) != m_Cols[col].end() &&
+		m_Sectors[sec].find(val) != m_Sectors[sec].end() &&
 		sq->GetTrueVal() == 0 &&
 		val > 0 &&
 		val < 10)
 	{
 		sq->SetTrueVal(val);
-		m_GameRows[row].Settaken(val, row);
-		m_Rows[row][val-1] = 1;
-		m_Cols[col][val-1] = 1;
-		m_Sectors[sec][val-1] = 1;
+		m_GameRows[row].Settaken(val);
+		m_Rows[row].insert(val);
+		m_Cols[col].insert(val);
+		m_Sectors[sec].insert(val);
 		return true;
 	}
 	else
@@ -63,7 +64,8 @@ bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 void GameBoard::GenBoard()
 {
 	int i, j, k, num, sel;
-	unsigned int selectList[9], temp;
+	std::vector<unsigned int> selectList (9);
+	unsigned int temp;
 	wxString lst;
 
 	Binit();
@@ -72,15 +74,8 @@ void GameBoard::GenBoard()
 	for(i=0;i<9;i++)
 	{
 		for(j=0;j<9;j++)
-			selectList[j] = j+1;
-		for(j=0;j<9;j++)
-		{
-			num = (rand() % 9);
-			temp = selectList[j];
-			selectList[j] = selectList[num];
-			selectList[num] = temp;
-
-		}
+			selectList.push_back(j+1);
+		random_shuffle(selectList.begin(), selectList.end());
 		for(j=0;j<9;j++)
 		{
 			lst.clear();

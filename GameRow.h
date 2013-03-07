@@ -2,6 +2,7 @@
 #define GAMEROW_H
 
 #include "GameSquare.h"
+#include <set>
 
 class GameRow
 {
@@ -9,12 +10,12 @@ class GameRow
         GameRow();
         void Rinit();
         virtual ~GameRow();
-        unsigned int Gettaken(unsigned int pos) { return m_taken[pos]; }
-        void Settaken(unsigned int val, unsigned int pos) { m_taken[pos] = val; }
+        bool Gettaken(unsigned int pos) { if(m_taken.find(pos) != m_taken.end()) return true; else return false;}
+        void Settaken(unsigned int val) { m_taken.insert(val); }
         GameSquare m_square[9];
     protected:
     private:
-        unsigned int m_taken[9];
+        std::set<int> m_taken;
 };
 
 #endif // GAMEROW_H
