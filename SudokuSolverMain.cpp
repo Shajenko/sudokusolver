@@ -64,7 +64,8 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 
     mGB = new GameBoard();
 
-	mGB->GenBoard();
+	mGB->Binit();
+	mGB->GenBoard(0,0);
     for(i=0;i<9;i++)
     {
         for(j=0;j<9;j++)

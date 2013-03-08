@@ -13,6 +13,7 @@ class GameRow
         virtual ~GameRow();
         bool Gettaken(unsigned int pos) { if(m_taken.find(pos) != m_taken.end()) return true; else return false;}
         void Settaken(unsigned int val) { m_taken.insert(val); }
+        void Unsettaken(unsigned int val) { m_taken.erase(val); }
         GameSquare m_square[9];
     protected:
     private:

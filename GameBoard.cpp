@@ -36,16 +36,27 @@ void GameBoard::Binit()
 
 bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 {
-	int sec;
+	int sec, undoNum;
 	bool colFnd, rowFnd, secFnd;
 	GameSquare * sq;
 	sq = &m_GameRows[row].m_square[col];
 	sec = sq->GetSector();
 
+	if(val == 0)
+	{
+		undoNum = sq->GetTrueVal();
+		sq->SetTrueVal(val);
+		m_GameRows[row].Unsettaken(undoNum);
+		m_Rows[row].erase(undoNum);
+		m_Cols[col].erase(undoNum);
+		m_Sectors[sec].erase(undoNum);
+		return true;
+	}
+
+
 	rowFnd = (m_Rows[row].find(val) == m_Rows[row].end());
 	colFnd = (m_Cols[col].find(val) == m_Cols[col].end());
 	secFnd = (m_Sectors[sec].find(val) == m_Sectors[sec].end());
-	//todo - check if value is impossible
 	if (rowFnd &&
 		colFnd &&
 		secFnd &&
@@ -83,49 +94,67 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 
 }
 
-void GameBoard::GenBoard()
+bool GameBoard::GenBoard(int row, int col)
 {
-	unsigned int i, j, k, num;
+	unsigned int k, num;
 	std::vector<unsigned int> selectList (9);
 	wxString lst, error;
-	bool setSucc;
+	bool setSucc, nextSucc;
 
-	Binit();
-	srand (time(NULL));
-
-	for(i=0;i<9;i++)
+	if(col == 9)
 	{
-		for(j=0;j<9;j++)
+		col = 0;
+		row++;
+	}
+	if(row == 9)
+		return true;
+
+
+
+	//RemovePossibles(&(m_GameRows[row].m_square[col]));  // Possible problem
+	selectList.clear();
+	for(k=1;k<=9;k++)
+		if(m_GameRows[row].m_square[col].GetPossibles(k))
+			selectList.push_back(k);
+	random_shuffle(selectList.begin(), selectList.end());
+	lst.clear();
+	for(k=0;k<selectList.size();k++)
+	{
+		lst << selectList[k] << _(" ");
+	}
+	lst << selectList.size();
+	//wxMessageBox(lst);
+
+	if(selectList.size() == 0)
+		return false;
+	else
+	{
+		setSucc = false;
+		nextSucc = false;
+		while (!nextSucc)
 		{
-			RemovePossibles(&(m_GameRows[i].m_square[j]));
-			selectList.clear();
-			for(k=1;k<=9;k++)
-				if(m_GameRows[i].m_square[j].GetPossibles(k))
-					selectList.push_back(k);
-			random_shuffle(selectList.begin(), selectList.end());
-			lst.clear();
-			for(k=0;k<selectList.size();k++)
+			while (!setSucc)
 			{
-				lst << selectList[k] << _(" ");
-			}
-			lst << selectList.size();
-			//wxMessageBox(lst);
-
-			if(selectList.size() > 0)
-			{
-				num = *selectList.begin();
-				selectList.erase(selectList.begin());
-
-				setSucc = SetSquareTrue(num, i, j);
-				while (!setSucc)
+				if(selectList.size() == 0)
 				{
-					if(selectList.size() == 0)
-						break;
-					num = selectList.back();
-					selectList.pop_back();
-					SetSquareTrue(num, i, j);
+					return false;
 				}
+
+				num = selectList.back();
+				selectList.pop_back();
+				setSucc = SetSquareTrue(num, row, col);
 			}
+			nextSucc = GenBoard(row, col + 1);
+			if(!nextSucc)
+			{
+				SetSquareTrue(0, row, col);
+				setSucc = false;
+			}
+		}
+		return true;
+	}
+
+
 
 
 			/*error.clear();
@@ -133,6 +162,5 @@ void GameBoard::GenBoard()
 			wxMessageBox(error);*/
 
 
-		}
-	}
+
 }
