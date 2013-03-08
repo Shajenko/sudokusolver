@@ -170,12 +170,4 @@ bool GameBoard::GenBoard(int row, int col)
 	}
 
 
-
-
-			/*error.clear();
-			error << _("Error -") << num;
-			wxMessageBox(error);*/
-
-
-
 }
