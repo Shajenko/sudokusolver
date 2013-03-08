@@ -19,3 +19,12 @@ void GameRow::Rinit()
         m_square[i].Sinit();
     }
 }
+
+void GameRow::SetCol()
+{
+	for(int i=0;i<9;i++)
+	{
+		m_square[i].SetCol(i);
+	}
+
+}

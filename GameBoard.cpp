@@ -24,10 +24,12 @@ void GameBoard::Binit()
 		m_Rows[row].clear();
 		m_Sectors[row].clear();
 		m_Cols[row].clear();
+		m_GameRows[row].SetCol();
         for(int col=0;col<9;col++)
         {
             // todo - set sector for each square
             m_GameRows[row].m_square[col].SetSector((row/3) * 3 + (col/3));
+            m_GameRows[row].m_square[col].SetRow(row);
         }
     }
 }
@@ -35,15 +37,18 @@ void GameBoard::Binit()
 bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 {
 	int sec;
+	bool colFnd, rowFnd, secFnd;
 	GameSquare * sq;
 	sq = &m_GameRows[row].m_square[col];
 	sec = sq->GetSector();
 
-
+	rowFnd = (m_Rows[row].find(val) == m_Rows[row].end());
+	colFnd = (m_Cols[col].find(val) == m_Cols[col].end());
+	secFnd = (m_Sectors[sec].find(val) == m_Sectors[sec].end());
 	//todo - check if value is impossible
-	if (m_Rows[row].find(val) != m_Rows[row].end() &&
-		m_Cols[col].find(val) != m_Cols[col].end() &&
-		m_Sectors[sec].find(val) != m_Sectors[sec].end() &&
+	if (rowFnd &&
+		colFnd &&
+		secFnd &&
 		sq->GetTrueVal() == 0 &&
 		val > 0 &&
 		val < 10)
@@ -61,12 +66,29 @@ bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 	}
 }
 
+void GameBoard::RemovePossibles(GameSquare * sq)
+{
+	int row, col, sec;
+	row = sq->GetRow();
+	col = sq->GetCol();
+	sec = sq->GetSector();
+	for(int i=1;i<=9;i++)
+	{
+		if((m_Rows[row].find(i) != m_Rows[row].end()) ||
+		   (m_Cols[col].find(i) != m_Cols[col].end()) ||
+		   (m_Sectors[sec].find(i) != m_Sectors[sec].end()))
+			sq->RemovePossibles(i);
+	}
+
+
+}
+
 void GameBoard::GenBoard()
 {
-	int i, j, k, num, sel;
+	unsigned int i, j, k, num;
 	std::vector<unsigned int> selectList (9);
-	unsigned int temp;
-	wxString lst;
+	wxString lst, error;
+	bool setSucc;
 
 	Binit();
 	srand (time(NULL));
@@ -74,27 +96,42 @@ void GameBoard::GenBoard()
 	for(i=0;i<9;i++)
 	{
 		for(j=0;j<9;j++)
-			selectList.push_back(j+1);
-		random_shuffle(selectList.begin(), selectList.end());
-		for(j=0;j<9;j++)
 		{
+			RemovePossibles(&(m_GameRows[i].m_square[j]));
+			selectList.clear();
+			for(k=1;k<=9;k++)
+				if(m_GameRows[i].m_square[j].GetPossibles(k))
+					selectList.push_back(k);
+			random_shuffle(selectList.begin(), selectList.end());
 			lst.clear();
-			for(k=0;k<9;k++)
+			for(k=0;k<selectList.size();k++)
 			{
 				lst << selectList[k] << _(" ");
 			}
-			wxMessageBox(lst);
-			sel = j;
-			num = selectList[sel];
-			selectList[sel] = 0;
+			lst << selectList.size();
+			//wxMessageBox(lst);
 
-			while (!SetSquareTrue(num, i, j))
+			if(selectList.size() > 0)
 			{
-				sel = (sel + 1) % 9;
-				while(selectList[sel] == 0)
-					sel = (sel + 1) % 9;
-				num = selectList[sel];
+				num = *selectList.begin();
+				selectList.erase(selectList.begin());
+
+				setSucc = SetSquareTrue(num, i, j);
+				while (!setSucc)
+				{
+					if(selectList.size() == 0)
+						break;
+					num = selectList.back();
+					selectList.pop_back();
+					SetSquareTrue(num, i, j);
+				}
 			}
+
+
+			/*error.clear();
+			error << _("Error -") << num;
+			wxMessageBox(error);*/
+
 
 		}
 	}

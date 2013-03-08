@@ -25,6 +25,23 @@
 					<Add directory="$(#wx)/lib/gcc_dll" />
 				</Linker>
 			</Target>
+			<Target title="Debug">
+				<Option output="bin/Debug/SudokuSolver" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#wx)/lib/gcc_dll/mswu" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="libwxmsw28u.a" />
+					<Add directory="$(#wx)/lib/gcc_dll" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-pipe" />
@@ -68,7 +85,9 @@
 		<Extensions>
 			<code_completion />
 			<envvars />
-			<debugger />
+			<debugger>
+				<search_path add="bin\Debug" />
+			</debugger>
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
 				<gui name="wxWidgets" src="SudokuSolverApp.cpp" main="SudokuSolverFrame" init_handlers="necessary" language="CPP" />

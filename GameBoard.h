@@ -11,6 +11,7 @@ class GameBoard
         GameBoard();
         void Binit();
         bool SetSquareTrue(unsigned int val, int row, int col);
+        void RemovePossibles(GameSquare * sq);
         void GenBoard();
         virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }

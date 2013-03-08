@@ -16,17 +16,22 @@ class GameSquare
         void SetGuessVal(unsigned int val) { m_GuessVal = val; }
         bool GetShown() { return m_Shown; }
         void SetShown(bool val) { m_Shown = val; }
-        unsigned int GetPossibles(unsigned int pos) { if(m_Possibles.find(pos) != m_Possibles.end()) return true; else return false;}
-        void SetPossibles(unsigned int val, unsigned int pos) { m_Possibles.insert(val); }
+        unsigned int GetPossibles(unsigned int val) { if(m_Possibles.find(val) != m_Possibles.end()) return true; else return false;}
+        void RemovePossibles(unsigned int val) {m_Possibles.erase(val); }
+        void SetPossibles(unsigned int val) { m_Possibles.insert(val); }
         unsigned int GetSector() { return m_Sector; }
         void SetSector(unsigned int val) { m_Sector = val; }
+		unsigned int GetRow() { return m_Row; }
+        void SetRow(unsigned int val) { m_Row = val; }
+        unsigned int GetCol() { return m_Col; }
+        void SetCol(unsigned int val) { m_Col = val; }
     protected:
     private:
         unsigned int m_TrueVal;
         unsigned int m_GuessVal;
         bool m_Shown;
         std::set<int> m_Possibles;
-        unsigned int m_Sector;
+        unsigned int m_Sector, m_Row, m_Col;
 };
 
 #endif // GAMESQUARE_H

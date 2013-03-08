@@ -24,9 +24,9 @@ bool SudokuSolverApp::OnInit()
     wxInitAllImageHandlers();
     if ( wxsOK )
     {
-    	SudokuSolverFrame* Frame = new SudokuSolverFrame(0);
-    	Frame->Show();
-    	SetTopWindow(Frame);
+    SudokuSolverFrame* Frame = new SudokuSolverFrame(0);
+    Frame->Show();
+    SetTopWindow(Frame);
     }
     //*)
     return wxsOK;

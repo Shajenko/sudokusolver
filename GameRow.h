@@ -9,6 +9,7 @@ class GameRow
     public:
         GameRow();
         void Rinit();
+        void SetCol();
         virtual ~GameRow();
         bool Gettaken(unsigned int pos) { if(m_taken.find(pos) != m_taken.end()) return true; else return false;}
         void Settaken(unsigned int val) { m_taken.insert(val); }
