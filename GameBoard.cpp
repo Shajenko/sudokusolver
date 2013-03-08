@@ -85,6 +85,7 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 	sec = sq->GetSector();
 	for(int i=1;i<=9;i++)
 	{
+		sq->SetPossibles(i);
 		if((m_Rows[row].find(i) != m_Rows[row].end()) ||
 		   (m_Cols[col].find(i) != m_Cols[col].end()) ||
 		   (m_Sectors[sec].find(i) != m_Sectors[sec].end()))
@@ -96,10 +97,12 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 
 bool GameBoard::GenBoard(int row, int col)
 {
-	unsigned int k, num;
+	unsigned int k, num, random;
 	std::vector<unsigned int> selectList (9);
 	wxString lst, error;
 	bool setSucc, nextSucc;
+
+	srand(time(NULL));
 
 	if(col == 9)
 	{
@@ -111,12 +114,24 @@ bool GameBoard::GenBoard(int row, int col)
 
 
 
-	//RemovePossibles(&(m_GameRows[row].m_square[col]));  // Possible problem
+	RemovePossibles(&(m_GameRows[row].m_square[col]));  // Possible problem
 	selectList.clear();
 	for(k=1;k<=9;k++)
 		if(m_GameRows[row].m_square[col].GetPossibles(k))
 			selectList.push_back(k);
 	random_shuffle(selectList.begin(), selectList.end());
+
+	// Shuffle things around more
+	if(selectList.size() > 2)
+		random = rand() % selectList.size();
+
+	for(k=0;k<random && selectList.size() > 2;k++)
+	{
+		num = selectList.back();
+		selectList.pop_back();
+		selectList.insert(selectList.begin(), num);
+	}
+
 	lst.clear();
 	for(k=0;k<selectList.size();k++)
 	{
