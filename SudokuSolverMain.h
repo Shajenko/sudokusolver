@@ -26,6 +26,8 @@ class SudokuSolverFrame: public wxFrame
 
         SudokuSolverFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~SudokuSolverFrame();
+        void DrawBoardBackground(wxPaintDC &dc);
+        void DrawBoardNumbers(wxPaintDC &dc);
 
     private:
 
@@ -36,17 +38,20 @@ class SudokuSolverFrame: public wxFrame
         void OnTextCtrl1Text(wxCommandEvent& event);
         void OnGameBoardPanelPaint(wxPaintEvent& event);
         void OnGameBoardPanelLeftUp(wxMouseEvent& event);
+        void OnMenuNewPuzzleSelected(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
         static const long ID_PANEL2;
         static const long ID_PANEL1;
+        static const long idNewPuzzle;
         static const long idMenuQuit;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)
 
         //(*Declarations(SudokuSolverFrame)
+        wxMenuItem* MenuNewPuzzle;
         wxStatusBar* StatusBar1;
         wxPanel* MainPanel;
         wxPanel* GameBoardPanel;

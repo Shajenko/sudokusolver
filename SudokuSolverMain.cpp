@@ -47,6 +47,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 //(*IdInit(SudokuSolverFrame)
 const long SudokuSolverFrame::ID_PANEL2 = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
+const long SudokuSolverFrame::idNewPuzzle = wxNewId();
 const long SudokuSolverFrame::idMenuQuit = wxNewId();
 const long SudokuSolverFrame::idMenuAbout = wxNewId();
 const long SudokuSolverFrame::ID_STATUSBAR1 = wxNewId();
@@ -59,31 +60,7 @@ END_EVENT_TABLE()
 
 SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 {
-    unsigned int i = 0;
-    unsigned int j = 0;
-
     mGB = new GameBoard();
-
-	mGB->Binit();
-	mGB->GenBoard(0,0);
-    for(i=0;i<9;i++)
-    {
-        for(j=0;j<9;j++)
-        {
-            mGB->m_GameRows[i].m_square[j].SetShown(true);
-            //mGB->m_GameRows[i].m_square[j].SetTrueVal(mGB->m_GameRows[i].m_square[j].GetSector());
-
-        }
-    }
-
-
-
-
-    //mGB->m_Squares[0].SetShown(true);
-    //mGB->m_Squares[0].SetTrueVal(5);
-
-    //mGB->m_Squares[10].SetShown(true);
-    //mGB->m_Squares[10].SetTrueVal(8);
 
     //(*Initialize(SudokuSolverFrame)
     wxMenuItem* MenuItem2;
@@ -107,6 +84,8 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     SetSizer(BoxSizer1);
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
+    MenuNewPuzzle = new wxMenuItem(Menu1, idNewPuzzle, _("New Puzzle"), _("Create a new puzzle"), wxITEM_NORMAL);
+    Menu1->Append(MenuNewPuzzle);
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
@@ -126,6 +105,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 
     GameBoardPanel->Connect(wxEVT_PAINT,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelPaint,0,this);
     GameBoardPanel->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelLeftUp,0,this);
+    Connect(idNewPuzzle,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnMenuNewPuzzleSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&SudokuSolverFrame::OnClose);
@@ -159,13 +139,19 @@ void SudokuSolverFrame::OnClose(wxCloseEvent& event)
 
 void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
 {
-    unsigned int spSq = 0;
-    unsigned int smallSide;
-    unsigned int i,j, pVal;
-    wxString debugString;
     wxPaintDC dc( GameBoardPanel );
 
-    wxSize sz = GetClientSize();
+	DrawBoardBackground(dc);
+	DrawBoardNumbers(dc);
+}
+
+void SudokuSolverFrame::DrawBoardBackground(wxPaintDC &dc)
+{
+	unsigned int spSq = 0;
+    unsigned int smallSide;
+    unsigned int i,j;
+
+    wxSize sz = GameBoardPanel->GetClientSize();
     if (sz.x < sz.y)
         smallSide = sz.x;
     else
@@ -174,10 +160,7 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
     spSq = smallSide / 9;
     smallSide -= 10;
 
-
-
-
-    // Set the Brush and Pen to red
+        // Set the Brush and Pen to red
     dc.SetBrush( *wxLIGHT_GREY_BRUSH );
     dc.SetPen(*wxBLACK_PEN );
     // Draw rectangle 40 pixels wide and 40 high
@@ -205,7 +188,25 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
     dc.DrawLine( 0, smallSide, smallSide, smallSide);
     dc.DrawLine( smallSide, 0, smallSide, smallSide);
 
-    // Create a 16 point, serif font, that is not bold,
+}
+
+void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
+{
+	unsigned int spSq = 0;
+    unsigned int smallSide;
+    unsigned int i,j, pVal;
+    wxString debugString;
+
+    wxSize sz = GameBoardPanel->GetClientSize();
+    if (sz.x < sz.y)
+        smallSide = sz.x;
+    else
+        smallSide = sz.y;
+
+    spSq = smallSide / 9;
+    smallSide -= 10;
+
+        // Create a 16 point, serif font, that is not bold,
     //   not italic, and not underlined.
     dc.SetPen(*wxBLACK_PEN );
     wxFont BigFont(spSq/2,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
@@ -230,6 +231,7 @@ void SudokuSolverFrame::OnGameBoardPanelPaint(wxPaintEvent& event)
             }
         }
     }
+
 }
 
 void SudokuSolverFrame::OnGameBoardPanelLeftUp(wxMouseEvent& event)
@@ -239,4 +241,25 @@ void SudokuSolverFrame::OnGameBoardPanelLeftUp(wxMouseEvent& event)
 	event.GetPosition(&xpos, &ypos);
 	pString << _("XPos = ") << xpos << _(" YPos = ") << ypos;
 	wxMessageBox(pString);
+
+	Refresh();
+}
+
+void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
+{
+	unsigned int i,j;
+
+	mGB->Binit();
+	mGB->GenBoard(0,0);
+    for(i=0;i<9;i++)
+    {
+        for(j=0;j<9;j++)
+        {
+            mGB->m_GameRows[i].m_square[j].SetShown(true);
+            //mGB->m_GameRows[i].m_square[j].SetTrueVal(mGB->m_GameRows[i].m_square[j].GetSector());
+
+        }
+    }
+    Refresh();
+
 }
