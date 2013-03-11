@@ -8,12 +8,11 @@ class GameSquare
 {
     public:
         GameSquare();
+        GameSquare operator= (const GameSquare& gs);
         void Sinit();
         virtual ~GameSquare();
-        unsigned int GetTrueVal() { return m_TrueVal; }
-        void SetTrueVal(unsigned int val) { m_TrueVal = val;}
-        unsigned int GetGuessVal() { return m_GuessVal; }
-        void SetGuessVal(unsigned int val) { m_GuessVal = val; }
+        unsigned int GetVal() { return m_Val; }
+        void SetVal(unsigned int val) { m_Val = val;}
         bool GetShown() { return m_Shown; }
         void SetShown(bool val) { m_Shown = val; }
         unsigned int GetPossibles(unsigned int val) { if(m_Possibles.find(val) != m_Possibles.end()) return true; else return false;}
@@ -27,8 +26,7 @@ class GameSquare
         void SetCol(unsigned int val) { m_Col = val; }
     protected:
     private:
-        unsigned int m_TrueVal;
-        unsigned int m_GuessVal;
+        unsigned int m_Val;
         bool m_Shown;
         std::set<int> m_Possibles;
         unsigned int m_Sector, m_Row, m_Col;

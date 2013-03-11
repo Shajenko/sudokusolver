@@ -60,7 +60,7 @@ END_EVENT_TABLE()
 
 SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 {
-    mGB = new GameBoard();
+    mMainGB = new GameBoard();
 
     //(*Initialize(SudokuSolverFrame)
     wxMenuItem* MenuItem2;
@@ -217,14 +217,14 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
     {
         for(j=0;j<9;j++)
         {
-            if (mGB->m_GameRows[i].m_square[j].GetShown())
+            if (mMainGB->m_GameRows[i].m_square[j].GetShown())
             {
                 debugString.Clear();
                 debugString << _("i = ") << i << _(" j = ") << j;
-                debugString << _("\nTrueVal = ") << mGB->m_GameRows[i].m_square[j].GetTrueVal();
+                debugString << _("\nVal = ") << mMainGB->m_GameRows[i].m_square[j].GetVal();
                 //wxMessageBox(debugString);
                 pVal = 0;
-                pVal = mGB->m_GameRows[i].m_square[j].GetTrueVal();
+                pVal = mMainGB->m_GameRows[i].m_square[j].GetVal();
                 wxString pString;
                 pString << pVal;
                 dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq), spSq / 6 + ((i) * spSq));
@@ -249,15 +249,14 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
 {
 	unsigned int i,j;
 
-	mGB->Binit();
-	mGB->GenBoard(0,0);
+	mMainGB->Binit();
+	mMainGB->GenBoard(0,0);
+	mMainGB->RemoveSquares();
     for(i=0;i<9;i++)
     {
         for(j=0;j<9;j++)
         {
-            mGB->m_GameRows[i].m_square[j].SetShown(true);
-            //mGB->m_GameRows[i].m_square[j].SetTrueVal(mGB->m_GameRows[i].m_square[j].GetSector());
-
+            mMainGB->m_GameRows[i].m_square[j].SetShown(true);
         }
     }
     Refresh();

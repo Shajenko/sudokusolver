@@ -9,10 +9,13 @@ class GameBoard
 {
     public:
         GameBoard();
+		GameBoard operator= (const GameBoard& gb);
         void Binit();
-        bool SetSquareTrue(unsigned int val, int row, int col);
+        bool SetSquare(unsigned int val, int row, int col);
         void RemovePossibles(GameSquare * sq);
         bool GenBoard(int row, int col);
+        bool Solvable(unsigned int row, unsigned int col);
+        void RemoveSquares();
         virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }
         void SetRows(int row, unsigned int val) { m_Rows[row].insert(val); }

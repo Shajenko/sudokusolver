@@ -57,7 +57,8 @@ class SudokuSolverFrame: public wxFrame
         wxPanel* GameBoardPanel;
         //*)
 
-        GameBoard * mGB;
+        GameBoard * mMainGB;
+        GameBoard * mGuessGB;
 
         DECLARE_EVENT_TABLE()
 };

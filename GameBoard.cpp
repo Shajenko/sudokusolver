@@ -10,6 +10,22 @@ GameBoard::GameBoard()
 	Binit();
 }
 
+GameBoard GameBoard::operator= (const GameBoard& gb)
+{
+	GameBoard A;
+	unsigned int i;
+
+	for(i = 0;i < 9;i++)
+	{
+		A.m_GameRows[i] = gb.m_GameRows[i];
+		A.m_Cols[i] = gb.m_Cols[i];
+		A.m_Rows[i] = gb.m_Rows[i];
+		A.m_Sectors[i] = gb.m_Sectors[i];
+	}
+
+	return A;
+}
+
 GameBoard::~GameBoard()
 {
     //dtor
@@ -34,7 +50,7 @@ void GameBoard::Binit()
     }
 }
 
-bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
+bool GameBoard::SetSquare(unsigned int val, int row, int col)
 {
 	int sec, undoNum;
 	bool colFnd, rowFnd, secFnd;
@@ -44,8 +60,8 @@ bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 
 	if(val == 0)
 	{
-		undoNum = sq->GetTrueVal();
-		sq->SetTrueVal(val);
+		undoNum = sq->GetVal();
+		sq->SetVal(val);
 		m_GameRows[row].Unsettaken(undoNum);
 		m_Rows[row].erase(undoNum);
 		m_Cols[col].erase(undoNum);
@@ -60,11 +76,11 @@ bool GameBoard::SetSquareTrue(unsigned int val, int row, int col)
 	if (rowFnd &&
 		colFnd &&
 		secFnd &&
-		sq->GetTrueVal() == 0 &&
+		sq->GetVal() == 0 &&
 		val > 0 &&
 		val < 10)
 	{
-		sq->SetTrueVal(val);
+		sq->SetVal(val);
 		m_GameRows[row].Settaken(val);
 		m_Rows[row].insert(val);
 		m_Cols[col].insert(val);
@@ -157,17 +173,60 @@ bool GameBoard::GenBoard(int row, int col)
 
 				num = selectList.back();
 				selectList.pop_back();
-				setSucc = SetSquareTrue(num, row, col);
+				setSucc = SetSquare(num, row, col);
 			}
 			nextSucc = GenBoard(row, col + 1);
 			if(!nextSucc)
 			{
-				SetSquareTrue(0, row, col);
+				SetSquare(0, row, col);
 				setSucc = false;
 			}
 		}
 		return true;
 	}
 
+
+}
+
+bool GameBoard::Solvable(unsigned int row, unsigned int col)
+{
+	// Determines whether the puzzle is currently solvable
+
+
+	return false;
+}
+
+void GameBoard::RemoveSquares()
+{
+
+	// Removes squares from the visible list until the minimum number of squares remains
+	//   for the puzzle to remain solvable
+	bool squareRemoved = true;
+	unsigned int row, col, tempVal;
+	GameSquare * sq;
+	srand (time(NULL));
+
+	while(squareRemoved)
+	{
+		squareRemoved = false;
+		row = rand() % 9;
+		col = rand() % 9;
+		sq = &m_GameRows[row].m_square[col];
+		while (sq->GetVal() == 0)
+		{
+			row = rand() % 9;
+			col = rand() % 9;
+			sq = &m_GameRows[row].m_square[col];
+		}
+		tempVal = sq->GetVal();
+		sq->SetVal(0);
+		if(Solvable(row, col))
+		{
+			squareRemoved = true;
+			sq->SetShown(false);
+		}
+		else
+			sq->SetVal(tempVal);
+	}
 
 }

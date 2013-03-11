@@ -1789,7 +1789,7 @@
 1362786406 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\sudokusolverapp.h
 	<wx/app.h>
 
-1363029976 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\sudokusolvermain.h
+1363034473 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\sudokusolvermain.h
 	<wx/sizer.h>
 	<wx/menu.h>
 	<wx/panel.h>
@@ -1797,7 +1797,7 @@
 	<wx/statusbr.h>
 	"GameBoard.h"
 
-1362770065 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\sudokusolvermain.cpp
+1363034446 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\sudokusolvermain.cpp
 	"wx_pch.h"
 	"SudokuSolverMain.h"
 	"GameSquare.h"
@@ -1867,29 +1867,29 @@
 1362486602 source:c:\users\tim\documents\github\sudokusolver\gamesquare.cpp
 	"GameSquare.h"
 
-1362786406 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gameboard.h
+1363034891 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gameboard.h
 	"GameSquare.h"
 	"GameRow.h"
 	<set>
 
-1362786406 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamesquare.h
+1363034891 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamesquare.h
 	"GameSquare.h"
 	<set>
 
-1362786406 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamerow.h
+1363035053 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamerow.h
 	"GameSquare.h"
 	<set>
 
-1362786406 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gameboard.cpp
+1363035170 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gameboard.cpp
 	"GameBoard.h"
 	<cstdlib>
 	<ctime>
 	<algorithm>
 	<vector>
 
-1362786406 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamerow.cpp
+1363035680 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamerow.cpp
 	"GameRow.h"
 
-1362786406 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamesquare.cpp
+1363035743 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\gamesquare.cpp
 	"GameSquare.h"
 
