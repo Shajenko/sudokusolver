@@ -188,10 +188,18 @@ bool GameBoard::GenBoard(int row, int col)
 
 }
 
-bool GameBoard::Solvable(unsigned int row, unsigned int col)
+bool GameBoard::Solvable()
 {
 	// Determines whether the puzzle is currently solvable
 
+	// Todo - copy
+    unsigned int row, col;
+
+    for(row = 0;row < 9;row++)
+        for(col = 0;col < 9;col++)
+        {
+            return false;
+        }
 
 	return false;
 }
@@ -220,7 +228,7 @@ void GameBoard::RemoveSquares()
 		}
 		tempVal = sq->GetVal();
 		sq->SetVal(0);
-		if(Solvable(row, col))
+		if(Solvable())
 		{
 			squareRemoved = true;
 			sq->SetShown(false);

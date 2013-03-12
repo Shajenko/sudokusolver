@@ -14,7 +14,7 @@ class GameBoard
         bool SetSquare(unsigned int val, int row, int col);
         void RemovePossibles(GameSquare * sq);
         bool GenBoard(int row, int col);
-        bool Solvable(unsigned int row, unsigned int col);
+        bool Solvable();
         void RemoveSquares();
         virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }
