@@ -102,9 +102,11 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 	for(int i=1;i<=9;i++)
 	{
 		sq->SetPossibles(i);
-		if((m_Rows[row].find(i) != m_Rows[row].end()) ||
-		   (m_Cols[col].find(i) != m_Cols[col].end()) ||
-		   (m_Sectors[sec].find(i) != m_Sectors[sec].end()))
+		if(m_Rows[row].find(i) != m_Rows[row].end())
+            sq->RemovePossibles(i);
+        if(m_Cols[col].find(i) != m_Cols[col].end())
+            sq->RemovePossibles(i);
+		if((m_Sectors[sec].find(i) != m_Sectors[sec].end()))
 			sq->RemovePossibles(i);
 	}
 
@@ -192,16 +194,15 @@ bool GameBoard::Solvable()
 {
 	// Determines whether the puzzle is currently solvable
 
-	// Todo - copy
-    unsigned int row, col;
+    bool solved;
+    GameBoard * trying = new GameBoard();
 
-    for(row = 0;row < 9;row++)
-        for(col = 0;col < 9;col++)
-        {
-            return false;
-        }
+    trying->Binit();
+    trying = this;
+    solved = trying->Solve();
 
-	return false;
+
+	return solved;
 }
 
 void GameBoard::RemoveSquares()
@@ -227,14 +228,94 @@ void GameBoard::RemoveSquares()
 			sq = &m_GameRows[row].m_square[col];
 		}
 		tempVal = sq->GetVal();
-		sq->SetVal(0);
+		SetSquare(0, row, col);
 		if(Solvable())
 		{
 			squareRemoved = true;
 			sq->SetShown(false);
 		}
 		else
-			sq->SetVal(tempVal);
+        {
+            SetSquare(tempVal, row, col);
+            return;
+        }
 	}
 
+	for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            sq = &m_GameRows[row].m_square[col];
+            if (sq->GetVal() != 0)
+            {
+               	tempVal = sq->GetVal();
+                SetSquare(0, row, col);
+                if(Solvable())
+                {
+                    squareRemoved = true;
+                    sq->SetShown(false);
+                }
+                else
+                {
+                    SetSquare(tempVal, row, col);
+                }
+            }
+        }
+    for(col=0;col<9;col++)
+        for(row=0;row<9;row++)
+        {
+            sq = &m_GameRows[row].m_square[col];
+            if (sq->GetVal() != 0)
+            {
+               	tempVal = sq->GetVal();
+                SetSquare(0, row, col);
+                if(Solvable())
+                {
+                    sq->SetShown(false);
+                }
+                else
+                {
+                    SetSquare(tempVal, row, col);
+                }
+            }
+        }
+}
+
+bool GameBoard::Solve()
+{
+    bool solSq, unknSq;
+    unsigned int row, col;
+    unsigned int numPos;
+    GameSquare * sq;
+
+    solSq = true;
+    unknSq = true;
+
+    while(solSq && unknSq)  // We solved a square and there are still square to solve
+    {
+        solSq = false;
+        unknSq = false;
+
+        for(row=0;row<9;row++)
+            for(col=0;col<9;col++)   // Check all squares
+            {
+                sq = &m_GameRows[row].m_square[col];
+                if(sq->GetVal() == 0)  //Square is unknown
+                {
+                    unknSq = true;
+                    RemovePossibles(sq);  // Figure out what is possible
+                    numPos = sq->GetNumPossibles();
+                    if(numPos == 1)   // Only one possible value
+                    {
+                        sq->SetVal(sq->GetOnlyPossible());// Set value to only possibility
+                        solSq = true;
+                    }
+                    else   // More than one possible value
+                        unknSq = true;
+                }
+            }
+    }
+    if(unknSq)
+        return false;
+    else
+        return true;
 }

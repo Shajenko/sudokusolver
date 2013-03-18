@@ -251,7 +251,6 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
 
 	mMainGB->Binit();
 	mMainGB->GenBoard(0,0);
-	mMainGB->RemoveSquares();
     for(i=0;i<9;i++)
     {
         for(j=0;j<9;j++)
@@ -259,6 +258,7 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
             mMainGB->m_GameRows[i].m_square[j].SetShown(true);
         }
     }
+	mMainGB->RemoveSquares();
     Refresh();
 
 }
