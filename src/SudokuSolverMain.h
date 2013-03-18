@@ -12,8 +12,11 @@
 
 //(*Headers(SudokuSolverFrame)
 #include <wx/sizer.h>
+#include <wx/stattext.h>
 #include <wx/menu.h>
+#include <wx/textctrl.h>
 #include <wx/panel.h>
+#include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
 //*)
@@ -25,6 +28,7 @@ class SudokuSolverFrame: public wxFrame
     public:
 
         SudokuSolverFrame(wxWindow* parent,wxWindowID id = -1);
+        void CopyToGuessBoard();
         virtual ~SudokuSolverFrame();
         void DrawBoardBackground(wxPaintDC &dc);
         void DrawBoardNumbers(wxPaintDC &dc);
@@ -39,10 +43,19 @@ class SudokuSolverFrame: public wxFrame
         void OnGameBoardPanelPaint(wxPaintEvent& event);
         void OnGameBoardPanelLeftUp(wxMouseEvent& event);
         void OnMenuNewPuzzleSelected(wxCommandEvent& event);
+        void OnButtonSolveClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
         static const long ID_PANEL2;
+        static const long ID_BUTTONREMOVE;
+        static const long ID_BUTTONREVEAL;
+        static const long ID_STATICTEXT1;
+        static const long ID_STATICTEXT2;
+        static const long ID_TEXTCTRLROW;
+        static const long ID_TEXTCTRLCOL;
+        static const long ID_BUTTON3;
+        static const long ID_PANELDEBUG;
         static const long ID_PANEL1;
         static const long idNewPuzzle;
         static const long idMenuQuit;
@@ -51,9 +64,17 @@ class SudokuSolverFrame: public wxFrame
         //*)
 
         //(*Declarations(SudokuSolverFrame)
+        wxPanel* DebugPanel;
         wxMenuItem* MenuNewPuzzle;
+        wxButton* ButtonRemove;
+        wxStaticText* StaticText2;
+        wxStaticText* StaticText1;
+        wxTextCtrl* TextCtrlRow;
+        wxButton* ButtonReveal;
+        wxTextCtrl* TextCtrlCol;
         wxStatusBar* StatusBar1;
         wxPanel* MainPanel;
+        wxButton* ButtonSolve;
         wxPanel* GameBoardPanel;
         //*)
 
