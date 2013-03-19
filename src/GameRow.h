@@ -9,6 +9,7 @@ class GameRow
     public:
         GameRow();
         GameRow operator= (const GameRow& gr);
+        void Copy(const GameRow& gr);
         void Rinit();
         void SetCol();
         virtual ~GameRow();

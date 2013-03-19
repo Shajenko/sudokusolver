@@ -26,6 +26,34 @@ GameBoard GameBoard::operator= (const GameBoard& gb)
 	return A;
 }
 
+void GameBoard::Copy(GameBoard& gb)
+{
+	unsigned int i,j,k;
+
+	for(i = 0;i < 9;i++)
+	{
+	    for(j=0;j<9;j++)
+        {
+            if(gb.m_GameRows[i].Gettaken(j))
+                this->m_GameRows[i].Settaken(j);
+            this->m_GameRows[i].m_square[j].SetVal(gb.m_GameRows[i].m_square[j].GetVal());
+            this->m_GameRows[i].m_square[j].SetShown(gb.m_GameRows[i].m_square[j].GetShown());
+            this->m_GameRows[i].m_square[j].SetCol(gb.m_GameRows[i].m_square[j].GetCol());
+            this->m_GameRows[i].m_square[j].SetRow(gb.m_GameRows[i].m_square[j].GetRow());
+            this->m_GameRows[i].m_square[j].SetSector(gb.m_GameRows[i].m_square[j].GetSector());
+            for(k=1;k<=9;k++)
+                if(gb.m_GameRows[i].m_square[j].GetPossibles(k))
+                    this->m_GameRows[i].m_square[j].SetPossibles(k);
+        }
+
+
+		this->m_Cols[i] = gb.m_Cols[i];
+		this->m_Rows[i] = gb.m_Rows[i];
+		this->m_Sectors[i] = gb.m_Sectors[i];
+	}
+
+}
+
 GameBoard::~GameBoard()
 {
     //dtor
@@ -213,6 +241,7 @@ void GameBoard::RemoveSquares()
 	bool squareRemoved = true;
 	unsigned int row, col, tempVal;
 	GameSquare * sq;
+	wxString debugStr;
 	srand (time(NULL));
 
 	while(squareRemoved)
@@ -229,13 +258,19 @@ void GameBoard::RemoveSquares()
 		}
 		tempVal = sq->GetVal();
 		SetSquare(0, row, col);
+
+		debugStr.clear();
+		debugStr << _("Checking row ") << row << _(" col ") << col;
+		//wxMessageBox(debugStr);
 		if(Solvable())
 		{
+		    //wxMessageBox(_("Solvable"));
 			squareRemoved = true;
 			sq->SetShown(false);
 		}
 		else
         {
+            //wxMessageBox(_("Not Solveable"));
             SetSquare(tempVal, row, col);
             return;
         }

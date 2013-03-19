@@ -53,6 +53,7 @@ const long SudokuSolverFrame::ID_STATICTEXT2 = wxNewId();
 const long SudokuSolverFrame::ID_TEXTCTRLROW = wxNewId();
 const long SudokuSolverFrame::ID_TEXTCTRLCOL = wxNewId();
 const long SudokuSolverFrame::ID_BUTTON3 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTONSOLVABLE = wxNewId();
 const long SudokuSolverFrame::ID_PANELDEBUG = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
 const long SudokuSolverFrame::idNewPuzzle = wxNewId();
@@ -105,6 +106,8 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     GridSizer1->Add(TextCtrlCol, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     ButtonSolve = new wxButton(DebugPanel, ID_BUTTON3, _("Solve"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
     GridSizer1->Add(ButtonSolve, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    ButtonSolvable = new wxButton(DebugPanel, ID_BUTTONSOLVABLE, _("Solvable\?"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSOLVABLE"));
+    GridSizer1->Add(ButtonSolvable, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     DebugPanel->SetSizer(GridSizer1);
     GridSizer1->Fit(DebugPanel);
     GridSizer1->SetSizeHints(DebugPanel);
@@ -137,7 +140,10 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 
     GameBoardPanel->Connect(wxEVT_PAINT,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelPaint,0,this);
     GameBoardPanel->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelLeftUp,0,this);
+    Connect(ID_BUTTONREMOVE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRemoveClick);
+    Connect(ID_BUTTONREVEAL,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRevealClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolveClick);
+    Connect(ID_BUTTONSOLVABLE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolvableClick);
     Connect(idNewPuzzle,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnMenuNewPuzzleSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
@@ -147,14 +153,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 
 void SudokuSolverFrame::CopyToGuessBoard()
 {
-    unsigned int row, col;
-
-    mGuessGB = mMainGB;
-    for(row=0;row<9;row++)
-        for(col=0;col<9;col++)
-        {
-
-        }
+    mGuessGB->Copy(*mMainGB);
 }
 
 
@@ -304,7 +303,8 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
             mMainGB->m_GameRows[i].m_square[j].SetShown(true);
         }
     }
-	mGuessGB = mMainGB;
+	CopyToGuessBoard();
+	Refresh();
 	mGuessGB->RemoveSquares();
     Refresh();
 
@@ -314,4 +314,42 @@ void SudokuSolverFrame::OnButtonSolveClick(wxCommandEvent& event)
 {
     mGuessGB->Solve();
     Refresh();
+}
+
+void SudokuSolverFrame::OnButtonRemoveClick(wxCommandEvent& event)
+{
+    long row, col;
+    wxString txtCtrlVal;
+
+    txtCtrlVal = TextCtrlRow->GetValue();
+    txtCtrlVal.ToLong(&row);
+    txtCtrlVal = TextCtrlCol->GetValue();
+    txtCtrlVal.ToLong(&col);
+    mGuessGB->SetSquare(0, row, col);
+    mGuessGB->m_GameRows[row].m_square[col].SetShown(false);
+    Refresh();
+}
+
+void SudokuSolverFrame::OnButtonRevealClick(wxCommandEvent& event)
+{
+    long row, col;
+    unsigned int val;
+    wxString txtCtrlVal;
+
+    txtCtrlVal = TextCtrlRow->GetValue();
+    txtCtrlVal.ToLong(&row);
+    txtCtrlVal = TextCtrlCol->GetValue();
+    txtCtrlVal.ToLong(&col);
+    val = mMainGB->m_GameRows[row].m_square[col].GetVal();
+    mGuessGB->m_GameRows[row].m_square[col].SetVal(val);
+    mGuessGB->m_GameRows[row].m_square[col].SetShown(true);
+    Refresh();
+}
+
+void SudokuSolverFrame::OnButtonSolvableClick(wxCommandEvent& event)
+{
+    if(mGuessGB->Solvable())
+        wxMessageBox(_("Solvable!"));
+    else
+        wxMessageBox(_("Not Solvable!"));
 }

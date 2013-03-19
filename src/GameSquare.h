@@ -9,6 +9,7 @@ class GameSquare
     public:
         GameSquare();
         GameSquare operator= (const GameSquare& gs);
+        void Copy(const GameSquare& gs);
         void Sinit();
         virtual ~GameSquare();
         unsigned int GetVal() { return m_Val; }

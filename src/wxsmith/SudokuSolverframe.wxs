@@ -25,6 +25,7 @@
 									<object class="sizeritem">
 										<object class="wxButton" name="ID_BUTTONREMOVE" variable="ButtonRemove" member="yes">
 											<label>Remove Square</label>
+											<handler function="OnButtonRemoveClick" entry="EVT_BUTTON" />
 										</object>
 										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>
@@ -33,6 +34,7 @@
 									<object class="sizeritem">
 										<object class="wxButton" name="ID_BUTTONREVEAL" variable="ButtonReveal" member="yes">
 											<label>Reveal Square</label>
+											<handler function="OnButtonRevealClick" entry="EVT_BUTTON" />
 										</object>
 										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>
@@ -76,6 +78,15 @@
 										<object class="wxButton" name="ID_BUTTON3" variable="ButtonSolve" member="yes">
 											<label>Solve</label>
 											<handler function="OnButtonSolveClick" entry="EVT_BUTTON" />
+										</object>
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="sizeritem">
+										<object class="wxButton" name="ID_BUTTONSOLVABLE" variable="ButtonSolvable" member="yes">
+											<label>Solvable?</label>
+											<handler function="OnButtonSolvableClick" entry="EVT_BUTTON" />
 										</object>
 										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 										<border>5</border>

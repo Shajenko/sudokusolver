@@ -19,6 +19,16 @@ GameSquare GameSquare::operator= (const GameSquare& gs)
 	return A;
 }
 
+void GameSquare::Copy(const GameSquare& gs)
+{
+	this->m_Val = gs.m_Val;
+	this->m_Col = gs.m_Col;
+	this->m_Row = gs.m_Row;
+	this->m_Sector = gs.m_Sector;
+	this->m_Shown = gs.m_Shown;
+	this->m_Possibles = gs.m_Possibles;
+}
+
 GameSquare::~GameSquare()
 {
     //dtor

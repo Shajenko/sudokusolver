@@ -10,6 +10,7 @@ class GameBoard
     public:
         GameBoard();
 		GameBoard operator= (const GameBoard& gb);
+		void Copy(GameBoard& gb);
         void Binit();
         bool SetSquare(unsigned int val, int row, int col);
         void RemovePossibles(GameSquare * sq);

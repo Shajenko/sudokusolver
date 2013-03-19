@@ -44,6 +44,9 @@ class SudokuSolverFrame: public wxFrame
         void OnGameBoardPanelLeftUp(wxMouseEvent& event);
         void OnMenuNewPuzzleSelected(wxCommandEvent& event);
         void OnButtonSolveClick(wxCommandEvent& event);
+        void OnButtonRemoveClick(wxCommandEvent& event);
+        void OnButtonRevealClick(wxCommandEvent& event);
+        void OnButtonSolvableClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
@@ -55,6 +58,7 @@ class SudokuSolverFrame: public wxFrame
         static const long ID_TEXTCTRLROW;
         static const long ID_TEXTCTRLCOL;
         static const long ID_BUTTON3;
+        static const long ID_BUTTONSOLVABLE;
         static const long ID_PANELDEBUG;
         static const long ID_PANEL1;
         static const long idNewPuzzle;
@@ -70,6 +74,7 @@ class SudokuSolverFrame: public wxFrame
         wxStaticText* StaticText2;
         wxStaticText* StaticText1;
         wxTextCtrl* TextCtrlRow;
+        wxButton* ButtonSolvable;
         wxButton* ButtonReveal;
         wxTextCtrl* TextCtrlCol;
         wxStatusBar* StatusBar1;

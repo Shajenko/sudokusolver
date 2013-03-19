@@ -7,18 +7,31 @@ GameRow::GameRow()
 
 GameRow GameRow::operator= (const GameRow& gr)
 {
-	GameRow A;
 	unsigned int i;
+	GameRow A;
 
 	A.m_taken.clear();
 	for(i=1;i<=9;i++)
 	{
 		if(gr.m_taken.find(i) != gr.m_taken.end())
-			A.m_taken.insert(i);
+			this->m_taken.insert(i);
 		A.m_square[i] = gr.m_square[i];
 	}
 
 	return A;
+}
+
+void GameRow::Copy(const GameRow& gr)
+{
+    unsigned int i;
+
+	this->m_taken.clear();
+	for(i=1;i<=9;i++)
+	{
+		if(gr.m_taken.find(i) != gr.m_taken.end())
+			this->m_taken.insert(i);
+		this->m_square[i].Copy(gr.m_square[i]);
+	}
 }
 
 GameRow::~GameRow()
