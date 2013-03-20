@@ -54,6 +54,7 @@ const long SudokuSolverFrame::ID_TEXTCTRLROW = wxNewId();
 const long SudokuSolverFrame::ID_TEXTCTRLCOL = wxNewId();
 const long SudokuSolverFrame::ID_BUTTON3 = wxNewId();
 const long SudokuSolverFrame::ID_BUTTONSOLVABLE = wxNewId();
+const long SudokuSolverFrame::ID_BUTTONSTRIPEASY = wxNewId();
 const long SudokuSolverFrame::ID_PANELDEBUG = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
 const long SudokuSolverFrame::idNewPuzzle = wxNewId();
@@ -108,6 +109,8 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     GridSizer1->Add(ButtonSolve, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     ButtonSolvable = new wxButton(DebugPanel, ID_BUTTONSOLVABLE, _("Solvable\?"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSOLVABLE"));
     GridSizer1->Add(ButtonSolvable, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    ButtonStripEasy = new wxButton(DebugPanel, ID_BUTTONSTRIPEASY, _("Strip Layer (Easy)"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSTRIPEASY"));
+    GridSizer1->Add(ButtonStripEasy, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     DebugPanel->SetSizer(GridSizer1);
     GridSizer1->Fit(DebugPanel);
     GridSizer1->SetSizeHints(DebugPanel);
@@ -144,6 +147,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTONREVEAL,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRevealClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolveClick);
     Connect(ID_BUTTONSOLVABLE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolvableClick);
+    Connect(ID_BUTTONSTRIPEASY,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonStripEasyClick);
     Connect(idNewPuzzle,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnMenuNewPuzzleSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
@@ -241,6 +245,8 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
     unsigned int smallSide;
     unsigned int i,j, pVal;
     wxString debugString;
+    wxColour redC, greenC, blackC;
+    GameSquare * sq;
 
     wxSize sz = GameBoardPanel->GetClientSize();
     if (sz.x < sz.y)
@@ -255,21 +261,34 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
     //   not italic, and not underlined.
     dc.SetPen(*wxBLACK_PEN );
     wxFont BigFont(spSq/2,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
+
     // Tell dc to use this font
     dc.SetFont(BigFont);
+    redC.Set(200,0,0);
+    greenC.Set(0,200,0);
+    blackC.Set(0,0,0);
 
     for(i=0;i < 9;i++)
     {
         for(j=0;j<9;j++)
         {
-            if (mGuessGB->m_GameRows[i].m_square[j].GetShown())
+            sq = &mGuessGB->m_GameRows[i].m_square[j];
+            if (sq->GetVal() != 0) // Show if there's a value
             {
                 debugString.Clear();
                 debugString << _("i = ") << i << _(" j = ") << j;
                 debugString << _("\nVal = ") << mGuessGB->m_GameRows[i].m_square[j].GetVal();
                 //wxMessageBox(debugString);
+
                 pVal = 0;
-                pVal = mGuessGB->m_GameRows[i].m_square[j].GetVal();
+                pVal = sq->GetVal();
+                if(sq->GetShown())
+                    dc.SetTextForeground(blackC);
+                else if(sq->GetVal() == mMainGB->m_GameRows[i].m_square[j].GetVal())
+                    dc.SetTextForeground(greenC);
+                else
+                    dc.SetTextForeground(redC);
+
                 wxString pString;
                 pString << pVal;
                 dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq), spSq / 6 + ((i) * spSq));
@@ -326,7 +345,6 @@ void SudokuSolverFrame::OnButtonRemoveClick(wxCommandEvent& event)
     txtCtrlVal = TextCtrlCol->GetValue();
     txtCtrlVal.ToLong(&col);
     mGuessGB->SetSquare(0, row, col);
-    mGuessGB->m_GameRows[row].m_square[col].SetShown(false);
     Refresh();
 }
 
@@ -342,7 +360,6 @@ void SudokuSolverFrame::OnButtonRevealClick(wxCommandEvent& event)
     txtCtrlVal.ToLong(&col);
     val = mMainGB->m_GameRows[row].m_square[col].GetVal();
     mGuessGB->m_GameRows[row].m_square[col].SetVal(val);
-    mGuessGB->m_GameRows[row].m_square[col].SetShown(true);
     Refresh();
 }
 
@@ -352,4 +369,18 @@ void SudokuSolverFrame::OnButtonSolvableClick(wxCommandEvent& event)
         wxMessageBox(_("Solvable!"));
     else
         wxMessageBox(_("Not Solvable!"));
+}
+
+
+
+void SudokuSolverFrame::OnButtonStripEasyClick(wxCommandEvent& event)
+{
+    bool removeSq;
+
+    removeSq = mGuessGB->RemoveLayerEasy();
+    if(removeSq)
+        wxMessageBox(_("Removed a layer"));
+    else
+        wxMessageBox(_("Did not remove a layer"));
+    Refresh();
 }

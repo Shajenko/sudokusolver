@@ -226,8 +226,9 @@ bool GameBoard::Solvable()
     GameBoard * trying = new GameBoard();
 
     trying->Binit();
-    trying = this;
+    trying->Copy(*this);
     solved = trying->Solve();
+    delete trying;
 
 
 	return solved;
@@ -237,47 +238,30 @@ void GameBoard::RemoveSquares()
 {
 
 	// Removes squares from the visible list until the minimum number of squares remains
-	//   for the puzzle to remain solvable
+	//   for the puzzle to remain solvable - in theory
+
 	bool squareRemoved = true;
+
+    squareRemoved = true;
+    ResetCols();
+    ResetRows();
+    ResetSectors();
+    while(squareRemoved)
+    {
+        squareRemoved = RemoveLayerEasy();
+    }
+}
+
+bool GameBoard::RemoveLayerEasy()
+{
+    // Checks all squares and removes those that leave the board in a solvable state
+    bool squareRemoved = false;
 	unsigned int row, col, tempVal;
 	GameSquare * sq;
-	wxString debugStr;
-	srand (time(NULL));
 
-	while(squareRemoved)
-	{
-		squareRemoved = false;
-		row = rand() % 9;
-		col = rand() % 9;
-		sq = &m_GameRows[row].m_square[col];
-		while (sq->GetVal() == 0)
-		{
-			row = rand() % 9;
-			col = rand() % 9;
-			sq = &m_GameRows[row].m_square[col];
-		}
-		tempVal = sq->GetVal();
-		SetSquare(0, row, col);
 
-		debugStr.clear();
-		debugStr << _("Checking row ") << row << _(" col ") << col;
-		//wxMessageBox(debugStr);
-		if(Solvable())
-		{
-		    //wxMessageBox(_("Solvable"));
-			squareRemoved = true;
-			sq->SetShown(false);
-		}
-		else
-        {
-            //wxMessageBox(_("Not Solveable"));
-            SetSquare(tempVal, row, col);
-            return;
-        }
-	}
-
-	for(row=0;row<9;row++)
-        for(col=0;col<9;col++)
+    for(col=0;col<9;col++)
+        for(row=0;row<9;row++)
         {
             sq = &m_GameRows[row].m_square[col];
             if (sq->GetVal() != 0)
@@ -295,24 +279,7 @@ void GameBoard::RemoveSquares()
                 }
             }
         }
-    for(col=0;col<9;col++)
-        for(row=0;row<9;row++)
-        {
-            sq = &m_GameRows[row].m_square[col];
-            if (sq->GetVal() != 0)
-            {
-               	tempVal = sq->GetVal();
-                SetSquare(0, row, col);
-                if(Solvable())
-                {
-                    sq->SetShown(false);
-                }
-                else
-                {
-                    SetSquare(tempVal, row, col);
-                }
-            }
-        }
+    return squareRemoved;
 }
 
 bool GameBoard::Solve()
@@ -353,4 +320,71 @@ bool GameBoard::Solve()
         return false;
     else
         return true;
+}
+
+void GameBoard::ResetRows()
+{
+    unsigned int row, col;
+    GameSquare * sq;
+
+    // Add all elements back
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            m_Rows[row].insert(col+1);
+        }
+
+    // Remove the values that are in each of the rows
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            sq = &m_GameRows[row].m_square[col];
+            if(sq->GetVal() > 0)
+                m_Rows[row].erase(sq->GetVal());
+        }
+}
+
+void GameBoard::ResetCols()
+{
+    unsigned int row, col;
+    GameSquare * sq;
+
+    // Add all elements back
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            m_Cols[col].insert(row+1);
+        }
+
+    // Remove the values that are in each of the rows
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            sq = &m_GameRows[row].m_square[col];
+            if(sq->GetVal() > 0)
+                m_Cols[col].erase(sq->GetVal());
+        }
+}
+
+void GameBoard::ResetSectors()
+{
+    unsigned int row, col, sec;
+    GameSquare * sq;
+
+    // Add all elements back
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            m_Sectors[row].insert(col+1);
+        }
+
+    // Remove the values that are in each of the rows
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            sq = &m_GameRows[row].m_square[col];
+            sec = sq->GetSector();
+            if(sq->GetVal() > 0)
+                m_Sectors[sec].erase(sq->GetVal());
+        }
 }

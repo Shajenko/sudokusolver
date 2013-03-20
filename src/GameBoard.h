@@ -17,6 +17,7 @@ class GameBoard
         bool GenBoard(int row, int col);
         bool Solvable();
         void RemoveSquares();
+        bool RemoveLayerEasy();
         bool Solve();
         virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }
@@ -25,6 +26,9 @@ class GameBoard
         void SetCols(int col, unsigned int val) { m_Cols[col].insert(val); }
         unsigned int GetSectors(int sec, int val) { if(m_Sectors[sec].find(val) != m_Sectors[sec].end()) return true; else return false;}
         void SetSectors(int sec, unsigned int val) { m_Sectors[sec].insert(val); }
+        void ResetRows();
+        void ResetCols();
+        void ResetSectors();
         GameRow m_GameRows[9];
     protected:
     private:
