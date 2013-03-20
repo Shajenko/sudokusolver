@@ -23,6 +23,8 @@
 
 #include "GameBoard.h"
 
+enum Controls { SET, NOTE, CLEAR};
+
 class SudokuSolverFrame: public wxFrame
 {
     public:
@@ -54,6 +56,8 @@ class SudokuSolverFrame: public wxFrame
         void OnButtonRevealClick(wxCommandEvent& event);
         void OnButtonSolvableClick(wxCommandEvent& event);
         void OnButtonStripEasyClick(wxCommandEvent& event);
+        void OnButtonSetClick(wxCommandEvent& event);
+        void OnButtonNoteClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
@@ -80,7 +84,7 @@ class SudokuSolverFrame: public wxFrame
         static const long ID_BUTTON11;
         static const long ID_BUTTON12;
         static const long ID_BUTTON13;
-        static const long ID_PANEL3;
+        static const long ID_PANELCONTROL;
         static const long ID_PANEL1;
         static const long idNewPuzzle;
         static const long idMenuQuit;
@@ -90,6 +94,7 @@ class SudokuSolverFrame: public wxFrame
 
         //(*Declarations(SudokuSolverFrame)
         wxPanel* DebugPanel;
+        wxPanel* ControlPanel;
         wxButton* Button4;
         wxMenuItem* MenuNewPuzzle;
         wxButton* ButtonRemove;
@@ -97,7 +102,6 @@ class SudokuSolverFrame: public wxFrame
         wxStaticText* StaticText2;
         wxButton* Button1;
         wxButton* ButtonSet;
-        wxPanel* Panel1;
         wxStaticText* StaticText1;
         wxButton* ButtonClear;
         wxTextCtrl* TextCtrlRow;
@@ -122,6 +126,7 @@ class SudokuSolverFrame: public wxFrame
         GameBoard * mGuessGB;
         unsigned int numSelect;
         unsigned int row, col;
+        Controls ctrlSelect;
 
         DECLARE_EVENT_TABLE()
 };
