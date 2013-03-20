@@ -32,6 +32,12 @@ class SudokuSolverFrame: public wxFrame
         virtual ~SudokuSolverFrame();
         void DrawBoardBackground(wxPaintDC &dc);
         void DrawBoardNumbers(wxPaintDC &dc);
+        void SetRow(unsigned int val) { row = val;}
+        void SetCol(unsigned int val) { col = val;}
+        void SetNumSelect(unsigned int val) {numSelect = val;}
+        unsigned int GetRow() { return row;}
+        unsigned int GetCol() { return col;}
+        unsigned int GetNumSelect() {return numSelect;}
 
     private:
 
@@ -62,6 +68,19 @@ class SudokuSolverFrame: public wxFrame
         static const long ID_BUTTONSOLVABLE;
         static const long ID_BUTTONSTRIPEASY;
         static const long ID_PANELDEBUG;
+        static const long ID_BUTTON1;
+        static const long ID_BUTTON2;
+        static const long ID_BUTTON4;
+        static const long ID_BUTTON5;
+        static const long ID_BUTTON6;
+        static const long ID_BUTTON7;
+        static const long ID_BUTTON8;
+        static const long ID_BUTTON9;
+        static const long ID_BUTTON10;
+        static const long ID_BUTTON11;
+        static const long ID_BUTTON12;
+        static const long ID_BUTTON13;
+        static const long ID_PANEL3;
         static const long ID_PANEL1;
         static const long idNewPuzzle;
         static const long idMenuQuit;
@@ -71,23 +90,38 @@ class SudokuSolverFrame: public wxFrame
 
         //(*Declarations(SudokuSolverFrame)
         wxPanel* DebugPanel;
+        wxButton* Button4;
         wxMenuItem* MenuNewPuzzle;
         wxButton* ButtonRemove;
+        wxButton* ButtonNote;
         wxStaticText* StaticText2;
+        wxButton* Button1;
+        wxButton* ButtonSet;
+        wxPanel* Panel1;
         wxStaticText* StaticText1;
+        wxButton* ButtonClear;
         wxTextCtrl* TextCtrlRow;
+        wxButton* Button2;
+        wxButton* Button6;
+        wxButton* Button5;
         wxButton* ButtonSolvable;
         wxButton* ButtonReveal;
+        wxButton* Button3;
         wxTextCtrl* TextCtrlCol;
+        wxButton* Button7;
         wxButton* ButtonStripEasy;
         wxStatusBar* StatusBar1;
+        wxButton* Button9;
         wxPanel* MainPanel;
         wxButton* ButtonSolve;
         wxPanel* GameBoardPanel;
+        wxButton* Button8;
         //*)
 
         GameBoard * mMainGB;
         GameBoard * mGuessGB;
+        unsigned int numSelect;
+        unsigned int row, col;
 
         DECLARE_EVENT_TABLE()
 };

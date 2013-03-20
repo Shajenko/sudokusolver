@@ -236,23 +236,32 @@ bool GameBoard::Solvable()
 
 void GameBoard::RemoveSquares()
 {
-
-	// Removes squares from the visible list until the minimum number of squares remains
+    // Removes squares from the visible list until the minimum number of squares remains
 	//   for the puzzle to remain solvable - in theory
+
+    unsigned int row, col;
+    std::set<unsigned int> setSqs;
 
 	bool squareRemoved = true;
 
-    squareRemoved = true;
+    setSqs.clear();
+
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+        {
+            setSqs.insert(row + col * 9);
+        }
+
     ResetCols();
     ResetRows();
     ResetSectors();
     while(squareRemoved)
     {
-        squareRemoved = RemoveLayerEasy();
+        squareRemoved = RemoveLayerEasy(setSqs);
     }
 }
 
-bool GameBoard::RemoveLayerEasy()
+bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs)
 {
     // Checks all squares and removes those that leave the board in a solvable state
     bool squareRemoved = false;
@@ -260,8 +269,40 @@ bool GameBoard::RemoveLayerEasy()
 	GameSquare * sq;
 
 
-    for(col=0;col<9;col++)
-        for(row=0;row<9;row++)
+    for(std::set<unsigned int>::iterator it=setSqs.begin(); it!=setSqs.end(); ++it)
+    {
+        row = *it % 9;
+        col = *it / 9;
+        sq = &m_GameRows[row].m_square[col];
+        if (sq->GetVal() != 0)
+        {
+            tempVal = sq->GetVal();
+            SetSquare(0, row, col);
+            if(Solvable())
+            {
+                squareRemoved = true;
+                sq->SetShown(false);
+                setSqs.erase(*it);
+            }
+            else
+            {
+                SetSquare(tempVal, row, col);
+            }
+        }
+    }
+    return squareRemoved;
+}
+
+bool GameBoard::RemoveLayerEasy()
+{
+        // Checks all squares and removes those that leave the board in a solvable state
+    bool squareRemoved = false;
+	unsigned int row, col, tempVal;
+	GameSquare * sq;
+
+
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
         {
             sq = &m_GameRows[row].m_square[col];
             if (sq->GetVal() != 0)
@@ -288,33 +329,42 @@ bool GameBoard::Solve()
     unsigned int row, col;
     unsigned int numPos;
     GameSquare * sq;
+    std::set<unsigned int> remSqs;
 
     solSq = true;
     unknSq = true;
+    remSqs.clear();
+
+    for(row=0;row<9;row++)
+        for(col=0;col<9;col++)
+            if(m_GameRows[row].m_square[col].GetVal() == 0)
+                remSqs.insert(row + col * 9);
 
     while(solSq && unknSq)  // We solved a square and there are still square to solve
     {
         solSq = false;
         unknSq = false;
 
-        for(row=0;row<9;row++)
-            for(col=0;col<9;col++)   // Check all squares
+        for(std::set<unsigned int>::iterator it=remSqs.begin(); it!=remSqs.end(); ++it)
+        {
+            row = *it % 9;
+            col = *it / 9;
+            sq = &m_GameRows[row].m_square[col];
+            if(sq->GetVal() == 0)  //Square is unknown
             {
-                sq = &m_GameRows[row].m_square[col];
-                if(sq->GetVal() == 0)  //Square is unknown
+                unknSq = true;
+                RemovePossibles(sq);  // Figure out what is possible
+                numPos = sq->GetNumPossibles();
+                if(numPos == 1)   // Only one possible value
                 {
-                    unknSq = true;
-                    RemovePossibles(sq);  // Figure out what is possible
-                    numPos = sq->GetNumPossibles();
-                    if(numPos == 1)   // Only one possible value
-                    {
-                        sq->SetVal(sq->GetOnlyPossible());// Set value to only possibility
-                        solSq = true;
-                    }
-                    else   // More than one possible value
-                        unknSq = true;
+                    sq->SetVal(sq->GetOnlyPossible());// Set value to only possibility
+                    solSq = true;
+                    remSqs.erase(*it);
                 }
+                else   // More than one possible value
+                    unknSq = true;
             }
+        }
     }
     if(unknSq)
         return false;

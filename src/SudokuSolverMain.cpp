@@ -56,6 +56,19 @@ const long SudokuSolverFrame::ID_BUTTON3 = wxNewId();
 const long SudokuSolverFrame::ID_BUTTONSOLVABLE = wxNewId();
 const long SudokuSolverFrame::ID_BUTTONSTRIPEASY = wxNewId();
 const long SudokuSolverFrame::ID_PANELDEBUG = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON1 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON2 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON4 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON5 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON6 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON7 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON8 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON9 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON10 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON11 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON12 = wxNewId();
+const long SudokuSolverFrame::ID_BUTTON13 = wxNewId();
+const long SudokuSolverFrame::ID_PANEL3 = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
 const long SudokuSolverFrame::idNewPuzzle = wxNewId();
 const long SudokuSolverFrame::idMenuQuit = wxNewId();
@@ -72,8 +85,12 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 {
     mMainGB = new GameBoard();
     mGuessGB = new GameBoard();
+    row = 9;
+    col = 9;
 
     //(*Initialize(SudokuSolverFrame)
+    wxBoxSizer* BoxSizer4;
+    wxBoxSizer* BoxSizer5;
     wxMenuItem* MenuItem2;
     wxMenuItem* MenuItem1;
     wxBoxSizer* BoxSizer2;
@@ -81,12 +98,13 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     wxGridSizer* GridSizer1;
     wxBoxSizer* BoxSizer1;
     wxMenuBar* MenuBar1;
+    wxBoxSizer* BoxSizer3;
     wxMenu* Menu2;
 
-    Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE, _T("id"));
+    Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE, _T("wxID_ANY"));
     BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
     MainPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-    BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    BoxSizer2 = new wxBoxSizer(wxVERTICAL);
     GameBoardPanel = new wxPanel(MainPanel, ID_PANEL2, wxDefaultPosition, wxSize(600,800), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("ID_PANEL2"));
     BoxSizer2->Add(GameBoardPanel, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     DebugPanel = new wxPanel(MainPanel, ID_PANELDEBUG, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANELDEBUG"));
@@ -115,6 +133,42 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     GridSizer1->Fit(DebugPanel);
     GridSizer1->SetSizeHints(DebugPanel);
     BoxSizer2->Add(DebugPanel, 0, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 0);
+    Panel1 = new wxPanel(MainPanel, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
+    BoxSizer3 = new wxBoxSizer(wxVERTICAL);
+    BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
+    Button1 = new wxButton(Panel1, ID_BUTTON1, _("1"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    BoxSizer4->Add(Button1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button2 = new wxButton(Panel1, ID_BUTTON2, _("2"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    BoxSizer4->Add(Button2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button3 = new wxButton(Panel1, ID_BUTTON4, _("3"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON4"));
+    BoxSizer4->Add(Button3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button4 = new wxButton(Panel1, ID_BUTTON5, _("4"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON5"));
+    BoxSizer4->Add(Button4, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button5 = new wxButton(Panel1, ID_BUTTON6, _("5"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON6"));
+    BoxSizer4->Add(Button5, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button6 = new wxButton(Panel1, ID_BUTTON7, _("6"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON7"));
+    BoxSizer4->Add(Button6, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button7 = new wxButton(Panel1, ID_BUTTON8, _("7"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON8"));
+    BoxSizer4->Add(Button7, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button8 = new wxButton(Panel1, ID_BUTTON9, _("8"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON9"));
+    BoxSizer4->Add(Button8, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button9 = new wxButton(Panel1, ID_BUTTON10, _("9"), wxDefaultPosition, wxSize(35,25), 0, wxDefaultValidator, _T("ID_BUTTON10"));
+    Button9->SetMinSize(wxSize(30,25));
+    Button9->SetMaxSize(wxSize(30,25));
+    BoxSizer4->Add(Button9, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer3->Add(BoxSizer4, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
+    ButtonSet = new wxButton(Panel1, ID_BUTTON11, _("Set"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON11"));
+    BoxSizer5->Add(ButtonSet, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    ButtonNote = new wxButton(Panel1, ID_BUTTON12, _("Note"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON12"));
+    BoxSizer5->Add(ButtonNote, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    ButtonClear = new wxButton(Panel1, ID_BUTTON13, _("Clear"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON13"));
+    BoxSizer5->Add(ButtonClear, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer3->Add(BoxSizer5, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Panel1->SetSizer(BoxSizer3);
+    BoxSizer3->Fit(Panel1);
+    BoxSizer3->SetSizeHints(Panel1);
+    BoxSizer2->Add(Panel1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     MainPanel->SetSizer(BoxSizer2);
     BoxSizer2->Fit(MainPanel);
     BoxSizer2->SetSizeHints(MainPanel);
@@ -218,6 +272,10 @@ void SudokuSolverFrame::DrawBoardBackground(wxPaintDC &dc)
     for(i=0;i<9;i++)
         for(j=0;j<9;j++)
         {
+            if(i == col && j == row)
+                dc.SetBrush(*wxBLUE_BRUSH);
+            else
+                dc.SetBrush(*wxLIGHT_GREY_BRUSH);
             dc.DrawRectangle( 0 + spSq*i, 0 + spSq*j, spSq - 5, spSq - 5 );
         }
 
@@ -301,10 +359,30 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
 void SudokuSolverFrame::OnGameBoardPanelLeftUp(wxMouseEvent& event)
 {
 	long xpos, ypos;
+	unsigned int row, col;
 	wxString pString;
+	unsigned int spSq = 0;
+    unsigned int smallSide;
+
+    event.GetPosition(&xpos, &ypos);
+
+    wxSize sz = GameBoardPanel->GetClientSize();
+    if (sz.x < sz.y)
+        smallSide = sz.x;
+    else
+        smallSide = sz.y;
+
+    spSq = smallSide / 9;
+    row = ypos / spSq;
+    col = xpos / spSq;
+
 	event.GetPosition(&xpos, &ypos);
-	pString << _("XPos = ") << xpos << _(" YPos = ") << ypos;
-	wxMessageBox(pString);
+	/*pString << _("Row ") << row << _(" Col ") << col;
+	wxMessageBox(pString);*/
+
+	SetRow(row);
+	SetCol(col);
+
 
 	Refresh();
 }
@@ -384,3 +462,4 @@ void SudokuSolverFrame::OnButtonStripEasyClick(wxCommandEvent& event)
         wxMessageBox(_("Did not remove a layer"));
     Refresh();
 }
+

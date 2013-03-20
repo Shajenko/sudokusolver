@@ -17,6 +17,7 @@ class GameBoard
         bool GenBoard(int row, int col);
         bool Solvable();
         void RemoveSquares();
+        bool RemoveLayerEasy(std::set<unsigned int> &setSqs);
         bool RemoveLayerEasy();
         bool Solve();
         virtual ~GameBoard();
