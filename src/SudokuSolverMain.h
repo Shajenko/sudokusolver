@@ -58,6 +58,7 @@ class SudokuSolverFrame: public wxFrame
         void OnButtonStripEasyClick(wxCommandEvent& event);
         void OnButtonSetClick(wxCommandEvent& event);
         void OnButtonNoteClick(wxCommandEvent& event);
+        void OnButtonNumClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
@@ -127,6 +128,7 @@ class SudokuSolverFrame: public wxFrame
         unsigned int numSelect;
         unsigned int row, col;
         Controls ctrlSelect;
+        wxButton * numButtons[9];
 
         DECLARE_EVENT_TABLE()
 };

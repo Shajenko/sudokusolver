@@ -202,6 +202,15 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolveClick);
     Connect(ID_BUTTONSOLVABLE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolvableClick);
     Connect(ID_BUTTONSTRIPEASY,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonStripEasyClick);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON8,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON9,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
+    Connect(ID_BUTTON10,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
     Connect(ID_BUTTON11,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSetClick);
     Connect(ID_BUTTON12,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNoteClick);
     Connect(idNewPuzzle,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnMenuNewPuzzleSelected);
@@ -209,6 +218,17 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&SudokuSolverFrame::OnClose);
     //*)
+
+    numButtons[0] = Button1;
+    numButtons[1] = Button2;
+    numButtons[2] = Button3;
+    numButtons[3] = Button4;
+    numButtons[4] = Button5;
+    numButtons[5] = Button6;
+    numButtons[6] = Button7;
+    numButtons[7] = Button8;
+    numButtons[8] = Button9;
+
 }
 
 void SudokuSolverFrame::CopyToGuessBoard()
@@ -470,9 +490,9 @@ void SudokuSolverFrame::OnButtonSetClick(wxCommandEvent& event)
 {
     ButtonSet->SetBackgroundColour(*wxBLUE);
     ButtonSet->SetForegroundColour(*wxWHITE);
-    ButtonNote->SetBackgroundColour(*wxLIGHT_GREY);
+    ButtonNote->SetBackgroundColour(wxNullColour);
     ButtonNote->SetForegroundColour(*wxBLACK);
-    ButtonClear->SetBackgroundColour(*wxLIGHT_GREY);
+    ButtonClear->SetBackgroundColour(wxNullColour);
     ButtonClear->SetForegroundColour(*wxBLACK);
 
     ctrlSelect = SET;
@@ -480,11 +500,31 @@ void SudokuSolverFrame::OnButtonSetClick(wxCommandEvent& event)
 
 void SudokuSolverFrame::OnButtonNoteClick(wxCommandEvent& event)
 {
-    ButtonSet->SetBackgroundColour(*wxLIGHT_GREY);
+    wxColour colorDef;
+
+    colorDef.Set(240,240,240);
+
+    ButtonSet->SetBackgroundColour(wxNullColour);
     ButtonNote->SetBackgroundColour(*wxBLUE);
     ButtonSet->SetForegroundColour(*wxBLACK);
     ButtonNote->SetForegroundColour(*wxWHITE);
-    ButtonClear->SetBackgroundColour(*wxLIGHT_GREY);
+    ButtonClear->SetBackgroundColour(wxNullColour);
+    ButtonSet->SetForegroundColour(*wxBLACK);
 
     ctrlSelect = NOTE;
+}
+
+void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
+{
+    unsigned int i;
+    wxString defaultStr;
+
+    defaultStr.clear();
+    for(i=0;i<9;i++)
+        if(numButtons[i]->GetId() == event.GetId())
+        {
+            defaultStr << _("Button ID ") << i+1 << _("\n");
+        }
+    wxMessageBox(defaultStr);
+
 }
