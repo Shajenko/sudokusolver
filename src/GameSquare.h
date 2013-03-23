@@ -16,10 +16,11 @@ class GameSquare
         void SetVal(unsigned int val) { m_Val = val;}
         bool GetShown() { return m_Shown; }
         void SetShown(bool val) { m_Shown = val; }
-        unsigned int GetPossibles(unsigned int val) { if(m_Possibles.find(val) != m_Possibles.end()) return true; else return false;}
+        bool GetPossibles(unsigned int val) { if(m_Possibles.find(val) != m_Possibles.end()) return true; else return false;}
         unsigned int GetNumPossibles() {return m_Possibles.size(); }
         unsigned int GetOnlyPossible() {if(m_Possibles.size() > 1) return 0; else return *m_Possibles.begin(); }
         void RemovePossibles(unsigned int val) {m_Possibles.erase(val); }
+        void ClearPossibles() {m_Possibles.clear(); }
         void SetPossibles(unsigned int val) { m_Possibles.insert(val); }
         unsigned int GetSector() { return m_Sector; }
         void SetSector(unsigned int val) { m_Sector = val; }

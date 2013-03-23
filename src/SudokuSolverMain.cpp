@@ -85,6 +85,9 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
 {
     mMainGB = new GameBoard();
     mGuessGB = new GameBoard();
+    for(int i=0;i<9;i++)
+        for(int j=0;j<9;j++)
+            mGuessGB->m_GameRows[i].m_square[j].ClearPossibles();
     row = 9;
     col = 9;
 
@@ -276,6 +279,12 @@ void SudokuSolverFrame::DrawBoardBackground(wxPaintDC &dc)
     unsigned int smallSide;
     unsigned int i,j;
 
+    wxColour LGray;
+    wxBrush LGrayBr;
+
+    LGray.Set(210,210,210);
+    LGrayBr.SetColour(LGray);
+
     wxSize sz = GameBoardPanel->GetClientSize();
     if (sz.x < sz.y)
         smallSide = sz.x;
@@ -286,7 +295,7 @@ void SudokuSolverFrame::DrawBoardBackground(wxPaintDC &dc)
     smallSide -= 10;
 
         // Set the Brush and Pen to red
-    dc.SetBrush( *wxLIGHT_GREY_BRUSH );
+    dc.SetBrush( LGrayBr );
     dc.SetPen(*wxBLACK_PEN );
     // Draw rectangle 40 pixels wide and 40 high
     // with upper left corner at 10 , 10.
@@ -297,7 +306,7 @@ void SudokuSolverFrame::DrawBoardBackground(wxPaintDC &dc)
             if(i == col && j == row)
                 dc.SetBrush(*wxBLUE_BRUSH);
             else
-                dc.SetBrush(*wxLIGHT_GREY_BRUSH);
+                dc.SetBrush(LGrayBr);
             dc.DrawRectangle( 0 + spSq*i, 0 + spSq*j, spSq - 5, spSq - 5 );
         }
 
@@ -323,10 +332,15 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
 {
 	unsigned int spSq = 0;
     unsigned int smallSide;
-    unsigned int i,j, pVal;
+    unsigned int i,j,k, pVal;
     wxString debugString;
+    wxString pString;
     wxColour redC, greenC, blackC;
     GameSquare * sq;
+
+    redC.Set(200,0,0);
+    greenC.Set(0,200,0);
+    blackC.Set(0,0,0);
 
     wxSize sz = GameBoardPanel->GetClientSize();
     if (sz.x < sz.y)
@@ -341,12 +355,10 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
     //   not italic, and not underlined.
     dc.SetPen(*wxBLACK_PEN );
     wxFont BigFont(spSq/2,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
+    wxFont SmallFont(spSq/8,wxFONTFAMILY_ROMAN,wxNORMAL,wxNORMAL,false);
 
     // Tell dc to use this font
     dc.SetFont(BigFont);
-    redC.Set(200,0,0);
-    greenC.Set(0,200,0);
-    blackC.Set(0,0,0);
 
     for(i=0;i < 9;i++)
     {
@@ -355,7 +367,8 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
             sq = &mGuessGB->m_GameRows[i].m_square[j];
             if (sq->GetVal() != 0) // Show if there's a value
             {
-                debugString.Clear();
+                dc.SetFont(BigFont);
+                debugString.clear();
                 debugString << _("i = ") << i << _(" j = ") << j;
                 debugString << _("\nVal = ") << mGuessGB->m_GameRows[i].m_square[j].GetVal();
                 //wxMessageBox(debugString);
@@ -369,9 +382,53 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
                 else
                     dc.SetTextForeground(redC);
 
-                wxString pString;
+
+                pString.clear();
                 pString << pVal;
                 dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq), spSq / 6 + ((i) * spSq));
+            }
+            else // Draw all possibles
+            {
+                for(k=1;k<=9;k++)
+                {
+                    dc.SetFont(SmallFont);
+                    pString.clear();
+                    pString << k;
+                    if(sq->GetPossibles(k))
+                    switch (k)
+                    {
+                        case 1:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) - 13, spSq / 6 + ((i) * spSq) - 7);
+                            break;
+                        case 2:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 10, spSq / 6 + ((i) * spSq) - 7);
+                            break;
+                        case 3:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 32, spSq / 6 + ((i) * spSq) - 7);
+                            break;
+                        case 4:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) - 13, spSq / 6 + ((i) * spSq)+14);
+                            break;
+                        case 5:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 10, spSq / 6 + ((i) * spSq)+14);
+                            break;
+                        case 6:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 32, spSq / 6 + ((i) * spSq)+14);
+                            break;
+                        case 7:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) - 13, spSq / 6 + ((i) * spSq)+35);
+                            break;
+                        case 8:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 10, spSq / 6 + ((i) * spSq)+35);
+                            break;
+                        case 9:
+                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 32, spSq / 6 + ((i) * spSq)+35);
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
             }
         }
     }
@@ -426,7 +483,13 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
 	Refresh();
 	mGuessGB->RemoveSquares();
     Refresh();
-
+    for(i=0;i<9;i++)
+    {
+        for(j=0;j<9;j++)
+        {
+            mGuessGB->m_GameRows[i].m_square[j].ClearPossibles();
+        }
+    }
 }
 
 void SudokuSolverFrame::OnButtonSolveClick(wxCommandEvent& event)
@@ -528,13 +591,17 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
                 if(row<9&&row>0&&col<9&&col>0&&!mGuessGB->m_GameRows[row].m_square[col].GetShown())
                 {
                     mGuessGB->m_GameRows[row].m_square[col].SetVal(i+1);
-                    Refresh();
                 }
 
 
             }
             else if (ctrlSelect==NOTE)
-                i=i; // todo - set up note function
+            {
+                if(mGuessGB->m_GameRows[row].m_square[col].GetPossibles(i+1))
+                    mGuessGB->m_GameRows[row].m_square[col].RemovePossibles(i+1);
+                else
+                    mGuessGB->m_GameRows[row].m_square[col].SetPossibles(i+1);
+            }
         }
-
+    Refresh();
 }
