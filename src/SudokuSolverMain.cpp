@@ -523,8 +523,18 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
     for(i=0;i<9;i++)
         if(numButtons[i]->GetId() == event.GetId())
         {
-            defaultStr << _("Button ID ") << i+1 << _("\n");
+            if(ctrlSelect==SET)
+            {
+                if(row<9&&row>0&&col<9&&col>0&&!mGuessGB->m_GameRows[row].m_square[col].GetShown())
+                {
+                    mGuessGB->m_GameRows[row].m_square[col].SetVal(i+1);
+                    Refresh();
+                }
+
+
+            }
+            else if (ctrlSelect==NOTE)
+                i=i; // todo - set up note function
         }
-    wxMessageBox(defaultStr);
 
 }
