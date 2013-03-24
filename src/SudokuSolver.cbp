@@ -69,6 +69,12 @@
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
+		<Unit filename="DebugPanel.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="DebugPanel.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="GameBoard.cpp" />
 		<Unit filename="GameBoard.h" />
 		<Unit filename="GameRow.cpp" />
@@ -99,6 +105,7 @@
 				<gui name="wxWidgets" src="SudokuSolverApp.cpp" main="SudokuSolverFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/SudokuSolverframe.wxs" src="SudokuSolverMain.cpp" hdr="SudokuSolverMain.h" fwddecl="0" i18n="1" name="SudokuSolverFrame" language="CPP" />
+					<wxPanel wxs="wxsmith/DebugPanel.wxs" src="DebugPanel.cpp" hdr="DebugPanel.h" fwddecl="0" i18n="1" name="DebugPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

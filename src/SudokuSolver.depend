@@ -3792,3 +3792,16 @@
 	<wx/intl.h>
 	<wx/string.h>
 
+1364075664 source:c:\users\tim\documents\github\sudokusolver\src\debugpanel.cpp
+	"wx_pch.h"
+	"DebugPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1364075664 c:\users\tim\documents\github\sudokusolver\src\debugpanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/panel.h>
+	<wx/button.h>
+

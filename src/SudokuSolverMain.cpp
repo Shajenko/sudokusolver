@@ -588,10 +588,12 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
         {
             if(ctrlSelect==SET)
             {
-                if(row<9&&row>0&&col<9&&col>0&&!mGuessGB->m_GameRows[row].m_square[col].GetShown())
+                if(row<9&&row>=0&&col<9&&col>=0&&!mGuessGB->m_GameRows[row].m_square[col].GetShown())
                 {
                     mGuessGB->m_GameRows[row].m_square[col].SetVal(i+1);
+                    // todo - remove possibles from other squares
                 }
+
 
 
             }
