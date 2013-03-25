@@ -3805,3 +3805,79 @@
 	<wx/panel.h>
 	<wx/button.h>
 
+1363114645 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\wx_pch.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+
+1364224015 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\debugpanel.cpp
+	"wx_pch.h"
+	"DebugPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1363114645 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\wx_pch.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+
+1364224015 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\debugpanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1364224015 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gameboard.cpp
+	"GameBoard.h"
+	<cstdlib>
+	<ctime>
+	<algorithm>
+	<vector>
+
+1364224015 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gameboard.h
+	"GameSquare.h"
+	"GameRow.h"
+	<set>
+
+1364224015 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gamesquare.h
+	"GameSquare.h"
+	<set>
+
+1364224015 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gamerow.h
+	"GameSquare.h"
+	<set>
+
+1364224015 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gamerow.cpp
+	"GameRow.h"
+
+1364224015 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gamesquare.cpp
+	"GameSquare.h"
+
+1363114644 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolverapp.cpp
+	"wx_pch.h"
+	"SudokuSolverApp.h"
+	"SudokuSolverMain.h"
+	<wx/image.h>
+
+1363114644 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolverapp.h
+	<wx/app.h>
+
+1364224015 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolvermain.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/menu.h>
+	<wx/textctrl.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/frame.h>
+	<wx/statusbr.h>
+	"GameBoard.h"
+
+1364224015 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolvermain.cpp
+	"wx_pch.h"
+	"SudokuSolverMain.h"
+	"GameSquare.h"
+	"GameBoard.h"
+	<wx/msgdlg.h>
+	<wx/intl.h>
+	<wx/string.h>
+
