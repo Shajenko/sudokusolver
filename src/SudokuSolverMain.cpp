@@ -87,7 +87,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     mGuessGB = new GameBoard();
     for(int i=0;i<9;i++)
         for(int j=0;j<9;j++)
-            mGuessGB->m_GameRows[i].m_square[j].ClearPossibles();
+            mGuessGB->ClearPossibles(i,j);
     row = 9;
     col = 9;
 
@@ -337,7 +337,6 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
     wxString debugString;
     wxString pString;
     wxColour redC, greenC, blackC;
-    GameSquare * sq;
 
     redC.Set(200,0,0);
     greenC.Set(0,200,0);
@@ -365,20 +364,19 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
     {
         for(j=0;j<9;j++)
         {
-            sq = &mGuessGB->m_GameRows[i].m_square[j];
-            if (sq->GetVal() != 0) // Show if there's a value
+            if (mGuessGB->GetVal(i, j) != 0) // Show if there's a value
             {
                 dc.SetFont(BigFont);
                 debugString.clear();
                 debugString << _("i = ") << i << _(" j = ") << j;
-                debugString << _("\nVal = ") << mGuessGB->m_GameRows[i].m_square[j].GetVal();
+                debugString << _("\nVal = ") << mGuessGB->GetVal(i, j);
                 //wxMessageBox(debugString);
 
                 pVal = 0;
-                pVal = sq->GetVal();
-                if(sq->GetShown())
+                pVal = mGuessGB->GetVal(i, j);
+                if(mGuessGB->GetShown(i, j))
                     dc.SetTextForeground(blackC);
-                else if(sq->GetVal() == mMainGB->m_GameRows[i].m_square[j].GetVal())
+                else if(mGuessGB->GetVal(i, j) == mMainGB->GetVal(i, j))
                     dc.SetTextForeground(greenC);
                 else
                     dc.SetTextForeground(redC);
@@ -395,7 +393,7 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
                     dc.SetFont(SmallFont);
                     pString.clear();
                     pString << k;
-                    if(sq->GetPossibles(k))
+                    if(mGuessGB->GetPossibles(i, j, k))
                     switch (k)
                     {
                         case 1:
@@ -477,7 +475,7 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
     {
         for(j=0;j<9;j++)
         {
-            mMainGB->m_GameRows[i].m_square[j].SetShown(true);
+            mMainGB->SetShown(i, j, true);
         }
     }
 	CopyToGuessBoard();
@@ -488,7 +486,7 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
     {
         for(j=0;j<9;j++)
         {
-            mGuessGB->m_GameRows[i].m_square[j].ClearPossibles();
+            mGuessGB->ClearPossibles(i,j);
         }
     }
 }
@@ -522,8 +520,8 @@ void SudokuSolverFrame::OnButtonRevealClick(wxCommandEvent& event)
     txtCtrlVal.ToLong(&row);
     txtCtrlVal = TextCtrlCol->GetValue();
     txtCtrlVal.ToLong(&col);
-    val = mMainGB->m_GameRows[row].m_square[col].GetVal();
-    mGuessGB->m_GameRows[row].m_square[col].SetVal(val);
+    val = mMainGB->GetVal(row, col);
+    mGuessGB->SetVal(row, col, val);
     Refresh();
 }
 
@@ -589,9 +587,9 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
         {
             if(ctrlSelect==SET)
             {
-                if(row<9&&row>=0&&col<9&&col>=0&&!mGuessGB->m_GameRows[row].m_square[col].GetShown())
+                if(row<9&&row>=0&&col<9&&col>=0&&!mGuessGB->GetShown(row, col))
                 {
-                    mGuessGB->m_GameRows[row].m_square[col].SetVal(i+1);
+                    mGuessGB->SetVal(row, col, i+1);
                     // todo - remove possibles from other squares
                 }
 
@@ -600,10 +598,10 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
             }
             else if (ctrlSelect==NOTE)
             {
-                if(mGuessGB->m_GameRows[row].m_square[col].GetPossibles(i+1))
-                    mGuessGB->m_GameRows[row].m_square[col].RemovePossibles(i+1);
+                if(mGuessGB->GetPossibles(row, col, i+1))
+                    mGuessGB->RemovePossibles(row, col, i+1);
                 else
-                    mGuessGB->m_GameRows[row].m_square[col].SetPossibles(i+1);
+                    mGuessGB->SetPossibles(row, col, i+1);
             }
         }
     Refresh();
@@ -616,9 +614,9 @@ void SudokuSolverFrame::OnGameBoardPanelKeyUp(wxKeyEvent& event)
     keyUp = event.GetKeyCode();
 
     if(keyUp >= 48 && keyUp <=57)
-        if(!mGuessGB->m_GameRows[row].m_square[col].GetShown())
+        if(!mGuessGB->GetShown(row, col))
         {
-            mGuessGB->m_GameRows[row].m_square[col].SetVal(keyUp-48);
+            mGuessGB->SetVal(row, col, keyUp-48);
             Refresh();
         }
 }

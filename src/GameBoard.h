@@ -13,7 +13,12 @@ class GameBoard
 		void Copy(GameBoard& gb);
         void Binit();
         bool SetSquare(unsigned int val, int row, int col);
+        unsigned int GetSquare(int row, int col) {return m_GameSquares[row][col].GetVal();}
         void RemovePossibles(GameSquare * sq);
+        void RemovePossibles(int row, int col, int val) { m_GameSquares[row][col].RemovePossibles(val); }
+        void ClearPossibles(int row, int col) {m_GameSquares[row][col].ClearPossibles();}
+        bool GetPossibles(int row, int col, int val) { return m_GameSquares[row][col].GetPossibles(val);}
+        void SetPossibles(int row, int col, int val) { m_GameSquares[row][col].SetPossibles(val);}
         bool GenBoard(int row, int col);
         bool Solvable();
         void RemoveSquares();
@@ -30,9 +35,13 @@ class GameBoard
         void ResetRows();
         void ResetCols();
         void ResetSectors();
-        GameRow m_GameRows[9];
+        unsigned int GetVal(int row, int col) { return m_GameSquares[row][col].GetVal();}
+        void SetVal(int row, int col, int val) { m_GameSquares[row][col].SetVal(val);}
+        bool GetShown(int row, int col) { return m_GameSquares[row][col].GetShown();}
+        void SetShown(int row, int col, bool val) { m_GameSquares[row][col].SetShown(val);}
     protected:
     private:
+        GameSquare m_GameSquares[9][9];
         std::set<int> m_Rows[9];
         std::set<int> m_Cols[9];
         std::set<int> m_Sectors[9];

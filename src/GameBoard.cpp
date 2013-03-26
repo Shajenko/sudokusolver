@@ -13,15 +13,16 @@ GameBoard::GameBoard()
 GameBoard GameBoard::operator= (const GameBoard& gb)
 {
 	GameBoard A;
-	unsigned int i;
+	unsigned int i, j;
 
 	for(i = 0;i < 9;i++)
-	{
-		A.m_GameRows[i] = gb.m_GameRows[i];
-		A.m_Cols[i] = gb.m_Cols[i];
-		A.m_Rows[i] = gb.m_Rows[i];
-		A.m_Sectors[i] = gb.m_Sectors[i];
-	}
+        for(j = 0;j < 9;j++)
+        {
+            A.m_GameSquares[i][j] = gb.m_GameSquares[i][j];
+            A.m_Cols[i] = gb.m_Cols[i];
+            A.m_Rows[i] = gb.m_Rows[i];
+            A.m_Sectors[i] = gb.m_Sectors[i];
+        }
 
 	return A;
 }
@@ -34,16 +35,14 @@ void GameBoard::Copy(GameBoard& gb)
 	{
 	    for(j=0;j<9;j++)
         {
-            if(gb.m_GameRows[i].Gettaken(j))
-                this->m_GameRows[i].Settaken(j);
-            this->m_GameRows[i].m_square[j].SetVal(gb.m_GameRows[i].m_square[j].GetVal());
-            this->m_GameRows[i].m_square[j].SetShown(gb.m_GameRows[i].m_square[j].GetShown());
-            this->m_GameRows[i].m_square[j].SetCol(gb.m_GameRows[i].m_square[j].GetCol());
-            this->m_GameRows[i].m_square[j].SetRow(gb.m_GameRows[i].m_square[j].GetRow());
-            this->m_GameRows[i].m_square[j].SetSector(gb.m_GameRows[i].m_square[j].GetSector());
+            this->m_GameSquares[i][j].SetVal(gb.m_GameSquares[i][j].GetVal());
+            this->m_GameSquares[i][j].SetShown(gb.m_GameSquares[i][j].GetShown());
+            this->m_GameSquares[i][j].SetCol(gb.m_GameSquares[i][j].GetCol());
+            this->m_GameSquares[i][j].SetRow(gb.m_GameSquares[i][j].GetRow());
+            this->m_GameSquares[i][j].SetSector(gb.m_GameSquares[i][j].GetSector());
             for(k=1;k<=9;k++)
-                if(gb.m_GameRows[i].m_square[j].GetPossibles(k))
-                    this->m_GameRows[i].m_square[j].SetPossibles(k);
+                if(gb.m_GameSquares[i][j].GetPossibles(k))
+                    this->m_GameSquares[i][j].SetPossibles(k);
         }
 
 
@@ -63,17 +62,18 @@ void GameBoard::Binit()
 {
 	for(int row=0;row<9;row++)
     {
-		m_GameRows[row].Rinit();
+
 
 		m_Rows[row].clear();
 		m_Sectors[row].clear();
 		m_Cols[row].clear();
-		m_GameRows[row].SetCol();
         for(int col=0;col<9;col++)
         {
+            m_GameSquares[row][col].Sinit();
             // todo - set sector for each square
-            m_GameRows[row].m_square[col].SetSector((row/3) * 3 + (col/3));
-            m_GameRows[row].m_square[col].SetRow(row);
+            m_GameSquares[row][col].SetSector((row/3) * 3 + (col/3));
+            m_GameSquares[row][col].SetRow(row);
+            m_GameSquares[row][col].SetCol(col);
         }
     }
 }
@@ -83,14 +83,13 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 	int sec, undoNum;
 	bool colFnd, rowFnd, secFnd;
 	GameSquare * sq;
-	sq = &m_GameRows[row].m_square[col];
+	sq = &m_GameSquares[row][col];
 	sec = sq->GetSector();
 
 	if(val == 0)
 	{
 		undoNum = sq->GetVal();
 		sq->SetVal(val);
-		m_GameRows[row].Unsettaken(undoNum);
 		m_Rows[row].erase(undoNum);
 		m_Cols[col].erase(undoNum);
 		m_Sectors[sec].erase(undoNum);
@@ -109,7 +108,6 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 		val < 10)
 	{
 		sq->SetVal(val);
-		m_GameRows[row].Settaken(val);
 		m_Rows[row].insert(val);
 		m_Cols[col].insert(val);
 		m_Sectors[sec].insert(val);
@@ -160,10 +158,10 @@ bool GameBoard::GenBoard(int row, int col)
 
 
 
-	RemovePossibles(&(m_GameRows[row].m_square[col]));  // Possible problem
+	RemovePossibles(&(m_GameSquares[row][col]));  // Possible problem
 	selectList.clear();
 	for(k=1;k<=9;k++)
-		if(m_GameRows[row].m_square[col].GetPossibles(k))
+		if(m_GameSquares[row][col].GetPossibles(k))
 			selectList.push_back(k);
 	random_shuffle(selectList.begin(), selectList.end());
 
@@ -273,7 +271,7 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs)
     {
         row = *it % 9;
         col = *it / 9;
-        sq = &m_GameRows[row].m_square[col];
+        sq = &m_GameSquares[row][col];
         if (sq->GetVal() != 0)
         {
             tempVal = sq->GetVal();
@@ -304,7 +302,7 @@ bool GameBoard::RemoveLayerEasy()
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
         {
-            sq = &m_GameRows[row].m_square[col];
+            sq = &m_GameSquares[row][col];
             if (sq->GetVal() != 0)
             {
                	tempVal = sq->GetVal();
@@ -337,7 +335,7 @@ bool GameBoard::Solve()
 
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
-            if(m_GameRows[row].m_square[col].GetVal() == 0)
+            if(m_GameSquares[row][col].GetVal() == 0)
                 remSqs.insert(row + col * 9);
 
     while(solSq && unknSq)  // We solved a square and there are still square to solve
@@ -349,7 +347,7 @@ bool GameBoard::Solve()
         {
             row = *it % 9;
             col = *it / 9;
-            sq = &m_GameRows[row].m_square[col];
+            sq = &m_GameSquares[row][col];
             if(sq->GetVal() == 0)  //Square is unknown
             {
                 unknSq = true;
@@ -388,7 +386,7 @@ void GameBoard::ResetRows()
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
         {
-            sq = &m_GameRows[row].m_square[col];
+            sq = &m_GameSquares[row][col];
             if(sq->GetVal() > 0)
                 m_Rows[row].erase(sq->GetVal());
         }
@@ -410,7 +408,7 @@ void GameBoard::ResetCols()
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
         {
-            sq = &m_GameRows[row].m_square[col];
+            sq = &m_GameSquares[row][col];
             if(sq->GetVal() > 0)
                 m_Cols[col].erase(sq->GetVal());
         }
@@ -432,7 +430,7 @@ void GameBoard::ResetSectors()
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
         {
-            sq = &m_GameRows[row].m_square[col];
+            sq = &m_GameSquares[row][col];
             sec = sq->GetSector();
             if(sq->GetVal() > 0)
                 m_Sectors[sec].erase(sq->GetVal());
