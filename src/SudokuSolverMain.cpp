@@ -199,6 +199,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1->SetSizeHints(this);
 
     GameBoardPanel->Connect(wxEVT_PAINT,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelPaint,0,this);
+    GameBoardPanel->Connect(wxEVT_KEY_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelKeyUp,0,this);
     GameBoardPanel->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelLeftUp,0,this);
     Connect(ID_BUTTONREMOVE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRemoveClick);
     Connect(ID_BUTTONREVEAL,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRevealClick);
@@ -606,4 +607,18 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
             }
         }
     Refresh();
+}
+
+void SudokuSolverFrame::OnGameBoardPanelKeyUp(wxKeyEvent& event)
+{
+    unsigned int keyUp;
+
+    keyUp = event.GetKeyCode();
+
+    if(keyUp >= 48 && keyUp <=57)
+        if(!mGuessGB->m_GameRows[row].m_square[col].GetShown())
+        {
+            mGuessGB->m_GameRows[row].m_square[col].SetVal(keyUp-48);
+            Refresh();
+        }
 }

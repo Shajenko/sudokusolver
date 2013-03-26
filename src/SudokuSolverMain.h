@@ -59,6 +59,7 @@ class SudokuSolverFrame: public wxFrame
         void OnButtonSetClick(wxCommandEvent& event);
         void OnButtonNoteClick(wxCommandEvent& event);
         void OnButtonNumClick(wxCommandEvent& event);
+        void OnGameBoardPanelKeyUp(wxKeyEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
