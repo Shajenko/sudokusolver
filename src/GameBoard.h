@@ -21,10 +21,12 @@ class GameBoard
         void SetPossibles(int row, int col, int val) { m_GameSquares[row][col].SetPossibles(val);}
         bool GenBoard(int row, int col);
         bool Solvable();
+        bool Solvable(std::set<unsigned int> &remSqs);
         void RemoveSquares();
-        bool RemoveLayerEasy(std::set<unsigned int> &setSqs);
+        bool RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigned int> &remSqs);
         bool RemoveLayerEasy();
         bool Solve();
+        bool Solve(std::set<unsigned int> &remSqs);
         virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }
         void SetRows(int row, unsigned int val) { m_Rows[row].insert(val); }
