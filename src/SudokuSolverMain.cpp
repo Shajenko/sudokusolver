@@ -610,13 +610,24 @@ void SudokuSolverFrame::OnButtonNumClick(wxCommandEvent& event)
 void SudokuSolverFrame::OnGameBoardPanelKeyUp(wxKeyEvent& event)
 {
     unsigned int keyUp;
+    wxString debugStr;
 
     keyUp = event.GetKeyCode();
 
     if(keyUp >= 48 && keyUp <=57)
+    {
         if(!mGuessGB->GetShown(row, col))
         {
             mGuessGB->SetVal(row, col, keyUp-48);
             Refresh();
         }
+    }
+    else if(keyUp >= 324 && keyUp <=333)
+    {
+        if(!mGuessGB->GetShown(row, col))
+        {
+            mGuessGB->SetVal(row, col, keyUp-324);
+            Refresh();
+        }
+    }
 }

@@ -1900,7 +1900,7 @@
 1364329024 source:c:\users\tim\documents\github\sudokusolver\src\resource.rc
 	"wx/msw/wx.rc"
 
-1364333869 source:c:\users\tim\documents\github\sudokusolver\src\sudokusolvermain.cpp
+1364338277 source:c:\users\tim\documents\github\sudokusolver\src\sudokusolvermain.cpp
 	"wx_pch.h"
 	"SudokuSolverMain.h"
 	"GameSquare.h"
@@ -1937,7 +1937,7 @@
 	"GameSquare.h"
 	<set>
 
-1364332705 source:c:\users\tim\documents\github\sudokusolver\src\gameboard.cpp
+1364336783 source:c:\users\tim\documents\github\sudokusolver\src\gameboard.cpp
 	"GameBoard.h"
 	<cstdlib>
 	<ctime>
