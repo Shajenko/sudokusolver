@@ -343,14 +343,9 @@ bool GameBoard::RemoveLayerEasy()
 
 bool GameBoard::Solve()
 {
-    bool solSq, unknSq;
     unsigned int row, col;
-    unsigned int numPos;
-    GameSquare * sq;
     std::set<unsigned int> remSqs;
 
-    solSq = true;
-    unknSq = true;
     remSqs.clear();
 
     for(row=0;row<9;row++)
@@ -358,43 +353,13 @@ bool GameBoard::Solve()
             if(m_GameSquares[row][col].GetVal() == 0)
                 remSqs.insert(row + col * 9);
 
-    while(solSq && unknSq)  // We solved a square and there are still square to solve
-    {
-        solSq = false;
-        unknSq = false;
-
-        for(std::set<unsigned int>::iterator it=remSqs.begin(); it!=remSqs.end(); ++it)
-        {
-            row = *it % 9;
-            col = *it / 9;
-            sq = &m_GameSquares[row][col];
-            if(sq->GetVal() == 0)  //Square is unknown
-            {
-                unknSq = true;
-                RemovePossibles(sq);  // Figure out what is possible
-                numPos = sq->GetNumPossibles();
-                if(numPos == 1)   // Only one possible value
-                {
-                    sq->SetVal(sq->GetOnlyPossible());// Set value to only possibility
-                    solSq = true;
-                    remSqs.erase(*it);
-                }
-                else   // More than one possible value
-                    unknSq = true;
-            }
-        }
-    }
-    if(unknSq)
-        return false;
-    else
-        return true;
+    return Solve(remSqs);
 }
 
 bool GameBoard::Solve(std::set<unsigned int> &remSqs)
 {
-    bool solSq, unknSq;
+    bool solSq, unknSq, tempSq;
     unsigned int row, col;
-    unsigned int numPos;
     GameSquare * sq;
 
 
@@ -416,18 +381,34 @@ bool GameBoard::Solve(std::set<unsigned int> &remSqs)
             {
                 unknSq = true;
                 RemovePossibles(sq);  // Figure out what is possible
-                numPos = sq->GetNumPossibles();
-                if(numPos == 1)   // Only one possible value
-                {
-                    sq->SetVal(sq->GetOnlyPossible());// Set value to only possibility
-                    solSq = true;
-                    remSqs.erase(*it);
-                }
-                else   // More than one possible value
+                tempSq = NakedSingle(row, col);
+                if(!tempSq)
                     unknSq = true;
+                if(tempSq)
+                    solSq = true;
             }
         }
+
+        for(std::set<unsigned int>::iterator it=remSqs.begin(); it!=remSqs.end(); ++it)
+        {
+            row = *it % 9;
+            col = *it / 9;
+            sq = &m_GameSquares[row][col];
+            if(sq->GetVal() == 0)  //Square is unknown
+            {
+                unknSq = true;
+                RemovePossibles(sq);  // Figure out what is possible
+                tempSq = HiddenSingle(row, col);
+                if(!tempSq)
+                    unknSq = true;
+                if(tempSq)
+                    solSq = true;
+            }
+        }
+
     }
+
+
     if(unknSq)
         return false;
     else
