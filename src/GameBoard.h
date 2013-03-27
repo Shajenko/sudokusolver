@@ -38,7 +38,7 @@ class GameBoard
         void ResetCols();
         void ResetSectors();
         unsigned int GetVal(int row, int col) { return m_GameSquares[row][col].GetVal();}
-        void SetVal(int row, int col, int val) { m_GameSquares[row][col].SetVal(val);}
+        void SetVal(int row, int col, int val);
         bool GetShown(int row, int col) { return m_GameSquares[row][col].GetShown();}
         void SetShown(int row, int col, bool val) { m_GameSquares[row][col].SetShown(val);}
     protected:

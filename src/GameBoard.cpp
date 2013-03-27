@@ -500,3 +500,26 @@ void GameBoard::ResetSectors()
                 m_Sectors[sec].erase(sq->GetVal());
         }
 }
+
+void GameBoard::SetVal(int row, int col, int val)
+{
+    unsigned int sec;
+    unsigned int i,j;
+
+    sec = m_GameSquares[row][col].GetSector();
+    m_GameSquares[row][col].SetVal(val);
+    m_GameSquares[row][col].ClearPossibles();
+
+    m_Rows[row].erase(val);
+    m_Cols[col].erase(val);
+    m_Sectors[sec].erase(val);
+
+    for(i=0;i<9;i++)
+    {
+        m_GameSquares[row][i].RemovePossibles(val);
+        m_GameSquares[i][col].RemovePossibles(val);
+        for(j=0;j<9;j++)
+            if(m_GameSquares[i][j].GetSector() == sec)
+                m_GameSquares[i][j].RemovePossibles(val);
+    }
+}
