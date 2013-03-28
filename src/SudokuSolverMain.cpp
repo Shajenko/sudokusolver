@@ -615,25 +615,25 @@ void SudokuSolverFrame::OnGameBoardPanelKeyUp(wxKeyEvent& event)
     keyUp = event.GetKeyCode();
 
 
-    if(keyUp >= 48 && keyUp <=57)
+    if(keyUp >= '0' && keyUp <= '9')
     {
 
         if(!mGuessGB->GetShown(row, col))
         {
             if(ctrlSelect==SET)
             {
-                mGuessGB->SetVal(row, col, keyUp-48);
+                mGuessGB->SetVal(row, col, keyUp-'0');
                 Refresh();
             }
             else if (ctrlSelect==NOTE)
             {
-                mGuessGB->SetPossibles(row, col, keyUp-48);
+                mGuessGB->SetPossibles(row, col, keyUp-'0');
                 Refresh();
             }
         }
 
     }
-    else if(keyUp >= 324 && keyUp <=333)
+    else if(keyUp >= 324 && keyUp <=333)  // Numpad values for 0 - 9
     {
         if(!mGuessGB->GetShown(row, col))
         {
