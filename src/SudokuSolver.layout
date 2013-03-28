@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="SudokuSolverMain.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="DebugPanel.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="272" topLine="0" />
+			<Cursor1 position="270" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="wx_pch.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="455" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GameSquare.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="316" topLine="14" />
+		</Cursor>
+	</File>
+	<File name="SudokuSolverApp.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="505" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="SudokuSolverMain.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="663" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GameBoard.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1259" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="SudokuAlgorithms.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3091" topLine="95" />
 		</Cursor>
 	</File>
 	<File name="GameBoard.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6938" topLine="185" />
+			<Cursor1 position="9544" topLine="298" />
 		</Cursor>
 		<Folding>
 			<Collapse line="7" />
@@ -17,41 +47,18 @@
 			<Collapse line="56" />
 			<Collapse line="61" />
 			<Collapse line="81" />
+			<Collapse line="331" />
+			<Collapse line="392" />
 		</Folding>
 	</File>
-	<File name="wx_pch.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="SudokuSolverMain.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="455" topLine="0" />
+			<Cursor1 position="18738" topLine="441" />
 		</Cursor>
 	</File>
-	<File name="SudokuSolverApp.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GameSquare.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="635" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="GameBoard.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2476" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="SudokuSolverMain.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="25440" topLine="615" />
-		</Cursor>
-	</File>
-	<File name="GameSquare.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="316" topLine="14" />
-		</Cursor>
-	</File>
-	<File name="GameSquare.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1348" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="SudokuAlgorithms.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2048" topLine="52" />
+			<Cursor1 position="1348" topLine="9" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -28,7 +28,6 @@ bool GameBoard::HiddenSingle(int row, int col)
         if(m_GameSquares[row][col].GetPossibles(i))
             possSet.insert(i);
 
-    // todo: Hidden Single Algorithm
     for(std::set<unsigned int>::iterator it=possSet.begin(); it!=possSet.end(); ++it)
     {
         possibleVal = *it;
@@ -88,8 +87,68 @@ bool GameBoard::DoubleBlockLine(int row, int col)
 
 bool GameBoard::NakedSubset(int row, int col)
 {
+	std::set<unsigned int> possSet1, possSet2, possSet3, possSet4;
+	std::set<unsigned int>::iterator it;
+    int i, j, k, sec;
+    bool pr;
+
+	pr = false;
+    possSet1.clear();
+	for(i=1;i<=9;i++)
+        if(m_GameSquares[row][col].GetPossibles(i))
+            possSet1.insert(i);
     // todo: Naked Subset Algorithm
-    return false;
+
+
+	switch(possSet1.size())
+	{
+		case 2:
+		//Naked Pair
+		//Check for another square that share the exact same two possibilities in each:
+			//Row
+			for(i=0;i<9;i++)
+			{
+				possSet2.clear();
+				for(j=0;j<9;j++)
+					if(m_GameSquares[row][i].GetPossibles(j))
+						possSet2.insert(j);
+				// Compare possSet2 & possSet1
+				if(possSet1 == possSet2)  // They match, eliminate these possibilities from all other squares in row
+				{
+					pr = true;
+					for(it=possSet1.begin();it!=possSet1.end();++it) // For both possibilities
+					{
+						for(j=0;j<9;j++)
+							if(j!=i && j!=col) // Do not change the pair
+								m_GameSquares[row][j].RemovePossibles(*it);
+					}
+				}
+			}
+
+			//Column
+			for(i=0;i<9;i++)
+			{
+				possSet2.clear();
+				for(j=0;j<9;j++)
+					if(m_GameSquares[i][col].GetPossibles(j))
+						possSet2.insert(j);
+				// Compare possSet2 & possSet1
+				if(possSet1 == possSet2)  // They match, eliminate these possibilities from all other squares in row
+				{
+					pr = true;
+					for(it=possSet1.begin();it!=possSet1.end();++it) // For both possibilities
+					{
+						for(j=0;j<9;j++)
+							if(j!=i && j!=row) // Do not change the pair
+								m_GameSquares[j][col].RemovePossibles(*it);
+					}
+				}
+			}
+		//Sector
+
+	}
+
+    return pr;
 }
 
 bool GameBoard::HiddenSubset(int row, int col)

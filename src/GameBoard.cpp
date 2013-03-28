@@ -232,7 +232,7 @@ bool GameBoard::Solvable()
 	return solved;
 }
 
-bool GameBoard::Solvable(std::set<unsigned int> &remSqs)
+bool GameBoard::Solvable(std::set<unsigned int> &remSqs, Difficulty diff)
 {
 	// Determines whether the puzzle is currently solvable
 
@@ -241,14 +241,14 @@ bool GameBoard::Solvable(std::set<unsigned int> &remSqs)
 
     trying->Binit();
     trying->Copy(*this);
-    solved = trying->Solve(remSqs);
+    solved = trying->Solve(remSqs, diff);
     delete trying;
 
 
 	return solved;
 }
 
-void GameBoard::RemoveSquares()
+void GameBoard::RemoveSquares(Difficulty diff)
 {
     // Removes squares from the visible list until the minimum number of squares remains
 	//   for the puzzle to remain solvable - in theory
@@ -274,6 +274,14 @@ void GameBoard::RemoveSquares()
     while(squareRemoved)
     {
         squareRemoved = RemoveLayerEasy(setSqs, remSqs);
+    }
+    if(diff == MEDIUM || diff == HARD)
+    {
+    	squareRemoved = true;
+		while(squareRemoved)
+		{
+			squareRemoved = RemoveLayerMedium(setSqs, remSqs);
+		}
     }
 }
 
@@ -303,7 +311,7 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigne
             tempVal = sq->GetVal();
             SetSquare(0, row, col);
             remSqs.insert(row + col * 9);
-            if(Solvable(remSqs))
+            if(Solvable(remSqs, EASY))
             {
                 squareRemoved = true;
                 sq->SetShown(false);
@@ -322,32 +330,81 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigne
 
 bool GameBoard::RemoveLayerEasy()
 {
-        // Checks all squares and removes those that leave the board in a solvable state
+	std::set<unsigned int> setSqs;
+    std::set<unsigned int> remSqs;
+    unsigned int row, col;
+
+	setSqs.clear();
+	remSqs.clear();
+
+	for(row=0;row<9;row++)
+		for(col=0;col<9;col++)
+        {
+            setSqs.insert(row + col * 9);
+        }
+
+	return RemoveLayerEasy(setSqs, remSqs);
+}
+
+bool GameBoard::RemoveLayerMedium(std::set<unsigned int> &setSqs, std::set<unsigned int> &remSqs)
+{
+    // Checks all squares and removes those that leave the board in a solvable state
     bool squareRemoved = false;
 	unsigned int row, col, tempVal;
 	GameSquare * sq;
+	std::set<unsigned int>::iterator it;
+	std::set<unsigned int> currSqs;
+	wxString debugStr;
 
+	currSqs = setSqs;
 
-    for(row=0;row<9;row++)
-        for(col=0;col<9;col++)
+    for(it=setSqs.begin(); it!=setSqs.end(); ++it)
+    {
+    	debugStr.clear();
+    	debugStr << *it;
+ //   	wxMessageBox(debugStr);
+
+        row = *it % 9;
+        col = *it / 9;
+        sq = &m_GameSquares[row][col];
+        if (sq->GetVal() != 0)
         {
-            sq = &m_GameSquares[row][col];
-            if (sq->GetVal() != 0)
+            tempVal = sq->GetVal();
+            SetSquare(0, row, col);
+            remSqs.insert(row + col * 9);
+            if(Solvable(remSqs, MEDIUM))
             {
-               	tempVal = sq->GetVal();
-                SetSquare(0, row, col);
-                if(Solvable())
-                {
-                    squareRemoved = true;
-                    sq->SetShown(false);
-                }
-                else
-                {
-                    SetSquare(tempVal, row, col);
-                }
+                squareRemoved = true;
+                sq->SetShown(false);
+                currSqs.erase(*it);
+            }
+            else
+            {
+                SetSquare(tempVal, row, col);
+                remSqs.erase(row + col * 9);
             }
         }
+    }
+    setSqs = currSqs;
     return squareRemoved;
+}
+
+bool GameBoard::RemoveLayerMedium()
+{
+	std::set<unsigned int> setSqs;
+    std::set<unsigned int> remSqs;
+    unsigned int row, col;
+
+	setSqs.clear();
+	remSqs.clear();
+
+	for(row=0;row<9;row++)
+		for(col=0;col<9;col++)
+        {
+            setSqs.insert(row + col * 9);
+        }
+
+	return RemoveLayerMedium(setSqs, remSqs);
 }
 
 bool GameBoard::Solve()
@@ -362,10 +419,10 @@ bool GameBoard::Solve()
             if(m_GameSquares[row][col].GetVal() == 0)
                 remSqs.insert(row + col * 9);
 
-    return Solve(remSqs);
+    return Solve(remSqs, EASY);
 }
 
-bool GameBoard::Solve(std::set<unsigned int> &remSqs)
+bool GameBoard::Solve(std::set<unsigned int> &remSqs, Difficulty diff)
 {
     bool solSq, unknSq, tempSq;
     unsigned int row, col;
@@ -381,6 +438,21 @@ bool GameBoard::Solve(std::set<unsigned int> &remSqs)
         solSq = false;
         unknSq = false;
 
+        if(diff == MEDIUM || diff == HARD)
+		{
+			for(std::set<unsigned int>::iterator it=remSqs.begin(); it!=remSqs.end(); ++it)
+			{
+				row = *it % 9;
+				col = *it / 9;
+				sq = &m_GameSquares[row][col];
+				if(sq->GetVal() == 0)  //Square is unknown
+				{
+					unknSq = true;
+					RemovePossibles(sq);  // Figure out what is possible
+					tempSq = NakedSubset(row, col);
+				}
+			}
+		}
         for(std::set<unsigned int>::iterator it=remSqs.begin(); it!=remSqs.end(); ++it)
         {
             row = *it % 9;
@@ -414,7 +486,6 @@ bool GameBoard::Solve(std::set<unsigned int> &remSqs)
                     solSq = true;
             }
         }
-
     }
 
 

@@ -46,16 +46,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 //(*IdInit(SudokuSolverFrame)
 const long SudokuSolverFrame::ID_PANEL2 = wxNewId();
-const long SudokuSolverFrame::ID_BUTTONREMOVE = wxNewId();
-const long SudokuSolverFrame::ID_BUTTONREVEAL = wxNewId();
-const long SudokuSolverFrame::ID_STATICTEXT1 = wxNewId();
-const long SudokuSolverFrame::ID_STATICTEXT2 = wxNewId();
-const long SudokuSolverFrame::ID_TEXTCTRLROW = wxNewId();
-const long SudokuSolverFrame::ID_TEXTCTRLCOL = wxNewId();
-const long SudokuSolverFrame::ID_BUTTON3 = wxNewId();
-const long SudokuSolverFrame::ID_BUTTONSOLVABLE = wxNewId();
-const long SudokuSolverFrame::ID_BUTTONSTRIPEASY = wxNewId();
-const long SudokuSolverFrame::ID_PANELDEBUG = wxNewId();
 const long SudokuSolverFrame::ID_BUTTON1 = wxNewId();
 const long SudokuSolverFrame::ID_BUTTON2 = wxNewId();
 const long SudokuSolverFrame::ID_BUTTON4 = wxNewId();
@@ -72,6 +62,9 @@ const long SudokuSolverFrame::ID_PANELCONTROL = wxNewId();
 const long SudokuSolverFrame::ID_PANEL1 = wxNewId();
 const long SudokuSolverFrame::idNewPuzzle = wxNewId();
 const long SudokuSolverFrame::idMenuQuit = wxNewId();
+const long SudokuSolverFrame::idEasy = wxNewId();
+const long SudokuSolverFrame::idMedium = wxNewId();
+const long SudokuSolverFrame::idHard = wxNewId();
 const long SudokuSolverFrame::idMenuAbout = wxNewId();
 const long SudokuSolverFrame::ID_STATUSBAR1 = wxNewId();
 //*)
@@ -98,7 +91,6 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     wxMenuItem* MenuItem1;
     wxBoxSizer* BoxSizer2;
     wxMenu* Menu1;
-    wxGridSizer* GridSizer1;
     wxBoxSizer* BoxSizer1;
     wxMenuBar* MenuBar1;
     wxBoxSizer* BoxSizer3;
@@ -108,34 +100,8 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
     MainPanel = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     BoxSizer2 = new wxBoxSizer(wxVERTICAL);
-    GameBoardPanel = new wxPanel(MainPanel, ID_PANEL2, wxDefaultPosition, wxSize(600,800), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("ID_PANEL2"));
+    GameBoardPanel = new wxPanel(MainPanel, ID_PANEL2, wxDefaultPosition, wxSize(600,600), wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("ID_PANEL2"));
     BoxSizer2->Add(GameBoardPanel, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    DebugPanel = new wxPanel(MainPanel, ID_PANELDEBUG, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANELDEBUG"));
-    GridSizer1 = new wxGridSizer(0, 2, 0, 0);
-    ButtonRemove = new wxButton(DebugPanel, ID_BUTTONREMOVE, _("Remove Square"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONREMOVE"));
-    GridSizer1->Add(ButtonRemove, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    ButtonReveal = new wxButton(DebugPanel, ID_BUTTONREVEAL, _("Reveal Square"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONREVEAL"));
-    GridSizer1->Add(ButtonReveal, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    StaticText1 = new wxStaticText(DebugPanel, ID_STATICTEXT1, _("Row"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT1"));
-    GridSizer1->Add(StaticText1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    StaticText2 = new wxStaticText(DebugPanel, ID_STATICTEXT2, _("Column"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-    GridSizer1->Add(StaticText2, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    TextCtrlRow = new wxTextCtrl(DebugPanel, ID_TEXTCTRLROW, _("1"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRLROW"));
-    TextCtrlRow->SetMaxLength(1);
-    GridSizer1->Add(TextCtrlRow, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    TextCtrlCol = new wxTextCtrl(DebugPanel, ID_TEXTCTRLCOL, _("1"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRLCOL"));
-    TextCtrlCol->SetMaxLength(1);
-    GridSizer1->Add(TextCtrlCol, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    ButtonSolve = new wxButton(DebugPanel, ID_BUTTON3, _("Solve"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    GridSizer1->Add(ButtonSolve, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    ButtonSolvable = new wxButton(DebugPanel, ID_BUTTONSOLVABLE, _("Solvable\?"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSOLVABLE"));
-    GridSizer1->Add(ButtonSolvable, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    ButtonStripEasy = new wxButton(DebugPanel, ID_BUTTONSTRIPEASY, _("Strip Layer (Easy)"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTONSTRIPEASY"));
-    GridSizer1->Add(ButtonStripEasy, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    DebugPanel->SetSizer(GridSizer1);
-    GridSizer1->Fit(DebugPanel);
-    GridSizer1->SetSizeHints(DebugPanel);
-    BoxSizer2->Add(DebugPanel, 0, wxALL|wxALIGN_LEFT|wxALIGN_TOP, 0);
     ControlPanel = new wxPanel(MainPanel, ID_PANELCONTROL, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANELCONTROL"));
     BoxSizer3 = new wxBoxSizer(wxVERTICAL);
     BoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
@@ -184,6 +150,14 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
+    Menu3 = new wxMenu();
+    MenuItemEasy = new wxMenuItem(Menu3, idEasy, _("Easy"), _("Easy Difficulty"), wxITEM_RADIO);
+    Menu3->Append(MenuItemEasy);
+    MenuItemMedium = new wxMenuItem(Menu3, idMedium, _("Medium"), _("Medium Difficulty"), wxITEM_RADIO);
+    Menu3->Append(MenuItemMedium);
+    MenuItemHard = new wxMenuItem(Menu3, idHard, _("Hard"), _("Hard Difficulty"), wxITEM_RADIO);
+    Menu3->Append(MenuItemHard);
+    MenuBar1->Append(Menu3, _("Difficulty"));
     Menu2 = new wxMenu();
     MenuItem2 = new wxMenuItem(Menu2, idMenuAbout, _("About\tF1"), _("Show info about this application"), wxITEM_NORMAL);
     Menu2->Append(MenuItem2);
@@ -199,13 +173,7 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     BoxSizer1->SetSizeHints(this);
 
     GameBoardPanel->Connect(wxEVT_PAINT,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelPaint,0,this);
-    GameBoardPanel->Connect(wxEVT_KEY_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelKeyUp,0,this);
     GameBoardPanel->Connect(wxEVT_LEFT_UP,(wxObjectEventFunction)&SudokuSolverFrame::OnGameBoardPanelLeftUp,0,this);
-    Connect(ID_BUTTONREMOVE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRemoveClick);
-    Connect(ID_BUTTONREVEAL,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonRevealClick);
-    Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolveClick);
-    Connect(ID_BUTTONSOLVABLE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonSolvableClick);
-    Connect(ID_BUTTONSTRIPEASY,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonStripEasyClick);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
     Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNumClick);
@@ -219,6 +187,9 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON12,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&SudokuSolverFrame::OnButtonNoteClick);
     Connect(idNewPuzzle,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnMenuNewPuzzleSelected);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnQuit);
+    Connect(idEasy,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnDifficultySelected);
+    Connect(idMedium,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnDifficultySelected);
+    Connect(idHard,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnDifficultySelected);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&SudokuSolverFrame::OnAbout);
     Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&SudokuSolverFrame::OnClose);
     //*)
@@ -232,6 +203,11 @@ SudokuSolverFrame::SudokuSolverFrame(wxWindow* parent,wxWindowID id)
     numButtons[6] = Button7;
     numButtons[7] = Button8;
     numButtons[8] = Button9;
+
+	ButtonSet->SetBackgroundColour(*wxBLUE);
+    ButtonSet->SetForegroundColour(*wxWHITE);
+
+    diff = EASY;
 
 }
 
@@ -480,7 +456,7 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
     }
 	CopyToGuessBoard();
 	Refresh();
-	mGuessGB->RemoveSquares();
+	mGuessGB->RemoveSquares(diff);
     Refresh();
     for(i=0;i<9;i++)
     {
@@ -491,7 +467,7 @@ void SudokuSolverFrame::OnMenuNewPuzzleSelected(wxCommandEvent& event)
     }
 }
 
-void SudokuSolverFrame::OnButtonSolveClick(wxCommandEvent& event)
+/*void SudokuSolverFrame::OnButtonSolveClick(wxCommandEvent& event)
 {
     mGuessGB->Solve();
     Refresh();
@@ -502,9 +478,9 @@ void SudokuSolverFrame::OnButtonRemoveClick(wxCommandEvent& event)
     long row, col;
     wxString txtCtrlVal;
 
-    txtCtrlVal = TextCtrlRow->GetValue();
+    txtCtrlVal = debugPanel->TextCtrlRow->GetValue();
     txtCtrlVal.ToLong(&row);
-    txtCtrlVal = TextCtrlCol->GetValue();
+    txtCtrlVal = debugPanel->TextCtrlCol->GetValue();
     txtCtrlVal.ToLong(&col);
     mGuessGB->SetSquare(0, row, col);
     Refresh();
@@ -516,9 +492,9 @@ void SudokuSolverFrame::OnButtonRevealClick(wxCommandEvent& event)
     unsigned int val;
     wxString txtCtrlVal;
 
-    txtCtrlVal = TextCtrlRow->GetValue();
+    txtCtrlVal = debugPanel->TextCtrlRow->GetValue();
     txtCtrlVal.ToLong(&row);
-    txtCtrlVal = TextCtrlCol->GetValue();
+    txtCtrlVal = debugPanel->TextCtrlCol->GetValue();
     txtCtrlVal.ToLong(&col);
     val = mMainGB->GetVal(row, col);
     mGuessGB->SetVal(row, col, val);
@@ -545,7 +521,7 @@ void SudokuSolverFrame::OnButtonStripEasyClick(wxCommandEvent& event)
     else
         wxMessageBox(_("Did not remove a layer"));
     Refresh();
-}
+}*/
 
 
 void SudokuSolverFrame::OnButtonSetClick(wxCommandEvent& event)
@@ -650,4 +626,14 @@ void SudokuSolverFrame::OnGameBoardPanelKeyUp(wxKeyEvent& event)
 
         }
     }
+}
+
+void SudokuSolverFrame::OnDifficultySelected(wxCommandEvent& event)
+{
+	if(MenuItemEasy->GetId() == event.GetId())  // Set easy difficulty
+		diff = EASY;
+	if(MenuItemMedium->GetId() == event.GetId())
+		diff = MEDIUM;
+	if(MenuItemHard->GetId() == event.GetId())
+		diff = HARD;
 }

@@ -17,7 +17,7 @@ class DebugPanel: public wxPanel
 {
 	public:
 
-		DebugPanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+		DebugPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size, long style, const wxString& name);
 		virtual ~DebugPanel();
 
 		//(*Declarations(DebugPanel)

@@ -5,6 +5,8 @@
 #include "GameRow.h"
 #include <set>
 
+enum Difficulty { EASY, MEDIUM, HARD };
+
 class GameBoard
 {
     public:
@@ -21,12 +23,14 @@ class GameBoard
         void SetPossibles(int row, int col, int val) { m_GameSquares[row][col].SetPossibles(val);}
         bool GenBoard(int row, int col);
         bool Solvable();
-        bool Solvable(std::set<unsigned int> &remSqs);
-        void RemoveSquares();
+        bool Solvable(std::set<unsigned int> &remSqs, Difficulty diff);
+        void RemoveSquares(Difficulty diff);
         bool RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigned int> &remSqs);
         bool RemoveLayerEasy();
+        bool RemoveLayerMedium(std::set<unsigned int> &setSqs, std::set<unsigned int> &remSqs);
+        bool RemoveLayerMedium();
         bool Solve();
-        bool Solve(std::set<unsigned int> &remSqs);
+        bool Solve(std::set<unsigned int> &remSqs, Difficulty diff);
         virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }
         void SetRows(int row, unsigned int val) { m_Rows[row].insert(val); }

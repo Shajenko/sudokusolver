@@ -12,9 +12,7 @@
 
 //(*Headers(SudokuSolverFrame)
 #include <wx/sizer.h>
-#include <wx/stattext.h>
 #include <wx/menu.h>
-#include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/frame.h>
@@ -22,6 +20,7 @@
 //*)
 
 #include "GameBoard.h"
+#include "DebugPanel.h"
 
 enum Controls { SET, NOTE, CLEAR};
 
@@ -60,20 +59,11 @@ class SudokuSolverFrame: public wxFrame
         void OnButtonNoteClick(wxCommandEvent& event);
         void OnButtonNumClick(wxCommandEvent& event);
         void OnGameBoardPanelKeyUp(wxKeyEvent& event);
+        void OnDifficultySelected(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(SudokuSolverFrame)
         static const long ID_PANEL2;
-        static const long ID_BUTTONREMOVE;
-        static const long ID_BUTTONREVEAL;
-        static const long ID_STATICTEXT1;
-        static const long ID_STATICTEXT2;
-        static const long ID_TEXTCTRLROW;
-        static const long ID_TEXTCTRLCOL;
-        static const long ID_BUTTON3;
-        static const long ID_BUTTONSOLVABLE;
-        static const long ID_BUTTONSTRIPEASY;
-        static const long ID_PANELDEBUG;
         static const long ID_BUTTON1;
         static const long ID_BUTTON2;
         static const long ID_BUTTON4;
@@ -90,36 +80,33 @@ class SudokuSolverFrame: public wxFrame
         static const long ID_PANEL1;
         static const long idNewPuzzle;
         static const long idMenuQuit;
+        static const long idEasy;
+        static const long idMedium;
+        static const long idHard;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
         //*)
 
         //(*Declarations(SudokuSolverFrame)
-        wxPanel* DebugPanel;
         wxPanel* ControlPanel;
         wxButton* Button4;
         wxMenuItem* MenuNewPuzzle;
-        wxButton* ButtonRemove;
         wxButton* ButtonNote;
-        wxStaticText* StaticText2;
+        wxMenu* Menu3;
         wxButton* Button1;
         wxButton* ButtonSet;
-        wxStaticText* StaticText1;
+        wxMenuItem* MenuItemEasy;
         wxButton* ButtonClear;
-        wxTextCtrl* TextCtrlRow;
+        wxMenuItem* MenuItemHard;
         wxButton* Button2;
         wxButton* Button6;
         wxButton* Button5;
-        wxButton* ButtonSolvable;
-        wxButton* ButtonReveal;
         wxButton* Button3;
-        wxTextCtrl* TextCtrlCol;
         wxButton* Button7;
-        wxButton* ButtonStripEasy;
         wxStatusBar* StatusBar1;
         wxButton* Button9;
         wxPanel* MainPanel;
-        wxButton* ButtonSolve;
+        wxMenuItem* MenuItemMedium;
         wxPanel* GameBoardPanel;
         wxButton* Button8;
         //*)
@@ -129,7 +116,9 @@ class SudokuSolverFrame: public wxFrame
         unsigned int numSelect;
         unsigned int row, col;
         Controls ctrlSelect;
+        Difficulty diff;
         wxButton * numButtons[9];
+
 
         DECLARE_EVENT_TABLE()
 };

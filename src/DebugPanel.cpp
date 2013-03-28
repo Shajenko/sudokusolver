@@ -27,7 +27,7 @@ BEGIN_EVENT_TABLE(DebugPanel,wxPanel)
 	//*)
 END_EVENT_TABLE()
 
-DebugPanel::DebugPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
+DebugPanel::DebugPanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size, long style, const wxString& name)
 {
 	//(*Initialize(DebugPanel)
 	wxFlexGridSizer* FlexGridSizer1;

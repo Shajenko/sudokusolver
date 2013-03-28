@@ -3809,7 +3809,7 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1364224015 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\debugpanel.cpp
+1364500597 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\debugpanel.cpp
 	"wx_pch.h"
 	"DebugPanel.h"
 	<wx/intl.h>
@@ -3819,21 +3819,21 @@
 	<wx/wxprec.h>
 	<wx/wx.h>
 
-1364224015 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\debugpanel.h
+1364500647 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\debugpanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/panel.h>
 	<wx/button.h>
 
-1364495717 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gameboard.cpp
+1364507084 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gameboard.cpp
 	"GameBoard.h"
 	<cstdlib>
 	<ctime>
 	<algorithm>
 	<vector>
 
-1364494324 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gameboard.h
+1364505727 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\gameboard.h
 	"GameSquare.h"
 	"GameRow.h"
 	<set>
@@ -3861,18 +3861,17 @@
 1363114644 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolverapp.h
 	<wx/app.h>
 
-1364391589 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolvermain.h
+1364506922 c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolvermain.h
 	<wx/sizer.h>
-	<wx/stattext.h>
 	<wx/menu.h>
-	<wx/textctrl.h>
 	<wx/panel.h>
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
 	"GameBoard.h"
+	"DebugPanel.h"
 
-1364497094 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolvermain.cpp
+1364506936 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokusolvermain.cpp
 	"wx_pch.h"
 	"SudokuSolverMain.h"
 	"GameSquare.h"
@@ -3888,7 +3887,7 @@
 1363114645 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\resource.rc
 	"wx/msw/wx.rc"
 
-1364391589 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokualgorithms.cpp
+1364507084 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokualgorithms.cpp
 	"GameBoard.h"
 	<cstdlib>
 
