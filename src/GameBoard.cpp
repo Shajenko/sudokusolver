@@ -283,10 +283,18 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigne
     bool squareRemoved = false;
 	unsigned int row, col, tempVal;
 	GameSquare * sq;
+	std::set<unsigned int>::iterator it;
+	std::set<unsigned int> currSqs;
+	wxString debugStr;
 
+	currSqs = setSqs;
 
-    for(std::set<unsigned int>::iterator it=setSqs.begin(); it!=setSqs.end(); ++it)
+    for(it=setSqs.begin(); it!=setSqs.end(); ++it)
     {
+    	debugStr.clear();
+    	debugStr << *it;
+ //   	wxMessageBox(debugStr);
+
         row = *it % 9;
         col = *it / 9;
         sq = &m_GameSquares[row][col];
@@ -299,7 +307,7 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigne
             {
                 squareRemoved = true;
                 sq->SetShown(false);
-                setSqs.erase(*it);
+                currSqs.erase(*it);
             }
             else
             {
@@ -308,6 +316,7 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigne
             }
         }
     }
+    setSqs = currSqs;
     return squareRemoved;
 }
 
