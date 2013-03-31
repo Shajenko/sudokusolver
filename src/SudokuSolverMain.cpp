@@ -373,31 +373,31 @@ void SudokuSolverFrame::DrawBoardNumbers(wxPaintDC &dc)
                     switch (k)
                     {
                         case 1:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) - 13, spSq / 6 + ((i) * spSq) - 7);
+                            dc.DrawText(pString, spSq*j + spSq/12, spSq*i + spSq/12);
                             break;
                         case 2:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 10, spSq / 6 + ((i) * spSq) - 7);
+                            dc.DrawText(pString, spSq*j + spSq*5/12, spSq*i + spSq/12);
                             break;
                         case 3:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 32, spSq / 6 + ((i) * spSq) - 7);
+                            dc.DrawText(pString, spSq*j + spSq*9/12, spSq*i + spSq/12);
                             break;
                         case 4:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) - 13, spSq / 6 + ((i) * spSq)+14);
+                            dc.DrawText(pString, spSq*j + spSq/12, spSq*i + spSq*9/24);
                             break;
                         case 5:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 10, spSq / 6 + ((i) * spSq)+14);
+                            dc.DrawText(pString, spSq*j + spSq*5/12, spSq*i + spSq*9/24);
                             break;
                         case 6:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 32, spSq / 6 + ((i) * spSq)+14);
+                            dc.DrawText(pString, spSq*j + spSq*9/12, spSq*i + spSq*9/24);
                             break;
                         case 7:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) - 13, spSq / 6 + ((i) * spSq)+35);
+                            dc.DrawText(pString, spSq*j + spSq*1/12, spSq*i + spSq*8/12);
                             break;
                         case 8:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 10, spSq / 6 + ((i) * spSq)+35);
+                            dc.DrawText(pString, spSq*j + spSq*5/12, spSq*i + spSq*8/12);
                             break;
                         case 9:
-                            dc.DrawText(pString, 6 * spSq / 20 + ((j) * spSq) + 32, spSq / 6 + ((i) * spSq)+35);
+                            dc.DrawText(pString, spSq*j + spSq*9/12, spSq*i + spSq*8/12);
                             break;
                         default:
                             break;

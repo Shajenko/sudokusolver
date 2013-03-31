@@ -3712,19 +3712,19 @@
 
 1186432852 c:\programming\wxwidgets-2.8.12\include\wx\msw\filedlg.h
 
-1363907599 source:c:\users\shaj\documents\github\sudokusolver\src\gameboard.cpp
+1364599292 source:c:\users\shaj\documents\github\sudokusolver\src\gameboard.cpp
 	"GameBoard.h"
 	<cstdlib>
 	<ctime>
 	<algorithm>
 	<vector>
 
-1363907599 c:\users\shaj\documents\github\sudokusolver\src\gameboard.h
+1364599292 c:\users\shaj\documents\github\sudokusolver\src\gameboard.h
 	"GameSquare.h"
 	"GameRow.h"
 	<set>
 
-1363907599 c:\users\shaj\documents\github\sudokusolver\src\gamesquare.h
+1364599292 c:\users\shaj\documents\github\sudokusolver\src\gamesquare.h
 	"GameSquare.h"
 	<set>
 
@@ -3772,18 +3772,17 @@
 1363475663 c:\users\shaj\documents\github\sudokusolver\src\sudokusolverapp.h
 	<wx/app.h>
 
-1363912251 c:\users\shaj\documents\github\sudokusolver\src\sudokusolvermain.h
+1364599292 c:\users\shaj\documents\github\sudokusolver\src\sudokusolvermain.h
 	<wx/sizer.h>
-	<wx/stattext.h>
 	<wx/menu.h>
-	<wx/textctrl.h>
 	<wx/panel.h>
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
 	"GameBoard.h"
+	"DebugPanel.h"
 
-1363907599 source:c:\users\shaj\documents\github\sudokusolver\src\sudokusolvermain.cpp
+1364599292 source:c:\users\shaj\documents\github\sudokusolver\src\sudokusolvermain.cpp
 	"wx_pch.h"
 	"SudokuSolverMain.h"
 	"GameSquare.h"
@@ -3888,6 +3887,23 @@
 	"wx/msw/wx.rc"
 
 1364507084 source:c:\documents and settings\tas3409.adm\my documents\github\sudokusolver\src\sudokualgorithms.cpp
+	"GameBoard.h"
+	<cstdlib>
+
+1364599292 source:c:\users\shaj\documents\github\sudokusolver\src\debugpanel.cpp
+	"wx_pch.h"
+	"DebugPanel.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1364599292 c:\users\shaj\documents\github\sudokusolver\src\debugpanel.h
+	<wx/sizer.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/panel.h>
+	<wx/button.h>
+
+1364599292 source:c:\users\shaj\documents\github\sudokusolver\src\sudokualgorithms.cpp
 	"GameBoard.h"
 	<cstdlib>
 
