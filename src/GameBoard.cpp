@@ -119,6 +119,18 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 	}
 }
 
+void GameBoard::RemoveAllPossibles()
+{
+    GameSquare * sq;
+
+    for(int i=0;i<9;i++)
+        for(int j=0;j<9;j++)
+        {
+            sq = &m_GameSquares[i][j];
+            RemovePossibles(sq);
+        }
+}
+
 void GameBoard::RemovePossibles(GameSquare * sq)
 {
 	int row, col, sec;
@@ -497,7 +509,7 @@ bool GameBoard::Solve(std::set<unsigned int> &remSqs, Difficulty diff)
 
 void GameBoard::ResetRows()
 {
-    unsigned int row, col;
+    unsigned int row, col, val;
     GameSquare * sq;
 
     // Add all elements back
@@ -512,14 +524,15 @@ void GameBoard::ResetRows()
         for(col=0;col<9;col++)
         {
             sq = &m_GameSquares[row][col];
-            if(sq->GetVal() > 0)
-                m_Rows[row].erase(sq->GetVal());
+            val = sq->GetVal();
+            if(val > 0)
+                m_Rows[row].erase(val);
         }
 }
 
 void GameBoard::ResetCols()
 {
-    unsigned int row, col;
+    unsigned int row, col, val;
     GameSquare * sq;
 
     // Add all elements back
@@ -534,14 +547,15 @@ void GameBoard::ResetCols()
         for(col=0;col<9;col++)
         {
             sq = &m_GameSquares[row][col];
-            if(sq->GetVal() > 0)
-                m_Cols[col].erase(sq->GetVal());
+            val = sq->GetVal();
+            if(val > 0)
+                m_Cols[col].erase(val);
         }
 }
 
 void GameBoard::ResetSectors()
 {
-    unsigned int row, col, sec;
+    unsigned int row, col, sec, val;
     GameSquare * sq;
 
     // Add all elements back
@@ -557,8 +571,9 @@ void GameBoard::ResetSectors()
         {
             sq = &m_GameSquares[row][col];
             sec = sq->GetSector();
-            if(sq->GetVal() > 0)
-                m_Sectors[sec].erase(sq->GetVal());
+            val = sq->GetVal();
+            if(val > 0)
+                m_Sectors[sec].erase(val);
         }
 }
 

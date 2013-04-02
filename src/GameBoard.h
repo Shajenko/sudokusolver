@@ -11,11 +11,13 @@ class GameBoard
 {
     public:
         GameBoard();
+        virtual ~GameBoard();
 		GameBoard operator= (const GameBoard& gb);
 		void Copy(GameBoard& gb);
         void Binit();
         bool SetSquare(unsigned int val, int row, int col);
         unsigned int GetSquare(int row, int col) {return m_GameSquares[row][col].GetVal();}
+        void RemoveAllPossibles();
         void RemovePossibles(GameSquare * sq);
         void RemovePossibles(int row, int col, int val) { m_GameSquares[row][col].RemovePossibles(val); }
         void ClearPossibles(int row, int col) {m_GameSquares[row][col].ClearPossibles();}
@@ -31,7 +33,6 @@ class GameBoard
         bool RemoveLayerMedium();
         bool Solve();
         bool Solve(std::set<unsigned int> &remSqs, Difficulty diff);
-        virtual ~GameBoard();
         bool GetRows(int row, int val) { if(m_Rows[row].find(val) != m_Rows[row].end()) return true; else return false; }
         void SetRows(int row, unsigned int val) { m_Rows[row].insert(val); }
         unsigned int GetCols(int col, int val) { if(m_Cols[col].find(val) != m_Cols[col].end()) return true; else return false; }
