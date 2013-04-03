@@ -22,6 +22,7 @@ class GameSquare
         void RemovePossibles(unsigned int val) {m_Possibles.erase(val); }
         void ClearPossibles() {m_Possibles.clear(); }
         void SetPossibles(unsigned int val) { m_Possibles.insert(val); }
+        void ResetPossibles();
         unsigned int GetSector() { return m_Sector; }
         void SetSector(unsigned int val) { m_Sector = val; }
 		unsigned int GetRow() { return m_Row; }

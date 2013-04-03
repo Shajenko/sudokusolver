@@ -42,3 +42,9 @@ void GameSquare::Sinit()
     for (int i = 0;i < 9;i++)
         m_Possibles.insert(i+1);
 }
+
+void GameSquare::ResetPossibles()
+{
+	for (int i = 0;i < 9;i++)
+        m_Possibles.insert(i+1);
+}

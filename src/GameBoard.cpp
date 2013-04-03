@@ -537,12 +537,14 @@ void GameBoard::ResetCols()
 
     // Add all elements back
     for(row=0;row<9;row++)
+	{
         for(col=0;col<9;col++)
         {
             m_Cols[col].insert(row+1);
         }
+	}
 
-    // Remove the values that are in each of the rows
+    // Remove the values that are in each of the columns
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
         {
@@ -560,12 +562,14 @@ void GameBoard::ResetSectors()
 
     // Add all elements back
     for(row=0;row<9;row++)
+	{
         for(col=0;col<9;col++)
         {
             m_Sectors[row].insert(col+1);
         }
+	}
 
-    // Remove the values that are in each of the rows
+    // Remove the values that are in each of the sectors
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
         {
