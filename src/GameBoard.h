@@ -46,20 +46,18 @@ class GameBoard
         void SetVal(int row, int col, int val);
         bool GetShown(int row, int col) { return m_GameSquares[row][col].GetShown();}
         void SetShown(int row, int col, bool val) { m_GameSquares[row][col].SetShown(val);}
-    protected:
-    private:
 
+		bool NakedSingle(unsigned int row, unsigned int col);
+        bool HiddenSingle(unsigned int row, unsigned int col);
+        bool BlockLine(unsigned int row, unsigned int col);
+        bool DoubleBlockLine(unsigned int row, unsigned int col);
+        bool NakedSubset(unsigned int row, unsigned int col);
+        bool HiddenSubset(unsigned int row, unsigned int col);
+    protected:
         GameSquare m_GameSquares[9][9];
         std::set<int> m_Rows[9];
         std::set<int> m_Cols[9];
         std::set<int> m_Sectors[9];
-
-        bool NakedSingle(int row, int col);
-        bool HiddenSingle(int row, int col);
-        bool BlockLine(int row, int col);
-        bool DoubleBlockLine(int row, int col);
-        bool NakedSubset(int row, int col);
-        bool HiddenSubset(int row, int col);
 };
 
 #endif // GAMEBOARD_H
