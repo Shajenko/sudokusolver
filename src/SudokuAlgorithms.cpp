@@ -50,6 +50,10 @@ void GameBoard::RemoveSquares(Difficulty diff)
     setSqs.clear();
     remSqs.clear();
 
+    ResetCols();
+    ResetRows();
+    ResetSectors();
+
 	// Initialize set of squares that have values
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
@@ -57,9 +61,6 @@ void GameBoard::RemoveSquares(Difficulty diff)
             setSqs.insert(row + col * 9);
         }
 
-    ResetCols();
-    ResetRows();
-    ResetSectors();
     while(squareRemoved)
     {
         squareRemoved = RemoveLayerEasy(setSqs, remSqs); // Pass the sets of squares with and without values
@@ -324,7 +325,7 @@ bool GameBoard::NakedSingle(unsigned int row, unsigned int col)
     if(numPos == 1)   // Only one possible value
     {
     	poss = this->m_GameSquares[row][col].GetOnlyPossible();
-        this->m_GameSquares[row][col].SetVal(poss);// Set value to only possibility
+        SetVal(row, col, poss);  //Set value to only possibility
         return true;
     }
     else
@@ -480,7 +481,7 @@ bool GameBoard::NakedSubset(unsigned int row, unsigned int col)
 						for(it=possSet1.begin();it!=possSet1.end();++it) // For both possibilities
 						{
 							for(j=0;j<9;j++)
-								if(j!=i && j!=col) // Do not change the pair
+								if(j!=i && j!=col && j==0) // Do not change the pair
 									m_GameSquares[row][j].RemovePossibles(*it);
 						}
 					}
