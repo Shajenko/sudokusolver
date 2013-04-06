@@ -81,8 +81,7 @@ void GameBoard::Binit()
 
 bool GameBoard::SetSquare(unsigned int val, int row, int col)
 {
-	unsigned int sec, undoNum;
-	unsigned int i, j;
+	int sec, undoNum;
 	bool colFnd, rowFnd, secFnd;
 	GameSquare * sq;
 	sq = &m_GameSquares[row][col];
@@ -95,15 +94,6 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 		m_Rows[row].erase(undoNum);
 		m_Cols[col].erase(undoNum);
 		m_Sectors[sec].erase(undoNum);
-		for(i=0;i<9;i++)
-		{
-			m_GameSquares[row][i].SetPossibles(val);
-			m_GameSquares[i][col].SetPossibles(val);
-			for(j=0;j<9;j++)
-				if(m_GameSquares[i][j].GetSector() == sec)
-					m_GameSquares[i][j].SetPossibles(val);
-		}
-
 		return true;
 	}
 
@@ -122,14 +112,6 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 		m_Rows[row].insert(val);
 		m_Cols[col].insert(val);
 		m_Sectors[sec].insert(val);
-		for(i=0;i<9;i++)
-		{
-			m_GameSquares[row][i].RemovePossibles(val);
-			m_GameSquares[i][col].RemovePossibles(val);
-			for(j=0;j<9;j++)
-				if(m_GameSquares[i][j].GetSector() == sec)
-					m_GameSquares[i][j].RemovePossibles(val);
-		}
 		return true;
 	}
 	else
@@ -141,9 +123,6 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 void GameBoard::RemoveAllPossibles()
 {
     GameSquare * sq;
-    ResetCols();
-    ResetRows();
-    ResetSectors();
 
     for(int i=0;i<9;i++)
         for(int j=0;j<9;j++)
@@ -159,7 +138,6 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 	row = sq->GetRow();
 	col = sq->GetCol();
 	sec = sq->GetSector();
-
 	for(int i=1;i<=9;i++)
 	{
 		sq->SetPossibles(i);
