@@ -79,6 +79,8 @@
 		<Unit filename="GameBoard.h" />
 		<Unit filename="GameSquare.cpp" />
 		<Unit filename="GameSquare.h" />
+		<Unit filename="GenPuzzle.cpp" />
+		<Unit filename="Solve.cpp" />
 		<Unit filename="SudokuAlgorithms.cpp" />
 		<Unit filename="SudokuSolverApp.cpp" />
 		<Unit filename="SudokuSolverApp.h" />
