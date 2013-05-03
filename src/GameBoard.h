@@ -51,8 +51,8 @@ class GameBoard
         bool HiddenSingle(unsigned int row, unsigned int col);
         bool BlockLine(unsigned int row, unsigned int col);
         bool DoubleBlockLine(unsigned int row, unsigned int col);
-        bool NakedSubset(unsigned int row, unsigned int col);
-        bool HiddenSubset(unsigned int row, unsigned int col);
+        bool NakedPair(unsigned int row, unsigned int col);
+        bool HiddenPair(unsigned int row, unsigned int col);
     protected:
         GameSquare m_GameSquares[9][9];
         std::set<int> m_Rows[9];

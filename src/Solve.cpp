@@ -134,7 +134,7 @@ bool GameBoard::Solve(std::set<unsigned int> &remSqs, Difficulty diff)
 				{
 					unknSq = true;
 					RemovePossibles(sq);  // Figure out what is possible
-					tempSq = NakedSubset(row, col);
+					tempSq = NakedPair(row, col);
 				}
 			}
 			if(solSq)

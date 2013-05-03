@@ -134,7 +134,7 @@ bool GameBoard::DoubleBlockLine(unsigned int row, unsigned int col)
     return false;
 }
 
-bool GameBoard::NakedSubset(unsigned int row, unsigned int col)
+bool GameBoard::NakedPair(unsigned int row, unsigned int col)
 {
 	std::set<unsigned int> possSet1, possSet2, possSet3, possSet4;
 	std::set<unsigned int>::iterator it;
@@ -207,7 +207,7 @@ bool GameBoard::NakedSubset(unsigned int row, unsigned int col)
     return pr;
 }
 
-bool GameBoard::HiddenSubset(unsigned int row, unsigned int col)
+bool GameBoard::HiddenPair(unsigned int row, unsigned int col)
 {
     // todo: Hidden Subset Algorithm
     return false;
