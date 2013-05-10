@@ -136,9 +136,10 @@ bool GameBoard::DoubleBlockLine(unsigned int row, unsigned int col)
 
 bool GameBoard::NakedPair(unsigned int row, unsigned int col)
 {
+	// Checks for a naked pair, clears possibilities from other squares
 	std::set<unsigned int> possSet1, possSet2, possSet3, possSet4;
 	std::set<unsigned int>::iterator it;
-    unsigned int i, j, k, sec;
+    unsigned int i, j, k, l, sec;
     bool pr;
 
 	pr = false;
@@ -153,11 +154,11 @@ bool GameBoard::NakedPair(unsigned int row, unsigned int col)
 	{
 		case 2:
 		//Naked Pair
-		//Check for another square that share the exact same two possibilities in each:
+		//Check for another square that shares the exact same two possibilities in each:
 			//Row
 			for(i=0;i<9;i++)
 			{
-				if(i != col)
+				if(i != col  && m_GameSquares[row][i].GetVal() == 0)
 				{
 					possSet2.clear();
 					for(j=0;j<9;j++)
@@ -180,7 +181,7 @@ bool GameBoard::NakedPair(unsigned int row, unsigned int col)
 			//Column
 			for(i=0;i<9;i++)
 			{
-				if(i != row)
+				if(i != row  && m_GameSquares[row][i].GetVal() == 0)
 				{
 					possSet2.clear();
 					for(j=0;j<9;j++)
@@ -197,11 +198,32 @@ bool GameBoard::NakedPair(unsigned int row, unsigned int col)
 									m_GameSquares[j][col].RemovePossibles(*it);
 						}
 					}
-
 				}
 			}
 		//Sector
-
+			sec = m_GameSquares[row][col].GetSector();
+			for(i=0;i<9;i++)
+				for(j=0;j<9;j++)
+					if(m_GameSquares[i][j].GetSector() == sec &&
+					   (i != row || j != col))
+						// Only care if the square is in this sector and not the original square
+						{
+							possSet2.clear();
+							for(k=0;k<9;k++)
+								if(m_GameSquares[i][j].GetPossibles(k))
+									possSet2.insert(k);
+							if(possSet1 == possSet2)  // They match, eliminate these possibilities from all other squares in sector
+							{
+								pr = true;
+								for(it=possSet1.begin();it!=possSet1.end();++it) // For both possibilities
+								{
+									for(k=0;k<9;k++)
+										for(l=0;l<9;l++)
+											if((i != k || j != l) && (row != k || col != l)) // Do not change the pair
+												m_GameSquares[k][l].RemovePossibles(*it);
+								}
+							}
+						}
 	}
 
     return pr;
@@ -209,6 +231,6 @@ bool GameBoard::NakedPair(unsigned int row, unsigned int col)
 
 bool GameBoard::HiddenPair(unsigned int row, unsigned int col)
 {
-    // todo: Hidden Subset Algorithm
+    // todo: Hidden Pair Algorithm
     return false;
 }
