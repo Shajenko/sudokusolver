@@ -4,8 +4,14 @@
 #include "GameSquare.h"
 #include "GameRow.h"
 #include <set>
+#include <wx/file.h>
+#include <wx/datetime.h>
+#include <iostream>
+#include <fstream>
 
 enum Difficulty { EASY, MEDIUM, HARD };
+
+void writetoLog( const wxString &text, wxString file );
 
 class GameBoard
 {

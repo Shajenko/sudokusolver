@@ -4,10 +4,29 @@
 #include <algorithm>
 #include <vector>
 
+void writetoLog( const wxString &text, wxString file )
+{
+	wxFile log_file((file), wxFile::write_append );
+	if(!log_file.IsOpened())
+		log_file.Create(file);
+    log_file.Write(text);
+    log_file.Write(_("\n"));
+    log_file.Close();
+}
+
 GameBoard::GameBoard()
 {
 
 	Binit();
+	wxDateTime datetime;
+	wxString dateStr;
+	datetime.SetToCurrent();
+	dateStr << _("New GameBoard Created ");
+	dateStr << datetime.Format();
+
+	writetoLog(_("-------------------------------------------"), _("GameBoard.log"));
+	writetoLog(dateStr, _("GameBoard.log"));
+	writetoLog(_(""), _("GameBoard.log"));
 }
 
 GameBoard GameBoard::operator= (const GameBoard& gb)
@@ -77,6 +96,7 @@ void GameBoard::Binit()
             m_GameSquares[row][col].SetCol(col);
         }
     }
+    writetoLog(_("Board Initialized"), _("GameBoard.log"));
 }
 
 bool GameBoard::SetSquare(unsigned int val, int row, int col)
@@ -123,18 +143,27 @@ bool GameBoard::SetSquare(unsigned int val, int row, int col)
 void GameBoard::RemoveAllPossibles()
 {
     GameSquare * sq;
+    wxString possList;
 
     for(int i=0;i<9;i++)
+    {
         for(int j=0;j<9;j++)
         {
             sq = &m_GameSquares[i][j];
+            sq->ResetPossibles();
             RemovePossibles(sq);
+            possList << _("Possibles at ") << i << _(",") << j << _(" reset");
+            writetoLog(possList, _("GameBoard.log"));
+            possList.clear();
         }
+    }
+    writetoLog(_("All Possibles Removed"),_("GameBoard.log"));
 }
 
 void GameBoard::RemovePossibles(GameSquare * sq)
 {
 	int row, col, sec;
+	wxString possError;
 	row = sq->GetRow();
 	col = sq->GetCol();
 	sec = sq->GetSector();
@@ -142,11 +171,26 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 	{
 		sq->SetPossibles(i);
 		if(m_Rows[row].find(i) != m_Rows[row].end())
+        {
             sq->RemovePossibles(i);
+            possError.clear();
+            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to row");
+            writetoLog(possError, _("Possibles.log"));
+        }
         if(m_Cols[col].find(i) != m_Cols[col].end())
+        {
             sq->RemovePossibles(i);
-		if((m_Sectors[sec].find(i) != m_Sectors[sec].end()))
-			sq->RemovePossibles(i);
+            possError.clear();
+            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to column");
+            writetoLog(possError, _("Possibles.log"));
+        }
+        if((m_Sectors[sec].find(i) != m_Sectors[sec].end()))
+        {
+            sq->RemovePossibles(i);
+            possError.clear();
+            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to sector");
+            writetoLog(possError, _("Possibles.log"));
+        }
 	}
 
 
@@ -156,8 +200,10 @@ void GameBoard::RemovePossibles(GameSquare * sq)
 void GameBoard::ResetRows()
 {
     unsigned int row, col, val;
+    wxString rowRes;
     GameSquare * sq;
 
+    writetoLog(_("Reseting Rows"),_("GameBoard.log"));
 
     // Add all elements back
     for(row=0;row<9;row++)
@@ -165,20 +211,30 @@ void GameBoard::ResetRows()
 
     // Remove the values that are in each of the rows
     for(row=0;row<9;row++)
+    {
+        rowRes.clear();
+        rowRes << _("Added to row: ");
         for(col=0;col<9;col++)
         {
             sq = &m_GameSquares[row][col];
             val = sq->GetVal();
             if(val > 0)
+            {
                 m_Rows[row].insert(val);
+                rowRes << val << _(", ");
+            }
         }
+        writetoLog(rowRes, _("GameBoard.log"));
+    }
 }
 
 void GameBoard::ResetCols()
 {
     unsigned int row, col, val;
     GameSquare * sq;
+    wxString colRes;
 
+    writetoLog(_("Reseting Columns"), _("GameBoard.log"));
     // Add all elements back
     for(col=0;col<9;col++)
 	{
@@ -188,20 +244,30 @@ void GameBoard::ResetCols()
 
     // Remove the values that are in each of the columns
     for(row=0;row<9;row++)
+    {
+        colRes.clear();
+        colRes << _("Added to col: ");
         for(col=0;col<9;col++)
         {
             sq = &m_GameSquares[row][col];
             val = sq->GetVal();
             if(val > 0)
+            {
                 m_Cols[col].insert(val);
+                colRes << val << _(", ");
+            }
         }
+        writetoLog(colRes, _("GameBoard.log"));
+    }
 }
 
 void GameBoard::ResetSectors()
 {
     unsigned int row, col, sec, val;
     GameSquare * sq;
+    wxString secRes;
 
+    writetoLog(_("Reseting Sectors"), _("GameBoard.log"));
     // Add all elements back
     for(sec=0;sec<9;sec++)
 	{
@@ -210,14 +276,22 @@ void GameBoard::ResetSectors()
 
     // Remove the values that are in each of the sectors
     for(row=0;row<9;row++)
+    {
+        secRes.clear();
+        secRes << _("Added to sector: ");
         for(col=0;col<9;col++)
         {
             sq = &m_GameSquares[row][col];
             sec = sq->GetSector();
             val = sq->GetVal();
             if(val > 0)
+            {
                 m_Sectors[sec].insert(val);
+                secRes << val << _(", ");
+            }
         }
+        writetoLog(secRes, _("GameBoard.log"));
+    }
 }
 
 void GameBoard::SetVal(int row, int col, int val)
