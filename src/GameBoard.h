@@ -24,6 +24,9 @@ class GameBoard
         bool GetPossibles(int row, int col, int val) { return m_GameSquares[row][col].GetPossibles(val);}
         void SetPossibles(int row, int col, int val) { m_GameSquares[row][col].SetPossibles(val);}
         bool GenBoard(int row, int col);
+        void SwapCol(int col1, int col2);
+        void SwapRow(int row1, int row2);
+        void ScrambleBoard(GameBoard& trBd);
         bool Solvable();
         bool Solvable(std::set<unsigned int> &remSqs, Difficulty diff);
         void RemoveSquares(Difficulty diff);

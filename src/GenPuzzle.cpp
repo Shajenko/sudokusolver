@@ -243,3 +243,70 @@ bool GameBoard::GenBoard(int row, int col)
 
 
 }
+
+void GameBoard::SwapCol(int col1, int col2)
+{
+    GameSquare tempSq;
+
+    for(int i=0;i<9;i++)
+    {
+        tempSq.Copy(m_GameSquares[i][col1]);
+        m_GameSquares[i][col1].Copy(m_GameSquares[i][col2]);
+        m_GameSquares[i][col2].Copy(tempSq);
+    }
+}
+
+void GameBoard::SwapRow(int row1, int row2)
+{
+    GameSquare tempSq;
+
+    for(int j=0;j<9;j++)
+    {
+        tempSq.Copy(m_GameSquares[row1][j]);
+        m_GameSquares[row1][j].Copy(m_GameSquares[row2][j]);
+        m_GameSquares[row2][j].Copy(tempSq);
+    }
+}
+
+void GameBoard::ScrambleBoard(GameBoard& trBd)
+{
+    // randomwly swap columns within each of the three sections
+    int i;
+
+    for(i = 0; i < 3; i++)  // each section of the board, with three columns
+    {
+        if(rand() % 2)
+        {
+            // swap first and second columns
+            SwapCol(i*3 + 0, i*3 + 1);
+            trBd.SwapCol(i*3 + 0, i*3 + 1);
+        }
+        if(rand() % 2)
+        {
+            // swap first and third columns
+            SwapCol(i*3 + 0, i*3 + 2);
+            trBd.SwapCol(i*3 + 0, i*3 + 2);
+        }
+    }
+    for(i = 0; i < 3; i++)  // each section of the board, with three columns
+    {
+        if(rand() % 2)
+        {
+            // swap first and second rows
+            SwapRow(i*3 + 0, i*3 + 1);
+            trBd.SwapRow(i*3 + 0, i*3 + 1);
+
+        }
+        if(rand() % 2)
+        {
+            // swap first and third rows
+            SwapRow(i*3 + 0, i*3 + 2);
+            trBd.SwapRow(i*3 + 0, i*3 + 2);
+        }
+    }
+
+    // swap the three-column sections
+
+
+    // swap the three-row sections
+}
