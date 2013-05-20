@@ -21,12 +21,12 @@ GameBoard::GameBoard()
 	wxDateTime datetime;
 	wxString dateStr;
 	datetime.SetToCurrent();
-	dateStr << _("New GameBoard Created ");
+/*	dateStr << _("New GameBoard Created ");
 	dateStr << datetime.Format();
 
 	writetoLog(_("-------------------------------------------"), _("GameBoard.log"));
 	writetoLog(dateStr, _("GameBoard.log"));
-	writetoLog(_(""), _("GameBoard.log"));
+	writetoLog(_(""), _("GameBoard.log"));*/
 }
 
 GameBoard GameBoard::operator= (const GameBoard& gb)
@@ -174,22 +174,22 @@ void GameBoard::RemovePossibles(GameSquare * sq)
         {
             sq->RemovePossibles(i);
             possError.clear();
-            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to row");
-            writetoLog(possError, _("Possibles.log"));
+//            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to row");
+//            writetoLog(possError, _("Possibles.log"));
         }
         if(m_Cols[col].find(i) != m_Cols[col].end())
         {
             sq->RemovePossibles(i);
             possError.clear();
-            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to column");
-            writetoLog(possError, _("Possibles.log"));
+//            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to column");
+//            writetoLog(possError, _("Possibles.log"));
         }
         if((m_Sectors[sec].find(i) != m_Sectors[sec].end()))
         {
             sq->RemovePossibles(i);
             possError.clear();
-            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to sector");
-            writetoLog(possError, _("Possibles.log"));
+//            possError << _("Removed possibility ") << i << _(" from ") << row << _(",") << col << _(" due to sector");
+//            writetoLog(possError, _("Possibles.log"));
         }
 	}
 

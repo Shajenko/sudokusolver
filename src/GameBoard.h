@@ -26,6 +26,7 @@ class GameBoard
         void RemoveAllPossibles();
         void RemovePossibles(GameSquare * sq);
         void RemovePossibles(int row, int col, int val) { m_GameSquares[row][col].RemovePossibles(val); }
+        void ResetPossibles(int row, int col) { m_GameSquares[row][col].ResetPossibles(); }
         void ClearPossibles(int row, int col) {m_GameSquares[row][col].ClearPossibles();}
         bool GetPossibles(int row, int col, int val) { return m_GameSquares[row][col].GetPossibles(val);}
         void SetPossibles(int row, int col, int val) { m_GameSquares[row][col].SetPossibles(val);}

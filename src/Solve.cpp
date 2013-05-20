@@ -20,6 +20,20 @@ bool GameBoard::Solvable(std::set<unsigned int> &remSqs, Difficulty diff)
 {
 	// Determines whether the puzzle is currently solvable
 
+	// If there are fewer than 10 squares remaining, assume the puzzle is solvable
+	if(remSqs.size() < 10)
+	{
+		writetoLog(_("Solvable - less than 10 empty squares"), _("GameBoard.log"));
+		return true;
+	}
+
+	// If there are more than 65 squares remaing, assume the puzzle is not solvable
+	if(remSqs.size() > 65)
+	{
+		writetoLog(_("Not solvable -  more than 65 empty squares"), _("GameBoard.log"));
+		return false;
+	}
+
     bool solved;
     GameBoard * trying = new GameBoard();
 
@@ -28,6 +42,10 @@ bool GameBoard::Solvable(std::set<unsigned int> &remSqs, Difficulty diff)
     solved = trying->Solve(remSqs, diff);
     delete trying;
 
+	if(solved)
+		writetoLog(_("Solvable - checked"), _("GameBoard.log"));
+	else
+		writetoLog(_("Not solvable - checked"), _("GameBoard.log"));
 	return solved;
 }
 
@@ -36,6 +54,7 @@ bool GameBoard::Solve()
     unsigned int row, col;
     std::set<unsigned int> remSqs;
 
+	writetoLog(_("Checking for solution"),_("GameBoard.log"));
 
 	ResetRows();
 	ResetCols();
@@ -61,7 +80,6 @@ bool GameBoard::Solve(std::set<unsigned int> &remSqs, Difficulty diff)
 
     solSq = true;
     unknSq = true;
-
 
     while(solSq && unknSq)  // We solved a square and there are still squares to solve
     {
