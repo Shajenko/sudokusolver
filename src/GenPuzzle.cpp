@@ -23,12 +23,12 @@ void GameBoard::RemoveSquares(Difficulty diff)
     ResetRows();
     ResetSectors();
 
+
+
 	// Initialize set of squares that have values
     for(row=0;row<9;row++)
         for(col=0;col<9;col++)
-        {
             setSqs.insert(row + col * 9);
-        }
 
     while(squareRemoved)
     {
@@ -54,13 +54,22 @@ bool GameBoard::RemoveLayerEasy(std::set<unsigned int> &setSqs, std::set<unsigne
     bool squareRemoved = false;
 	unsigned int row, col, tempVal;
 	GameSquare * sq;
-	std::set<unsigned int>::iterator it;
 	std::set<unsigned int> currSqs;
+	std::set<unsigned int>::iterator sit;
+	std::vector<unsigned int> vecsetSqs;
+	std::vector<unsigned int>::iterator it;
 	wxString debugStr;
 
 	currSqs = setSqs;
 
-    for(it=setSqs.begin(); it!=setSqs.end(); ++it)
+	// randomizing the order
+	for(sit=setSqs.begin(); sit!=setSqs.end(); ++sit)
+        vecsetSqs.push_back(*sit);
+
+    std::random_shuffle(vecsetSqs.begin(), vecsetSqs.end());
+
+    // remove each square's value, check it, and then put it back if the puzzle isn't solvable
+    for(it=vecsetSqs.begin(); it!=vecsetSqs.end(); ++it)
     {
         row = *it % 9;
         col = *it / 9;
@@ -92,16 +101,27 @@ bool GameBoard::RemoveLayerEasy()
 {
 	std::set<unsigned int> setSqs;
     std::set<unsigned int> remSqs;
-    unsigned int row, col;
+    unsigned int squares[81], i, temp, rn;
 
 	setSqs.clear();
 	remSqs.clear();
 
-	for(row=0;row<9;row++)
-		for(col=0;col<9;col++)
-        {
-            setSqs.insert(row + col * 9);
-        }
+    // Randomize order of squares
+    for(i = 0; i < 81; i++)
+        squares[i] = i;
+
+    for(i = 0; i < 81; i++)
+    {
+        // swap with a random index
+        rn = rand() % 81;
+        temp = squares[i];
+        squares[i] = squares[rn];
+        squares[rn] = temp;
+    }
+
+	// Initialize set of squares that have values
+    for(i=0;i<81;i++)
+        setSqs.insert(squares[i]);
 
 	return RemoveLayerEasy(setSqs, remSqs);
 }
@@ -112,13 +132,22 @@ bool GameBoard::RemoveLayerMedium(std::set<unsigned int> &setSqs, std::set<unsig
     bool squareRemoved = false;
 	unsigned int row, col, tempVal;
 	GameSquare * sq;
-	std::set<unsigned int>::iterator it;
 	std::set<unsigned int> currSqs;
+	std::set<unsigned int>::iterator sit;
+	std::vector<unsigned int> vecsetSqs;
+	std::vector<unsigned int>::iterator it;
 	wxString debugStr;
 
 	currSqs = setSqs;
 
-    for(it=setSqs.begin(); it!=setSqs.end(); ++it)
+    // randomizing the order
+	for(sit=setSqs.begin(); sit!=setSqs.end(); ++sit)
+        vecsetSqs.push_back(*sit);
+
+    std::random_shuffle(vecsetSqs.begin(), vecsetSqs.end());
+
+    // remove each square's value, check it, and then put it back if the puzzle isn't solvable
+    for(it=vecsetSqs.begin(); it!=vecsetSqs.end(); ++it)
     {
     	debugStr.clear();
     	debugStr << *it;
@@ -153,16 +182,27 @@ bool GameBoard::RemoveLayerMedium()
 {
 	std::set<unsigned int> setSqs;
     std::set<unsigned int> remSqs;
-    unsigned int row, col;
+    unsigned int squares[81], i, temp, rn;
 
 	setSqs.clear();
 	remSqs.clear();
 
-	for(row=0;row<9;row++)
-		for(col=0;col<9;col++)
-        {
-            setSqs.insert(row + col * 9);
-        }
+    // Randomize order of squares
+    for(i = 0; i < 81; i++)
+        squares[i] = i;
+
+    for(i = 0; i < 81; i++)
+    {
+        // swap with a random index
+        rn = rand() % 81;
+        temp = squares[i];
+        squares[i] = squares[rn];
+        squares[rn] = temp;
+    }
+
+	// Initialize set of squares that have values
+    for(i=0;i<81;i++)
+        setSqs.insert(squares[i]);
 
 	return RemoveLayerMedium(setSqs, remSqs);
 }
